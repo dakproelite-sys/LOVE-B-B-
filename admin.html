@@ -3,23 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Love Bébé - Panneau d'Administration Centralized Dashboard">
-    <title>Love Bébé - Administration Général</title>
+    <title>Love Bébé - Administration Générale</title>
 
-    <!-- Support PWA Natif -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#FFD700">
-    <link rel="apple-touch-icon" href="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png">
-
-    <!-- Fichier CSS Externe -->
-    <link rel="stylesheet" href="style.css">
 
     <style>
+        :root {
+            --primary-gold: #FFD700;
+            --dark-gold: #FFA500;
+            --deep-red: #D32F2F;
+            --dark-red: #B71C1C;
+            --accent-blue: #0D47A1;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        body { background: linear-gradient(135deg, var(--primary-gold) 0%, var(--dark-gold) 100%); min-height: 100vh; color: #222; padding-bottom: 40px; }
+
+        header {
+            background: #ffffff;
+            padding: 12px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--deep-red);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .header-logo {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-gold);
+            object-fit: cover;
+        }
+
+        .header-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--deep-red);
+            text-transform: uppercase;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, var(--deep-red), var(--dark-red));
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 13px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .nav-btn-blue {
+            background: linear-gradient(135deg, var(--accent-blue), #1565C0);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        .hero-banner {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 3px solid var(--primary-gold);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
+        }
+
+        .hero-banner h1 {
+            color: var(--deep-red);
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+        }
+
+        .hero-banner p {
+            color: var(--accent-blue);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
         .admin-dashboard {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
 
         .stat-card {
@@ -29,11 +119,6 @@
             border: 3px solid var(--primary-gold);
             box-shadow: 0 8px 20px rgba(0,0,0,0.15);
             text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
         }
 
         .stat-card h3 {
@@ -43,7 +128,7 @@
         }
 
         .stat-card .number {
-            font-size: 2.2rem;
+            font-size: 2.3rem;
             font-weight: 900;
             color: var(--deep-red);
         }
@@ -54,20 +139,29 @@
             margin-top: 5px;
         }
 
+        .section-title {
+            color: #fff;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            border-left: 5px solid var(--primary-gold);
+        }
+
         .admin-nav-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
-            margin-top: 20px;
         }
 
         .admin-nav-card {
             background: #ffffff;
             border-radius: 15px;
             padding: 25px;
-            border: 2px solid var(--deep-red);
+            border: 3px solid var(--deep-red);
             text-align: center;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -75,7 +169,7 @@
         }
 
         .admin-nav-card h2 {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             color: var(--deep-red);
             margin-bottom: 10px;
         }
@@ -98,48 +192,43 @@
             width: 100%;
             display: inline-block;
             box-shadow: 0 4px 10px rgba(211,47,47,0.3);
-            transition: 0.3s;
-        }
-
-        .admin-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
         }
 
         .admin-btn-blue {
             background: linear-gradient(135deg, var(--accent-blue), #1565C0);
         }
+
+        @media (max-width: 600px) {
+            header { flex-direction: column; gap: 10px; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- En-tête d'Administration -->
     <header>
         <a href="admin.html" class="header-brand">
             <img src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png" alt="Logo Love Bébé" class="header-logo">
             <span class="header-title">Admin Love Bébé</span>
         </a>
         <div class="nav-actions">
-            <a href="index.html" class="nav-btn nav-btn-secondary">🏠 Site Public</a>
+            <a href="index.html" class="nav-btn nav-btn-blue">🏠 Site Public</a>
             <button id="logoutBtn" class="nav-btn">🚪 Déconnexion</button>
         </div>
     </header>
 
     <div class="container">
 
-        <!-- Bannière d'Accueil Admin -->
         <div class="hero-banner">
             <h1>👑 Tableau de Bord Administrateur</h1>
-            <p>Aperçu analytique global de la plateforme Love Bébé</p>
+            <p>Pilotage analytique global de la plateforme Love Bébé</p>
         </div>
 
-        <!-- 1. STATISTIQUES DES UTILISATEURS -->
-        <h2 style="color: var(--deep-red); margin-bottom: 15px;">📊 Statistiques des Utilisateurs</h2>
+        <h2 class="section-title">📊 Statistiques des Utilisateurs</h2>
         <div class="admin-dashboard">
             <div class="stat-card">
                 <h3>👥 Total Utilisateurs</h3>
                 <div class="number" id="totalUsersCount">0</div>
-                <div class="sub-text">Inscrits sur la plateforme</div>
+                <div class="sub-text">Inscrits validés</div>
             </div>
             <div class="stat-card">
                 <h3>👩 Profils Femmes</h3>
@@ -153,8 +242,7 @@
             </div>
         </div>
 
-        <!-- 2. STATISTIQUES DES DÉPÔTS / PAIEMENTS -->
-        <h2 style="color: var(--deep-red); margin-bottom: 15px;">💳 Dashboard des Dépôts Effectués</h2>
+        <h2 class="section-title">💳 Dashboard des Dépôts / Transactions</h2>
         <div class="admin-dashboard">
             <div class="stat-card">
                 <h3>📅 Dépôts du Jour</h3>
@@ -173,31 +261,30 @@
             </div>
         </div>
 
-        <!-- 3. ACCÈS DIRECT AUX MODULES DE GESTION -->
-        <h2 style="color: var(--deep-red); margin-bottom: 15px; margin-top: 30px;">⚙️ Module de Gestion Administrateur</h2>
+        <h2 class="section-title">⚙️ Modules de Gestion et Redirections</h2>
         <div class="admin-nav-grid">
             
             <div class="admin-nav-card">
                 <h2>👩 Gestion Profils Femmes</h2>
-                <p>Consulter, valider ou gérer l'ensemble des profils féminins de la plateforme.</p>
+                <p>Consulter et gérer l'ensemble des profils féminins.</p>
                 <a href="profil-femme-admin.html" class="admin-btn">Ouvrir Profils Femmes</a>
             </div>
 
             <div class="admin-nav-card">
                 <h2>👨 Gestion Profils Hommes</h2>
-                <p>Consulter, valider ou gérer l'ensemble des profils masculins de la plateforme.</p>
+                <p>Consulter et gérer l'ensemble des profils masculins.</p>
                 <a href="profil-homme-admin.html" class="admin-btn">Ouvrir Profils Hommes</a>
             </div>
 
             <div class="admin-nav-card">
                 <h2>⚡ Activation des Comptes</h2>
-                <p>Activer les abonnements, valider les jetons et autoriser les accès de mise en relation.</p>
+                <p>Activer les abonnements et valider les accès VIP.</p>
                 <a href="activation.html" class="admin-btn admin-btn-blue">Ouvrir Activations</a>
             </div>
 
             <div class="admin-nav-card">
                 <h2>🔧 Configuration Générale</h2>
-                <p>Modifier les paramètres système, clés d'API Cloudinary et règles de la plateforme.</p>
+                <p>Paramètres système et clés API Cloudinary / Firebase.</p>
                 <a href="configuration.html" class="admin-btn admin-btn-blue">Ouvrir Configuration</a>
             </div>
 
@@ -205,25 +292,22 @@
 
     </div>
 
-    <!-- Script JS d'administration et calcul analytique -->
+    <!-- Script analytique & sécurité admin -->
     <script type="module">
         import { auth, rtdb } from "./love-bebe-service.js";
         import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { ref, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Vérification de l'accès Administrateur
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
                 window.location.href = "connexion.html";
                 return;
             }
 
-            // Contrôle des droits dans Firebase Realtime Database
             const userSnap = await get(ref(rtdb, `users/${user.uid}`));
             const adminConfigSnap = await get(ref(rtdb, 'config/admin'));
 
             let isAdmin = false;
-
             if (userSnap.exists() && userSnap.val().isAdmin === true) {
                 isAdmin = true;
             } else if (adminConfigSnap.exists() && adminConfigSnap.val().email.toLowerCase() === user.email.toLowerCase()) {
@@ -231,92 +315,64 @@
             }
 
             if (!isAdmin) {
-                alert("Accès refusé : réservé à l'administrateur principal.");
+                alert("Accès réservé exclusivement à l'administrateur principal.");
                 window.location.href = "index.html";
                 return;
             }
 
-            // Chargement des données analytiques
             loadAdminAnalytics();
         });
 
-        // Chargement et calcul des statistiques
         async function loadAdminAnalytics() {
             try {
-                // 1. Compteurs d'utilisateurs
+                // Compteurs utilisateurs
                 const usersSnap = await get(ref(rtdb, 'users'));
                 if (usersSnap.exists()) {
                     const users = usersSnap.val();
-                    let totalUsers = 0;
-                    let women = 0;
-                    let men = 0;
+                    let total = 0, women = 0, men = 0;
 
                     Object.keys(users).forEach(uid => {
-                        const user = users[uid];
-                        if (user.isAdmin) return; // Ne pas compter l'admin principal
-
-                        totalUsers++;
-
-                        const gender = user.gender ? user.gender.toLowerCase() : '';
-                        if (gender === 'féminin' || gender === 'femme') {
-                            women++;
-                        } else if (gender === 'masculin' || gender === 'homme') {
-                            men++;
-                        }
+                        const u = users[uid];
+                        if (u.isAdmin) return;
+                        total++;
+                        const gender = u.gender ? u.gender.toLowerCase() : '';
+                        if (gender.includes('fémin') || gender.includes('femme')) women++;
+                        else if (gender.includes('mascul') || gender.includes('homme')) men++;
                     });
 
-                    document.getElementById('totalUsersCount').textContent = totalUsers;
+                    document.getElementById('totalUsersCount').textContent = total;
                     document.getElementById('womenCount').textContent = women;
                     document.getElementById('menCount').textContent = men;
                 }
 
-                // 2. Compteurs des Dépôts / Transactions
+                // Compteurs dépôts
                 const depositsSnap = await get(ref(rtdb, 'deposits'));
                 if (depositsSnap.exists()) {
                     const deposits = depositsSnap.val();
                     const now = new Date();
-
-                    let daily = 0;
-                    let weekly = 0;
-                    let monthly = 0;
-
-                    const oneDayMs = 24 * 60 * 60 * 1000;
-                    const oneWeekMs = 7 * oneDayMs;
+                    let daily = 0, weekly = 0, monthly = 0;
+                    const oneWeekMs = 7 * 24 * 60 * 60 * 1000;
 
                     Object.keys(deposits).forEach(id => {
                         const dep = deposits[id];
                         if (!dep.timestamp) return;
-
                         const depDate = new Date(dep.timestamp);
                         const diffTime = now - depDate;
 
-                        // Dépôts du jour (même jour/mois/année)
-                        if (depDate.toDateString() === now.toDateString()) {
-                            daily++;
-                        }
-
-                        // Dépôts de la semaine (dans les 7 derniers jours)
-                        if (diffTime <= oneWeekMs) {
-                            weekly++;
-                        }
-
-                        // Dépôts du mois (même mois et même année)
-                        if (depDate.getMonth() === now.getMonth() && depDate.getFullYear() === now.getFullYear()) {
-                            monthly++;
-                        }
+                        if (depDate.toDateString() === now.toDateString()) daily++;
+                        if (diffTime <= oneWeekMs) weekly++;
+                        if (depDate.getMonth() === now.getMonth() && depDate.getFullYear() === now.getFullYear()) monthly++;
                     });
 
                     document.getElementById('dailyDepositsCount').textContent = daily;
                     document.getElementById('weeklyDepositsCount').textContent = weekly;
                     document.getElementById('monthlyDepositsCount').textContent = monthly;
                 }
-
             } catch (err) {
-                console.error("Erreur de chargement des métriques admin :", err);
+                console.error("Erreur stats admin :", err);
             }
         }
 
-        // Gestion de la Déconnexion
         document.getElementById('logoutBtn').addEventListener('click', async () => {
             await signOut(auth);
             window.location.href = "connexion.html";

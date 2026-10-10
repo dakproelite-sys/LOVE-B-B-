@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Configuration, Sécurité & Gardien</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FFD700">
+    <style>
+        :root { --primary-gold: #FFD700; --dark-gold: #FFA500; --deep-red: #D32F2F; --dark-red: #B71C1C; --accent-blue: #0D47A1; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: linear-gradient(135deg, var(--primary-gold) 0%, var(--dark-gold) 100%); min-height: 100vh; color: #222; padding-bottom: 40px; }
+        header { background: #ffffff; padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--deep-red); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .header-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .header-logo { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--primary-gold); object-fit: cover; }
+        .header-title { font-size: 1.3rem; font-weight: bold; color: var(--deep-red); text-transform: uppercase; }
+        .nav-btn { background: linear-gradient(135deg, var(--deep-red), var(--dark-red)); color: white; padding: 8px 16px; border-radius: 20px; font-weight: bold; text-decoration: none; font-size: 13px; border: none; cursor: pointer; }
+        .container { max-width: 1100px; margin: 25px auto; padding: 0 20px; }
+        .hero-banner { background: #ffffff; border-radius: 15px; padding: 25px; text-align: center; border: 3px solid var(--primary-gold); box-shadow: 0 8px 25px rgba(0,0,0,0.15); margin-bottom: 30px; }
+        .hero-banner h1 { color: var(--deep-red); font-size: 1.6rem; margin-bottom: 8px; }
+        .card { background: #fff; padding: 25px; border-radius: 15px; border: 3px solid var(--primary-gold); box-shadow: 0 5px 20px rgba(0,0,0,0.15); margin-bottom: 30px; }
+        label { display: block; margin-top: 15px; font-weight: bold; color: var(--accent-blue); font-size: 14px; }
+        input, select { width: 100%; padding: 12px; margin-top: 5px; border: 2px solid #E0E0E0; border-radius: 8px; font-size: 15px; }
+        .btn-primary { background: linear-gradient(135deg, var(--deep-red), var(--dark-red)); color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        
+        .user-table { width: 100%; border-collapse: collapse; margin-top: 15px; background: #fff; border-radius: 8px; overflow: hidden; }
+        .user-table th, .user-table td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; font-size: 13px; }
+        .user-table th { background: var(--accent-blue); color: white; }
+        .user-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1px solid var(--primary-gold); }
+        .btn-action-small { padding: 6px 10px; border-radius: 5px; border: none; font-weight: bold; font-size: 11px; cursor: pointer; color: white; margin-right: 4px; }
+        .btn-make-admin { background: var(--accent-blue); }
+        .btn-delete-user { background: var(--deep-red); }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="admin.html" class="header-brand">
+            <img src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png" alt="Logo" class="header-logo">
+            <span class="header-title">Admin - Gardien & Sécurité</span>
+        </a>
+        <a href="admin.html" class="nav-btn">⬅️ Retour Admin</a>
+    </header>
+
+    <div class="container">
+        <div class="hero-banner">
+            <h1>🛡️ Gardien de la Base & Règles de Publication</h1>
+            <p>Contrôlez les quotas stricts : Maximum 2 vidéos (15s max) et 4 photos par utilisateur.</p>
+        </div>
+
+        <!-- Section 1 : Règles de Gardiennage et Quotas Globales -->
+        <div class="card">
+            <h2 style="color:var(--deep-red); margin-bottom:15px;">🔒 Règles de Protection & Quotas (Gardien)</h2>
+            <form id="configForm">
+                <label>Nombre Maximum de Photos par Profil :</label>
+                <input type="number" id="maxPhotos" value="4" readonly style="background:#f0f0f0;">
+
+                <label>Nombre Maximum de Vidéos par Profil (Max 2) :</label>
+                <input type="number" id="maxVideos" value="2" readonly style="background:#f0f0f0;">
+
+                <label>Durée Maximale par Vidéo (en Secondes) :</label>
+                <input type="number" id="maxVideoDuration" value="15" readonly style="background:#f0f0f0;">
+
+                <label>Durée de conservation des audios/vidéos (Confidentialité) :</label>
+                <select id="mediaRetentionDays">
+                    <option value="1">1 jour (Sécurité maximale)</option>
+                    <option value="3">3 jours</option>
+                    <option value="7">7 jours (1 semaine)</option>
+                    <option value="30">30 jours (1 mois)</option>
+                    <option value="0">Conserver indéfiniment</option>
+                </select>
+
+                <label>Email de l'Administrateur Principal :</label>
+                <input type="email" id="adminEmail" required value="dakjubile@gmail.com">
+
+                <button type="submit" class="btn-primary">💾 Sauvegarder les Règles du Gardien</button>
+                <div id="statusMsg" style="text-align:center; font-weight:bold; margin-top:15px; color:#0D47A1;"></div>
+            </form>
+        </div>
+
+        <!-- Section 2 : Gestion et Modération des Comptes -->
+        <div class="card">
+            <h2 style="color:var(--deep-red); margin-bottom:10px;">👥 Modération et Suppression des Comptes</h2>
+            <p style="font-size:13px; color:#555; margin-bottom:15px;">Supprimez immédiatement tout compte ne respectant pas la politique de la plateforme.</p>
+            
+            <div style="overflow-x:auto;">
+                <table class="user-table">
+                    <thead>
+                        <tr>
+                            <th>Photo</th>
+                            <th>Nom complet</th>
+                            <th>Email</th>
+                            <th>Sexe</th>
+                            <th>Rôle</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <tr><td colspan="6" style="text-align:center;">Chargement...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { auth, rtdb } from "./love-bebe-service.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { ref, get, update, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) return window.location.href = "connexion.html";
+            
+            try {
+                const snap = await get(ref(rtdb, 'config/admin'));
+                if (snap.exists()) {
+                    document.getElementById('adminEmail').value = snap.val().email || 'dakjubile@gmail.com';
+                    if (snap.val().mediaRetentionDays) {
+                        document.getElementById('mediaRetentionDays').value = snap.val().mediaRetentionDays;
+                    }
+                }
+                loadAllUsersTable();
+            } catch (err) {
+                console.error(err);
+            }
+        });
+
+        async function loadAllUsersTable() {
+            const tbody = document.getElementById('usersTableBody');
+            try {
+                const usersSnap = await get(ref(rtdb, 'users'));
+                if (!usersSnap.exists()) {
+                    tbody.innerHTML = "<tr><td colspan='6' style='text-align:center;'>Aucun utilisateur trouvé.</td></tr>";
+                    return;
+                }
+
+                tbody.innerHTML = "";
+                const users = usersSnap.val();
+
+                Object.keys(users).forEach(uid => {
+                    const u = users[uid];
+                    const photo = u.profileMediaUrl || u.capturedPhotos?.[0] || 'https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png';
+                    
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><img src="${photo}" class="user-avatar" alt="Avatar"></td>
+                        <td><strong>${u.fullName || 'Inconnu'}</strong></td>
+                        <td>${u.email || 'N/A'}</td>
+                        <td>${u.gender || 'N/A'}</td>
+                        <td>${u.isAdmin ? '👑 Admin' : '👤 Utilisateur'}</td>
+                        <td>
+                            <button class="btn-action-small btn-make-admin" onclick="toggleAdmin('${uid}', ${!u.isAdmin})">${u.isAdmin ? 'Rétrograder' : 'Nommer Admin'}</button>
+                            <button class="btn-action-small btn-delete-user" onclick="deleteUserAccount('${uid}')">Supprimer</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        document.getElementById('configForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const msg = document.getElementById('statusMsg');
+            msg.textContent = "Application des règles de garde-fou...";
+
+            try {
+                await update(ref(rtdb, 'config/admin'), {
+                    email: document.getElementById('adminEmail').value.trim(),
+                    mediaRetentionDays: document.getElementById('mediaRetentionDays').value,
+                    maxPhotos: 4,
+                    maxVideos: 2,
+                    maxVideoDurationSec: 15,
+                    updatedAt: new Date().toISOString()
+                });
+
+                msg.style.color = "green";
+                msg.textContent = "🛡️ Règles de protection et gardien enregistrées avec succès !";
+            } catch (err) {
+                msg.style.color = "red";
+                msg.textContent = "Erreur : " + err.message;
+            }
+        });
+
+        window.toggleAdmin = async (uid, makeAdmin) => {
+            if (confirm("Modifier les privilèges de cet utilisateur ?")) {
+                await update(ref(rtdb, `users/${uid}`), { isAdmin: makeAdmin });
+                alert("Privilèges mis à jour !");
+                loadAllUsersTable();
+            }
+        };
+
+        window.deleteUserAccount = async (uid) => {
+            if (confirm("⚠️ Voulez-vous supprimer définitivement ce compte de la base de données et de l'authentification ?")) {
+                await remove(ref(rtdb, `users/${uid}`));
+                alert("Compte supprimé et banni avec succès.");
+                loadAllUsersTable();
+            }
+        };
+    </script>
+</body>
+</html>

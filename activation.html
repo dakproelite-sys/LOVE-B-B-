@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Activation des Comptes</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FFD700">
+    <style>
+        :root { --primary-gold: #FFD700; --dark-gold: #FFA500; --deep-red: #D32F2F; --dark-red: #B71C1C; --accent-blue: #0D47A1; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: linear-gradient(135deg, var(--primary-gold) 0%, var(--dark-gold) 100%); min-height: 100vh; color: #222; padding-bottom: 40px; }
+        header { background: #ffffff; padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--deep-red); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .header-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .header-logo { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--primary-gold); object-fit: cover; }
+        .header-title { font-size: 1.3rem; font-weight: bold; color: var(--deep-red); text-transform: uppercase; }
+        .nav-btn { background: linear-gradient(135deg, var(--deep-red), var(--dark-red)); color: white; padding: 8px 16px; border-radius: 20px; font-weight: bold; text-decoration: none; font-size: 13px; border: none; cursor: pointer; }
+        .container { max-width: 900px; margin: 25px auto; padding: 0 20px; }
+        .hero-banner { background: #ffffff; border-radius: 15px; padding: 25px; text-align: center; border: 3px solid var(--primary-gold); box-shadow: 0 8px 25px rgba(0,0,0,0.15); margin-bottom: 30px; }
+        .hero-banner h1 { color: var(--deep-red); font-size: 1.6rem; margin-bottom: 8px; }
+        .card { background: #fff; padding: 25px; border-radius: 15px; border: 3px solid var(--primary-gold); box-shadow: 0 5px 20px rgba(0,0,0,0.15); }
+        label { display: block; margin-top: 15px; font-weight: bold; color: var(--accent-blue); font-size: 14px; }
+        input { width: 100%; padding: 12px; margin-top: 5px; border: 2px solid #E0E0E0; border-radius: 8px; font-size: 15px; }
+        button[type="submit"] { background: linear-gradient(135deg, var(--accent-blue), #1565C0); color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 25px; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="admin.html" class="header-brand">
+            <img src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png" alt="Logo" class="header-logo">
+            <span class="header-title">Admin - Activations</span>
+        </a>
+        <a href="admin.html" class="nav-btn">⬅️ Retour Admin</a>
+    </header>
+
+    <div class="container">
+        <div class="hero-banner">
+            <h1>⚡ Activation des Comptes & Abonnements</h1>
+            <p>Validez les accès VIP et autorisez la mise en relation complète des utilisateurs.</p>
+        </div>
+
+        <div class="card">
+            <form id="activationForm">
+                <label>Email de l'utilisateur à activer :</label>
+                <input type="email" id="targetEmail" required placeholder="client@domaine.com">
+
+                <label>Statut d'abonnement :</label>
+                <input type="text" id="statusValue" value="VIP Actif - Illimité" required>
+
+                <button type="submit">Valider et Activer le Compte</button>
+                <div id="statusMsg" style="text-align:center; font-weight:bold; margin-top:15px; color:#0D47A1;"></div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { auth, rtdb } from "./love-bebe-service.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { ref, get, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) return window.location.href = "connexion.html";
+        });
+
+        document.getElementById('activationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const emailToFind = document.getElementById('targetEmail').value.trim().toLowerCase();
+            const msg = document.getElementById('statusMsg');
+            msg.textContent = "Recherche et activation en cours...";
+
+            try {
+                const snapshot = await get(ref(rtdb, 'users'));
+                if (!snapshot.exists()) {
+                    msg.style.color = "red";
+                    msg.textContent = "Aucun utilisateur dans la base.";
+                    return;
+                }
+
+                const users = snapshot.val();
+                let foundUid = null;
+
+                Object.keys(users).forEach(uid => {
+                    if (users[uid].email && users[uid].email.toLowerCase() === emailToFind) {
+                        foundUid = uid;
+                    }
+                });
+
+                if (!foundUid) {
+                    msg.style.color = "red";
+                    msg.textContent = "Aucun utilisateur trouvé avec cet email.";
+                    return;
+                }
+
+                await update(ref(rtdb, `users/${foundUid}`), {
+                    isActivated: true,
+                    subscriptionStatus: document.getElementById('statusValue').value,
+                    activatedAt: new Date().toISOString()
+                });
+
+                msg.style.color = "green";
+                msg.textContent = "✅ Compte activé avec succès !";
+            } catch (err) {
+                msg.style.color = "red";
+                msg.textContent = "Erreur : " + err.message;
+            }
+        });
+    </script>
+</body>
+</html>
