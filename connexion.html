@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Love Bébé - Connexion & Inscription Internationale</title>
-    
+
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#FFD700">
 
@@ -16,8 +17,17 @@
             --dark-red: #B71C1C;
             --accent-blue: #0D47A1;
         }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--dark-gold) 100%);
+            background: linear-gradient(
+                135deg,
+                var(--primary-gold) 0%,
+                var(--dark-gold) 100%
+            );
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
@@ -26,6 +36,7 @@
             margin: 0;
             padding: 20px;
         }
+
         .card {
             background: #FFFFFF;
             padding: 30px;
@@ -34,12 +45,13 @@
             width: 100%;
             max-width: 520px;
             border: 4px solid var(--primary-gold);
-            box-sizing: border-box;
         }
+
         .logo-container {
             text-align: center;
             margin-bottom: 15px;
         }
+
         .logo-wrapper {
             width: 90px;
             height: 90px;
@@ -53,11 +65,13 @@
             align-items: center;
             justify-content: center;
         }
+
         .logo-wrapper img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
+
         h2 {
             text-align: center;
             color: var(--deep-red);
@@ -66,6 +80,7 @@
             margin-bottom: 20px;
             font-size: 1.4rem;
         }
+
         label {
             display: block;
             margin-top: 12px;
@@ -73,25 +88,30 @@
             color: var(--accent-blue);
             font-size: 13px;
         }
+
         input, select {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
             border: 2px solid #E0E0E0;
             border-radius: 8px;
-            box-sizing: border-box;
             font-size: 14px;
+            background: #fff;
         }
+
         input:focus, select:focus {
             outline: none;
             border-color: var(--deep-red);
         }
+
         .password-container {
             position: relative;
         }
+
         .password-container input {
             padding-right: 40px;
         }
+
         .toggle-password {
             position: absolute;
             right: 12px;
@@ -99,38 +119,59 @@
             transform: translateY(-50%);
             cursor: pointer;
             font-size: 16px;
+            user-select: none;
         }
+
         .phone-group {
             display: flex;
             gap: 10px;
             margin-top: 5px;
         }
+
         .phone-group select {
             flex: 1.6;
+            min-width: 0;
         }
+
         .phone-group input {
             flex: 1.4;
+            min-width: 0;
         }
+
         .checkbox-container {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 10px;
             margin-top: 15px;
             font-size: 12px;
             color: #333;
         }
+
         .checkbox-container input {
             width: auto;
-            margin: 0;
+            margin: 3px 0 0;
             cursor: pointer;
+            flex-shrink: 0;
         }
+
+        .checkbox-container label {
+            margin: 0;
+            font-weight: normal;
+            line-height: 1.5;
+        }
+
         .checkbox-container a {
             color: var(--accent-blue);
             font-weight: bold;
             text-decoration: underline;
         }
+
         button[type="submit"] {
-            background: linear-gradient(to right, var(--deep-red), var(--dark-red));
+            background: linear-gradient(
+                to right,
+                var(--deep-red),
+                var(--dark-red)
+            );
             color: #FFFFFF;
             border: none;
             padding: 12px;
@@ -142,375 +183,795 @@
             margin-top: 20px;
             box-shadow: 0 4px 15px rgba(211, 47, 47, 0.4);
         }
+
         button[type="submit"]:hover {
             opacity: 0.9;
         }
+
+        button[type="submit"]:disabled {
+            opacity: 0.65;
+            cursor: wait;
+        }
+
         .switch-link {
             text-align: center;
-            margin-top: 15px;
+            margin-top: 18px;
             font-size: 14px;
             color: #333;
+            line-height: 1.8;
         }
+
         .switch-link span {
             color: var(--accent-blue);
             font-weight: bold;
             text-decoration: underline;
             cursor: pointer;
         }
+
+        .switch-link span:focus-visible {
+            outline: 2px solid var(--accent-blue);
+            outline-offset: 3px;
+        }
+
         .error-msg {
             color: var(--deep-red);
             font-size: 13px;
             text-align: center;
             margin-top: 10px;
             font-weight: bold;
+            overflow-wrap: anywhere;
         }
+
         .hidden {
             display: none !important;
         }
+
+        #pageStatus {
+            text-align: center;
+            color: var(--accent-blue);
+            font-size: 14px;
+            font-weight: bold;
+            margin: 12px 0;
+        }
+
+        @media (max-width: 420px) {
+            body {
+                padding: 10px;
+            }
+
+            .card {
+                padding: 20px 15px;
+            }
+
+            h2 {
+                font-size: 1.2rem;
+            }
+
+            .phone-group {
+                gap: 6px;
+            }
+        }
     </style>
 </head>
+
 <body>
+<div class="card">
 
-    <div class="card">
-        <div class="logo-container">
-            <div class="logo-wrapper">
-                <img src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png" alt="Logo Love Bébé" crossorigin="anonymous">
-            </div>
-        </div>
-
-        <h2 id="form-title">Connexion Love Bébé</h2>
-
-        <!-- FORMULAIRE DE CONNEXION -->
-        <form id="loginForm">
-            <label>Email :</label>
-            <input type="email" id="loginEmail" required placeholder="exemple@domaine.com">
-
-            <label>Mot de passe :</label>
-            <div class="password-container">
-                <input type="password" id="loginPassword" required placeholder="••••••••">
-                <span class="toggle-password" onclick="togglePasswordVisibility('loginPassword', this)">👁️</span>
-            </div>
-
-            <button type="submit" id="loginSubmitBtn">Se connecter</button>
-            <div id="loginError" class="error-msg"></div>
-        </form>
-
-        <!-- FORMULAIRE D'INSCRIPTION INTERNATIONALE -->
-        <form id="registerForm" class="hidden">
-            <label>Nom complet (Carte d'identité) :</label>
-            <input type="text" id="fullName" required placeholder="Ex: Kouassi Jean">
-
-            <label>Genre / Sexe :</label>
-            <select id="gender" required>
-                <option value="">Sélectionnez votre sexe</option>
-                <option value="Masculin">Masculin (Homme)</option>
-                <option value="Féminin">Féminin (Femme)</option>
-            </select>
-
-            <label>Ville :</label>
-            <input type="text" id="city" required placeholder="Ex: Cotonou / Abidjan / Paris / New York">
-
-            <label>Pays de résidence :</label>
-            <input type="text" id="countryInput" required placeholder="Ex: Bénin, France, USA, Canada...">
-
-            <label>Numéro WhatsApp (Indicatif Mondial) :</label>
-            <div class="phone-group">
-                <select id="phoneCode" required>
-                    <!-- AFRIQUE -->
-                    <optgroup label="🌍 AFRIQUE (54 PAYS)">
-                        <option value="+229" selected>🇧🇯 Bénin (+229)</option>
-                        <option value="+225">🇨🇮 Côte d'Ivoire (+225)</option>
-                        <option value="+228">🇹🇬 Togo (+228)</option>
-                        <option value="+221">🇸🇳 Sénégal (+221)</option>
-                        <option value="+237">🇨🇲 Cameroun (+237)</option>
-                        <option value="+226">🇧🇫 Burkina Faso (+226)</option>
-                        <option value="+223">🇲🇱 Mali (+223)</option>
-                        <option value="+224">🇬🇳 Guinée (+224)</option>
-                        <option value="+242">🇨🇬 Congo-Brazzaville (+242)</option>
-                        <option value="+243">🇨🇩 RDC Congo (+243)</option>
-                        <option value="+234">🇳🇬 Nigéria (+234)</option>
-                        <option value="+233">🇬🇭 Ghana (+233)</option>
-                        <option value="+212">🇲🇦 Maroc (+212)</option>
-                        <option value="+216">🇹🇳 Tunisie (+216)</option>
-                        <option value="+213">🇩🇿 Algérie (+213)</option>
-                        <option value="+20">🇪🇬 Égypte (+20)</option>
-                        <option value="+27">🇿🇦 Afrique du Sud (+27)</option>
-                        <option value="+254">🇰🇪 Kenya (+254)</option>
-                        <option value="+256">🇺🇬 Ouganda (+256)</option>
-                        <option value="+255">🇹🇿 Tanzanie (+255)</option>
-                        <option value="+241">🇬🇦 Gabon (+241)</option>
-                        <option value="+235">🇹🇩 Tchad (+235)</option>
-                        <option value="+227">🇳🇪 Niger (+227)</option>
-                        <option value="+222">🇲🇷 Mauritanie (+222)</option>
-                        <option value="+240">🇬🇶 Guinée Équatoriale (+240)</option>
-                        <option value="+245">🇬🇼 Guinée-Bissau (+245)</option>
-                        <option value="+238">🇨🇻 Cap-Vert (+238)</option>
-                        <option value="+232">🇸🇱 Sierra Leone (+232)</option>
-                        <option value="+231">🇱🇷 Libéria (+231)</option>
-                        <option value="+220">🇬🇲 Gambie (+220)</option>
-                        <option value="+236">🇨🇫 République Centrafricaine (+236)</option>
-                        <option value="+250">🇷🇼 Rwanda (+250)</option>
-                        <option value="+257">🇧🇮 Burundi (+257)</option>
-                        <option value="+251">🇪🇹 Éthiopie (+251)</option>
-                        <option value="+252">🇸🇴 Somalie (+252)</option>
-                        <option value="+253">🇩🇯 Djibouti (+253)</option>
-                        <option value="+261">🇲🇬 Madagascar (+261)</option>
-                        <option value="+230">🇲🇺 Maurice (+230)</option>
-                        <option value="+262">🇷🇪 Réunion / Mayotte (+262)</option>
-                        <option value="+248">🇸🇨 Seychelles (+248)</option>
-                        <option value="+269">🇰🇲 Comores (+269)</option>
-                        <option value="+260">🇿🇲 Zambie (+260)</option>
-                        <option value="+263">🇿🇼 Zimbabwe (+263)</option>
-                        <option value="+258">🇲🇿 Mozambique (+258)</option>
-                        <option value="+244">🇦🇴 Angola (+244)</option>
-                        <option value="+264">🇳🇦 Namibie (+264)</option>
-                        <option value="+267">🇧🇼 Botswana (+267)</option>
-                        <option value="+266">🇱🇸 Lesotho (+266)</option>
-                        <option value="+268">🇸🇿 Eswatini (+268)</option>
-                        <option value="+211">🇸🇸 Soudan du Sud (+211)</option>
-                        <option value="+249">🇸🇩 Soudan (+249)</option>
-                        <option value="+218">🇱🇾 Libye (+218)</option>
-                        <option value="+239">🇸🇹 Sao Tomé-et-Principe (+239)</option>
-                        <option value="+291">🇪🇷 Érythrée (+291)</option>
-                    </optgroup>
-
-                    <!-- EUROPE -->
-                    <optgroup label="🇪🇺 EUROPE">
-                        <option value="+33">🇫🇷 France (+33)</option>
-                        <option value="+32">🇧🇪 Belgique (+32)</option>
-                        <option value="+41">🇨🇭 Suisse (+41)</option>
-                        <option value="+39">🇮🇹 Italie (+39)</option>
-                        <option value="+34">🇪🇸 Espagne (+34)</option>
-                        <option value="+44">🇬🇧 Royaume-Uni (+44)</option>
-                        <option value="+49">🇩🇪 Allemagne (+49)</option>
-                        <option value="+351">🇵🇹 Portugal (+351)</option>
-                        <option value="+31">🇳🇱 Pays-Bas (+31)</option>
-                        <option value="+43">🇦🇹 Autriche (+43)</option>
-                    </optgroup>
-
-                    <!-- AMÉRIQUES -->
-                    <optgroup label="🌎 AMÉRIQUES">
-                        <option value="+1">🇺🇸 / 🇨🇦 USA / Canada (+1)</option>
-                        <option value="+52">🇲🇽 Mexique (+52)</option>
-                        <option value="+55">🇧🇷 Brésil (+55)</option>
-                        <option value="+54">🇦🇷 Argentine (+54)</option>
-                        <option value="+57">🇨🇴 Colombie (+57)</option>
-                    </optgroup>
-                </select>
-                <input type="tel" id="whatsappNumber" required placeholder="0102030405">
-            </div>
-
-            <label>Statut Matrimonial :</label>
-            <select id="maritalStatus" required>
-                <option value="">Sélectionnez votre situation</option>
-                <option value="Je ne suis jamais marié(e)">Je ne suis jamais marié(e)</option>
-                <option value="Je n'ai jamais été marié(e) et je suis célibataire">Je n'ai jamais été marié(e) et je suis célibataire</option>
-                <option value="J'ai été marié(e) une fois et aujourd'hui je suis célibataire">J'ai été marié(e) une fois et aujourd'hui je suis célibataire</option>
-                <option value="Célibataire sans enfant">Célibataire sans enfant</option>
-                <option value="Célibataire avec un enfant">Célibataire avec un enfant</option>
-                <option value="Célibataire avec des enfants">Célibataire avec des enfants</option>
-                <option value="Divorcé(e)">Divorcé(e)</option>
-                <option value="Veuf / Veuve">Veuf / Veuve</option>
-            </select>
-
-            <label>Âge (18 ans minimum requis) :</label>
-            <input type="number" id="age" min="18" required placeholder="Ex: 24">
-
-            <label>Email :</label>
-            <input type="email" id="regEmail" required placeholder="exemple@domaine.com">
-
-            <label>Mot de passe :</label>
-            <div class="password-container">
-                <input type="password" id="regPassword" required placeholder="••••••••">
-                <span class="toggle-password" onclick="togglePasswordVisibility('regPassword', this)">👁️</span>
-            </div>
-
-            <label>Photo de profil (Galerie) :</label>
-            <input type="file" id="profileImage" accept="image/*,video/*">
-
-            <div class="checkbox-container">
-                <input type="checkbox" id="termsCheckbox" required>
-                <label for="termsCheckbox" style="margin:0; font-weight:normal;">J'accepte les <a href="politique-de-confidentialite.html" target="_blank">Conditions d'utilisation et la Politique de confidentialité</a>.</label>
-            </div>
-
-            <button type="submit" id="registerSubmitBtn">S'inscrire</button>
-            <div id="regError" class="error-msg"></div>
-        </form>
-
-        <div class="switch-link">
-            <span id="toggleTextMsg">Pas encore de compte ?</span> <span id="toggleBtn">S'inscrire</span>
+    <div class="logo-container">
+        <div class="logo-wrapper">
+            <img
+                src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png"
+                alt="Logo Love Bébé"
+            >
         </div>
     </div>
 
-    <script>
-        function togglePasswordVisibility(fieldId, iconElement) {
-            const field = document.getElementById(fieldId);
-            if (field.type === "password") {
-                field.type = "text";
-                iconElement.textContent = "🙈";
-            } else {
-                field.type = "password";
-                iconElement.textContent = "👁️";
-            }
+    <h2 id="form-title">Connexion Love Bébé</h2>
+    <div id="pageStatus" class="hidden" role="status"></div>
+
+    <!-- FORMULAIRE DE CONNEXION -->
+    <form id="loginForm" autocomplete="on">
+
+        <label for="loginEmail">Email :</label>
+        <input
+            type="email"
+            id="loginEmail"
+            name="email"
+            autocomplete="username"
+            required
+            placeholder="exemple@domaine.com"
+        >
+
+        <label for="loginPassword">Mot de passe :</label>
+        <div class="password-container">
+            <input
+                type="password"
+                id="loginPassword"
+                name="password"
+                autocomplete="current-password"
+                required
+                placeholder="••••••••"
+            >
+            <span
+                class="toggle-password"
+                role="button"
+                tabindex="0"
+                aria-label="Afficher ou masquer le mot de passe"
+                onclick="togglePasswordVisibility('loginPassword', this)"
+                onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePasswordVisibility('loginPassword',this)}"
+            >👁️</span>
+        </div>
+
+        <button type="submit" id="loginSubmitBtn">
+            Se connecter
+        </button>
+
+        <div id="loginError" class="error-msg" role="alert"></div>
+    </form>
+
+    <!-- FORMULAIRE D'INSCRIPTION INTERNATIONALE -->
+    <form id="registerForm" class="hidden" autocomplete="on">
+
+        <label for="fullName">Nom complet (Carte d'identité) :</label>
+        <input
+            type="text"
+            id="fullName"
+            autocomplete="name"
+            required
+            placeholder="Ex: Kouassi Jean"
+        >
+
+        <label for="gender">Genre / Sexe :</label>
+        <select id="gender" required>
+            <option value="">Sélectionnez votre sexe</option>
+            <option value="Masculin">Masculin (Homme)</option>
+            <option value="Féminin">Féminin (Femme)</option>
+        </select>
+
+        <label for="city">Ville :</label>
+        <input
+            type="text"
+            id="city"
+            autocomplete="address-level2"
+            required
+            placeholder="Ex: Cotonou / Abidjan / Paris / New York"
+        >
+
+        <label for="countryInput">Pays de résidence :</label>
+        <input
+            type="text"
+            id="countryInput"
+            autocomplete="country-name"
+            required
+            placeholder="Ex: Bénin, France, USA, Canada..."
+        >
+
+        <label for="phoneCode">Numéro WhatsApp (Indicatif Mondial) :</label>
+
+        <div class="phone-group">
+            <select id="phoneCode" required>
+                <optgroup label="🌍 AFRIQUE">
+                    <option value="+229" selected>🇧🇯 Bénin (+229)</option>
+                    <option value="+225">🇨🇮 Côte d'Ivoire (+225)</option>
+                    <option value="+228">🇹🇬 Togo (+228)</option>
+                    <option value="+221">🇸🇳 Sénégal (+221)</option>
+                    <option value="+237">🇨🇲 Cameroun (+237)</option>
+                    <option value="+226">🇧🇫 Burkina Faso (+226)</option>
+                    <option value="+223">🇲🇱 Mali (+223)</option>
+                    <option value="+224">🇬🇳 Guinée (+224)</option>
+                    <option value="+242">🇨🇬 Congo-Brazzaville (+242)</option>
+                    <option value="+243">🇨🇩 RDC Congo (+243)</option>
+                    <option value="+234">🇳🇬 Nigéria (+234)</option>
+                    <option value="+233">🇬🇭 Ghana (+233)</option>
+                    <option value="+212">🇲🇦 Maroc (+212)</option>
+                    <option value="+216">🇹🇳 Tunisie (+216)</option>
+                    <option value="+213">🇩🇿 Algérie (+213)</option>
+                    <option value="+20">🇪🇬 Égypte (+20)</option>
+                    <option value="+27">🇿🇦 Afrique du Sud (+27)</option>
+                    <option value="+254">🇰🇪 Kenya (+254)</option>
+                    <option value="+256">🇺🇬 Ouganda (+256)</option>
+                    <option value="+255">🇹🇿 Tanzanie (+255)</option>
+                    <option value="+241">🇬🇦 Gabon (+241)</option>
+                    <option value="+235">🇹🇩 Tchad (+235)</option>
+                    <option value="+227">🇳🇪 Niger (+227)</option>
+                    <option value="+222">🇲🇷 Mauritanie (+222)</option>
+                    <option value="+240">🇬🇶 Guinée Équatoriale (+240)</option>
+                    <option value="+245">🇬🇼 Guinée-Bissau (+245)</option>
+                    <option value="+238">🇨🇻 Cap-Vert (+238)</option>
+                    <option value="+232">🇸🇱 Sierra Leone (+232)</option>
+                    <option value="+231">🇱🇷 Libéria (+231)</option>
+                    <option value="+220">🇬🇲 Gambie (+220)</option>
+                    <option value="+236">🇨🇫 République Centrafricaine (+236)</option>
+                    <option value="+250">🇷🇼 Rwanda (+250)</option>
+                    <option value="+257">🇧🇮 Burundi (+257)</option>
+                    <option value="+251">🇪🇹 Éthiopie (+251)</option>
+                    <option value="+252">🇸🇴 Somalie (+252)</option>
+                    <option value="+253">🇩🇯 Djibouti (+253)</option>
+                    <option value="+261">🇲🇬 Madagascar (+261)</option>
+                    <option value="+230">🇲🇺 Maurice (+230)</option>
+                    <option value="+262">🇷🇪 Réunion / Mayotte (+262)</option>
+                    <option value="+248">🇸🇨 Seychelles (+248)</option>
+                    <option value="+269">🇰🇲 Comores (+269)</option>
+                    <option value="+260">🇿🇲 Zambie (+260)</option>
+                    <option value="+263">🇿🇼 Zimbabwe (+263)</option>
+                    <option value="+258">🇲🇿 Mozambique (+258)</option>
+                    <option value="+244">🇦🇴 Angola (+244)</option>
+                    <option value="+264">🇳🇦 Namibie (+264)</option>
+                    <option value="+267">🇧🇼 Botswana (+267)</option>
+                    <option value="+266">🇱🇸 Lesotho (+266)</option>
+                    <option value="+268">🇸🇿 Eswatini (+268)</option>
+                    <option value="+211">🇸🇸 Soudan du Sud (+211)</option>
+                    <option value="+249">🇸🇩 Soudan (+249)</option>
+                    <option value="+218">🇱🇾 Libye (+218)</option>
+                    <option value="+239">🇸🇹 Sao Tomé-et-Principe (+239)</option>
+                    <option value="+291">🇪🇷 Érythrée (+291)</option>
+                </optgroup>
+
+                <optgroup label="🇪🇺 EUROPE">
+                    <option value="+33">🇫🇷 France (+33)</option>
+                    <option value="+32">🇧🇪 Belgique (+32)</option>
+                    <option value="+41">🇨🇭 Suisse (+41)</option>
+                    <option value="+39">🇮🇹 Italie (+39)</option>
+                    <option value="+34">🇪🇸 Espagne (+34)</option>
+                    <option value="+44">🇬🇧 Royaume-Uni (+44)</option>
+                    <option value="+49">🇩🇪 Allemagne (+49)</option>
+                    <option value="+351">🇵🇹 Portugal (+351)</option>
+                    <option value="+31">🇳🇱 Pays-Bas (+31)</option>
+                    <option value="+43">🇦🇹 Autriche (+43)</option>
+                </optgroup>
+
+                <optgroup label="🌎 AMÉRIQUES">
+                    <option value="+1">🇺🇸 / 🇨🇦 USA / Canada (+1)</option>
+                    <option value="+52">🇲🇽 Mexique (+52)</option>
+                    <option value="+55">🇧🇷 Brésil (+55)</option>
+                    <option value="+54">🇦🇷 Argentine (+54)</option>
+                    <option value="+57">🇨🇴 Colombie (+57)</option>
+                </optgroup>
+            </select>
+
+            <input
+                type="tel"
+                id="whatsappNumber"
+                autocomplete="tel-national"
+                required
+                placeholder="0102030405"
+            >
+        </div>
+
+        <label for="maritalStatus">Statut Matrimonial :</label>
+        <select id="maritalStatus" required>
+            <option value="">Sélectionnez votre situation</option>
+            <option value="Je ne suis jamais marié(e)">Je ne suis jamais marié(e)</option>
+            <option value="Je n'ai jamais été marié(e) et je suis célibataire">Je n'ai jamais été marié(e) et je suis célibataire</option>
+            <option value="J'ai été marié(e) une fois et aujourd'hui je suis célibataire">J'ai été marié(e) une fois et aujourd'hui je suis célibataire</option>
+            <option value="Célibataire sans enfant">Célibataire sans enfant</option>
+            <option value="Célibataire avec un enfant">Célibataire avec un enfant</option>
+            <option value="Célibataire avec des enfants">Célibataire avec des enfants</option>
+            <option value="Divorcé(e)">Divorcé(e)</option>
+            <option value="Veuf / Veuve">Veuf / Veuve</option>
+        </select>
+
+        <label for="age">Âge (18 ans minimum requis) :</label>
+        <input
+            type="number"
+            id="age"
+            min="18"
+            max="120"
+            step="1"
+            required
+            placeholder="Ex: 24"
+        >
+
+        <label for="regEmail">Email :</label>
+        <input
+            type="email"
+            id="regEmail"
+            autocomplete="email"
+            required
+            placeholder="exemple@domaine.com"
+        >
+
+        <label for="regPassword">Mot de passe :</label>
+        <div class="password-container">
+            <input
+                type="password"
+                id="regPassword"
+                autocomplete="new-password"
+                minlength="6"
+                required
+                placeholder="Au moins 6 caractères"
+            >
+            <span
+                class="toggle-password"
+                role="button"
+                tabindex="0"
+                aria-label="Afficher ou masquer le mot de passe"
+                onclick="togglePasswordVisibility('regPassword', this)"
+                onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePasswordVisibility('regPassword',this)}"
+            >👁️</span>
+        </div>
+
+        <label for="profileImage">Photo de profil (Galerie) :</label>
+        <input
+            type="file"
+            id="profileImage"
+            accept="image/*"
+        >
+
+        <div class="checkbox-container">
+            <input type="checkbox" id="termsCheckbox" required>
+            <label for="termsCheckbox">
+                J'accepte les
+                <a href="politique-de-confidentialite.html" target="_blank" rel="noopener">
+                    Conditions d'utilisation et la Politique de confidentialité
+                </a>.
+            </label>
+        </div>
+
+        <button type="submit" id="registerSubmitBtn">
+            S'inscrire
+        </button>
+
+        <div id="regError" class="error-msg" role="alert"></div>
+    </form>
+
+    <!-- LIEN DE BASCULE ENTRE LES DEUX FORMULAIRES -->
+    <div class="switch-link" id="switchArea">
+        <span id="toggleTextMsg">Pas encore de compte ?</span>
+        <span
+            id="toggleBtn"
+            role="button"
+            tabindex="0"
+            aria-controls="registerForm"
+        >S'inscrire</span>
+    </div>
+
+</div>
+
+<script>
+    function togglePasswordVisibility(fieldId, iconElement) {
+        const field = document.getElementById(fieldId);
+
+        if (field.type === "password") {
+            field.type = "text";
+            iconElement.textContent = "🙈";
+        } else {
+            field.type = "password";
+            iconElement.textContent = "👁️";
         }
-    </script>
+    }
+</script>
 
-    <script type="module">
-        import { auth, uploadMediaToCloudinary, rtdb } from "./love-bebe-service.js";
-        import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { ref, get, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+<script type="module">
+    import {
+        auth,
+        uploadMediaToCloudinary,
+        rtdb
+    } from "./love-bebe-service.js";
 
-        const loginForm = document.getElementById('loginForm');
-        const registerForm = document.getElementById('registerForm');
-        const formTitle = document.getElementById('form-title');
-        const toggleBtn = document.getElementById('toggleBtn');
-        const toggleTextMsg = document.getElementById('toggleTextMsg');
-        let isLoginMode = true;
+    import {
+        signInWithEmailAndPassword,
+        createUserWithEmailAndPassword,
+        onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        // Bascule directe et instantanée entre Connexion et Inscription
-        toggleBtn.addEventListener('click', () => {
-            isLoginMode = !isLoginMode;
-            document.getElementById('loginError').textContent = "";
-            document.getElementById('regError').textContent = "";
+    import {
+        ref,
+        get,
+        update
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+    const formTitle = document.getElementById("form-title");
+    const toggleBtn = document.getElementById("toggleBtn");
+    const toggleTextMsg = document.getElementById("toggleTextMsg");
+    const switchArea = document.getElementById("switchArea");
+    const pageStatus = document.getElementById("pageStatus");
+
+    const loginError = document.getElementById("loginError");
+    const regError = document.getElementById("regError");
+    const loginSubmitBtn = document.getElementById("loginSubmitBtn");
+    const registerSubmitBtn = document.getElementById("registerSubmitBtn");
+
+    let isLoginMode = true;
+    let isRegistering = false;
+    let redirectInProgress = false;
+    let authInitialized = false;
+
+    // --------------------------------------------------
+    // 1. BASCULE ENTRE CONNEXION ET INSCRIPTION
+    // --------------------------------------------------
+
+    function showForm(loginMode) {
+        isLoginMode = loginMode;
+
+        loginForm.classList.toggle("hidden", !loginMode);
+        registerForm.classList.toggle("hidden", loginMode);
+
+        formTitle.textContent = loginMode
+            ? "Connexion Love Bébé"
+            : "Inscription Love Bébé";
+
+        toggleTextMsg.textContent = loginMode
+            ? "Pas encore de compte ?"
+            : "Déjà inscrit ?";
+
+        toggleBtn.textContent = loginMode
+            ? "S'inscrire"
+            : "Se connecter";
+
+        toggleBtn.setAttribute(
+            "aria-controls",
+            loginMode ? "registerForm" : "loginForm"
+        );
+
+        loginError.textContent = "";
+        regError.textContent = "";
+
+        loginError.style.color = "#D32F2F";
+        regError.style.color = "#D32F2F";
+
+        pageStatus.classList.add("hidden");
+        switchArea.classList.remove("hidden");
+    }
+
+    function toggleForms() {
+        if (redirectInProgress || isRegistering) return;
+        showForm(!isLoginMode);
+    }
+
+    toggleBtn.addEventListener("click", toggleForms);
+
+    toggleBtn.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggleForms();
+        }
+    });
+
+    // --------------------------------------------------
+    // 2. VÉRIFICATION DU COMPTE ADMINISTRATEUR
+    // --------------------------------------------------
+
+    async function isAdministrator(user) {
+        const email = (user.email || "").toLowerCase();
+
+        const [adminSnapshot, userSnapshot] = await Promise.all([
+            get(ref(rtdb, "config/admin")),
+            get(ref(rtdb, `users/${user.uid}`))
+        ]);
+
+        const adminConfig = adminSnapshot.exists()
+            ? adminSnapshot.val()
+            : {};
+
+        const profile = userSnapshot.exists()
+            ? userSnapshot.val()
+            : {};
+
+        const configuredEmail =
+            typeof adminConfig.email === "string"
+                ? adminConfig.email.toLowerCase()
+                : "";
+
+        // L'adresse configurée pour l'administration.
+        if (
+            email &&
+            configuredEmail &&
+            email === configuredEmail
+        ) {
+            return true;
+        }
+
+        // Compatibilité avec les profils administrateurs existants.
+        return profile.role === "admin" ||
+               profile.isAdmin === true;
+    }
+
+    // --------------------------------------------------
+    // 3. REDIRECTION APRÈS CONNEXION OU SESSION EXISTANTE
+    // --------------------------------------------------
+
+    async function redirectAuthenticatedUser(user) {
+        if (
+            !user ||
+            redirectInProgress ||
+            isRegistering
+        ) {
+            return;
+        }
+
+        redirectInProgress = true;
+
+        loginForm.classList.add("hidden");
+        registerForm.classList.add("hidden");
+        switchArea.classList.add("hidden");
+
+        formTitle.textContent = "Bienvenue sur Love Bébé";
+        pageStatus.textContent = "Vérification de votre compte...";
+        pageStatus.classList.remove("hidden");
+
+        try {
+            const admin = await isAdministrator(user);
+
+            if (admin) {
+                window.location.replace("admin.html");
+            } else {
+                window.location.replace("index.html");
+            }
+        } catch (error) {
+            console.error("Erreur de vérification du compte :", error);
+
+            redirectInProgress = false;
+
+            pageStatus.classList.add("hidden");
+            switchArea.classList.remove("hidden");
 
             if (isLoginMode) {
-                formTitle.textContent = "Connexion Love Bébé";
-                loginForm.style.display = "block";
-                registerForm.style.display = "none";
-                toggleTextMsg.textContent = "Pas encore de compte ?";
-                toggleBtn.textContent = "S'inscrire";
+                loginError.textContent =
+                    "Impossible de vérifier votre compte. Vérifiez votre connexion et les règles de la base de données.";
             } else {
-                formTitle.textContent = "Inscription Love Bébé";
-                loginForm.style.display = "none";
-                registerForm.style.display = "block";
-                toggleTextMsg.textContent = "Déjà inscrit ?";
-                toggleBtn.textContent = "Se connecter";
+                regError.textContent =
+                    "Impossible de vérifier votre compte. Vérifiez votre connexion et les règles de la base de données.";
             }
-        });
 
-        // Gestion optimisée de la redirection post-connexion / inscription
-        async function handlePostAuthRedirection(user) {
-            try {
-                const userSnapPromise = get(ref(rtdb, `users/${user.uid}`));
-                const adminSnapPromise = get(ref(rtdb, 'config/admin'));
+            showForm(isLoginMode);
+        }
+    }
 
-                const [userSnap, adminSnap] = await Promise.all([userSnapPromise, adminSnapPromise]);
+    // --------------------------------------------------
+    // 4. SESSION FIREBASE AUTOMATIQUE
+    // --------------------------------------------------
 
-                let isAdmin = false;
-                if (adminSnap.exists() && adminSnap.val().email && adminSnap.val().email.toLowerCase() === user.email.toLowerCase()) {
-                    isAdmin = true;
-                }
-                if (userSnap.exists() && userSnap.val().isAdmin === true) {
-                    isAdmin = true;
-                }
+    onAuthStateChanged(auth, async (user) => {
+        authInitialized = true;
 
-                if (isAdmin) {
-                    window.location.href = "admin.html";
-                } else {
-                    window.location.href = "index.html";
-                }
-            } catch (err) {
-                console.warn("Redirection par défaut vers index.html", err);
-                window.location.href = "index.html";
-            }
+        // Pendant la création du profil, attendre la fin
+        // de l'enregistrement avant de rediriger.
+        if (isRegistering || redirectInProgress) return;
+
+        if (user) {
+            await redirectAuthenticatedUser(user);
+        } else {
+            showForm(true);
+        }
+    });
+
+    // --------------------------------------------------
+    // 5. CONNEXION
+    // --------------------------------------------------
+
+    loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (redirectInProgress || isRegistering) return;
+
+        loginError.textContent = "";
+        loginSubmitBtn.disabled = true;
+        loginSubmitBtn.textContent = "Connexion en cours...";
+
+        try {
+            const email = document
+                .getElementById("loginEmail")
+                .value.trim();
+
+            // Ne pas supprimer les espaces du mot de passe :
+            // ils peuvent faire partie du mot de passe réel.
+            const password = document
+                .getElementById("loginPassword")
+                .value;
+
+            const credential = await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+
+            // Appeler directement la redirection pour ne pas
+            // dépendre du délai de déclenchement de l'observateur.
+            await redirectAuthenticatedUser(credential.user);
+
+        } catch (error) {
+            console.error("Erreur de connexion :", error);
+
+            const messages = {
+                "auth/invalid-credential":
+                    "Adresse e-mail ou mot de passe incorrect.",
+                "auth/user-not-found":
+                    "Aucun compte trouvé avec cette adresse.",
+                "auth/wrong-password":
+                    "Mot de passe incorrect.",
+                "auth/invalid-email":
+                    "Veuillez saisir une adresse e-mail valide.",
+                "auth/too-many-requests":
+                    "Trop de tentatives. Réessayez plus tard.",
+                "auth/network-request-failed":
+                    "Problème de connexion Internet.",
+                "auth/user-disabled":
+                    "Ce compte a été désactivé."
+            };
+
+            loginError.textContent =
+                messages[error.code] ||
+                "Connexion impossible. Vérifiez vos identifiants et réessayez.";
+
+        } finally {
+            loginSubmitBtn.disabled = false;
+            loginSubmitBtn.textContent = "Se connecter";
+        }
+    });
+
+    // --------------------------------------------------
+    // 6. INSCRIPTION
+    // --------------------------------------------------
+
+    registerForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (redirectInProgress || isRegistering) return;
+
+        regError.textContent = "";
+        regError.style.color = "#D32F2F";
+
+        const ageValue = Number(
+            document.getElementById("age").value
+        );
+
+        if (!Number.isInteger(ageValue) || ageValue < 18) {
+            regError.textContent =
+                "Inscription réservée aux personnes âgées de 18 ans et plus.";
+            return;
         }
 
-        // Connexion
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const errDiv = document.getElementById('loginError');
-            const submitBtn = document.getElementById('loginSubmitBtn');
-            errDiv.textContent = "";
-            submitBtn.disabled = true;
-            submitBtn.textContent = "Connexion en cours...";
+        if (!document.getElementById("termsCheckbox").checked) {
+            regError.textContent =
+                "Veuillez accepter les conditions d'utilisation.";
+            return;
+        }
 
-            try {
-                const cred = await signInWithEmailAndPassword(
-                    auth, 
-                    document.getElementById('loginEmail').value.trim(), 
-                    document.getElementById('loginPassword').value.trim()
-                );
-                await handlePostAuthRedirection(cred.user);
-            } catch (err) {
-                submitBtn.disabled = false;
-                submitBtn.textContent = "Se connecter";
-                errDiv.textContent = "Erreur de connexion : " + err.message;
-            }
-        });
+        const password = document
+            .getElementById("regPassword")
+            .value;
 
-        // Inscription
-        registerForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const errDiv = document.getElementById('regError');
-            const submitBtn = document.getElementById('registerSubmitBtn');
-            errDiv.textContent = "";
+        if (password.length < 6) {
+            regError.textContent =
+                "Le mot de passe doit contenir au moins 6 caractères.";
+            return;
+        }
 
-            const termsChecked = document.getElementById('termsCheckbox').checked;
-            if (!termsChecked) {
-                errDiv.textContent = "⚠️ Veuillez accepter les conditions d'utilisation.";
-                return;
-            }
+        const mediaFile = document
+            .getElementById("profileImage")
+            .files[0];
 
-            const ageVal = parseInt(document.getElementById('age').value);
-            if (isNaN(ageVal) || ageVal < 18) {
-                errDiv.textContent = "⛔ Inscription refusée : Vous devez avoir au moins 18 ans.";
-                return;
-            }
+        if (mediaFile && !mediaFile.type.startsWith("image/")) {
+            regError.textContent =
+                "Veuillez choisir une photo de profil au format image.";
+            return;
+        }
 
-            submitBtn.disabled = true;
+        isRegistering = true;
+        registerSubmitBtn.disabled = true;
+        registerSubmitBtn.textContent = "Inscription en cours...";
 
-            try {
-                const mediaFile = document.getElementById('profileImage').files[0];
-                let mediaUrl = "https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png";
+        let accountCreated = false;
 
-                if (mediaFile) {
-                    errDiv.style.color = "#0D47A1";
-                    errDiv.textContent = "Téléversement de la photo en cours...";
-                    try {
-                        mediaUrl = await uploadMediaToCloudinary(mediaFile);
-                    } catch (uploadErr) {
-                        console.error("Cloudinary error:", uploadErr);
-                        errDiv.style.color = "#D32F2F";
-                        errDiv.textContent = "Erreur de téléversement média. Inscription annulée.";
-                        submitBtn.disabled = false;
-                        return;
-                    }
+        try {
+            let mediaUrl =
+                "https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png";
+
+            // Téléverser la photo avant de créer le compte.
+            if (mediaFile) {
+                regError.style.color = "#0D47A1";
+                regError.textContent =
+                    "Téléversement de votre photo en cours...";
+
+                mediaUrl = await uploadMediaToCloudinary(mediaFile);
+
+                if (!mediaUrl || typeof mediaUrl !== "string") {
+                    throw new Error(
+                        "Le téléversement n'a pas retourné de lien valide."
+                    );
                 }
-
-                errDiv.style.color = "#0D47A1";
-                errDiv.textContent = "Enregistrement dans la base de données...";
-
-                const cred = await createUserWithEmailAndPassword(
-                    auth, 
-                    document.getElementById('regEmail').value.trim(), 
-                    document.getElementById('regPassword').value.trim()
-                );
-                const user = cred.user;
-
-                const fullPhoneNumber = document.getElementById('phoneCode').value + document.getElementById('whatsappNumber').value.trim();
-
-                // Enregistrement immédiat des informations dans Realtime Database
-                await update(ref(rtdb, `users/${user.uid}`), {
-                    fullName: document.getElementById('fullName').value.trim(),
-                    gender: document.getElementById('gender').value,
-                    city: document.getElementById('city').value.trim(),
-                    country: document.getElementById('countryInput').value.trim(),
-                    whatsappNumber: fullPhoneNumber,
-                    maritalStatus: document.getElementById('maritalStatus').value,
-                    age: ageVal,
-                    email: user.email,
-                    profileMediaUrl: mediaUrl,
-                    acceptedTerms: true,
-                    createdAt: new Date().toISOString()
-                });
-
-                await handlePostAuthRedirection(user);
-            } catch (err) {
-                submitBtn.disabled = false;
-                errDiv.style.color = "#D32F2F";
-                errDiv.textContent = "Erreur d'inscription : " + err.message;
             }
-        });
-    </script>
+
+            regError.style.color = "#0D47A1";
+            regError.textContent =
+                "Création de votre compte dans Firebase...";
+
+            const email = document
+                .getElementById("regEmail")
+                .value.trim();
+
+            const credential = await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+
+            const user = credential.user;
+            accountCreated = true;
+
+            const fullPhoneNumber =
+                document.getElementById("phoneCode").value +
+                document.getElementById("whatsappNumber").value.trim();
+
+            regError.textContent =
+                "Enregistrement de votre profil...";
+
+            // Enregistrer le profil dans Realtime Database.
+            // Le mot de passe n'est jamais enregistré ici.
+            await update(ref(rtdb, `users/${user.uid}`), {
+                fullName: document.getElementById("fullName").value.trim(),
+                gender: document.getElementById("gender").value,
+                city: document.getElementById("city").value.trim(),
+                country: document.getElementById("countryInput").value.trim(),
+                whatsappNumber: fullPhoneNumber,
+                maritalStatus: document.getElementById("maritalStatus").value,
+                age: ageValue,
+                email: user.email,
+                profileMediaUrl: mediaUrl,
+                acceptedTerms: true,
+                role: "user",
+                isAdmin: false,
+                createdAt: new Date().toISOString()
+            });
+
+            regError.style.color = "#0D47A1";
+            regError.textContent =
+                "Inscription réussie ! Ouverture de votre espace...";
+
+            // Le compte et le profil existent.
+            // L'utilisateur nouvellement inscrit est un utilisateur normal.
+            isRegistering = false;
+            await redirectAuthenticatedUser(user);
+
+        } catch (error) {
+            console.error("Erreur d'inscription :", error);
+
+            if (accountCreated) {
+                // Le compte Authentication existe déjà.
+                // Ne pas demander de recréer un deuxième compte.
+                regError.textContent =
+                    "Votre compte a été créé, mais l'enregistrement du profil a échoué. Votre compte existe déjà. Vérifiez les règles Realtime Database avant de réessayer.";
+
+                // On garde la session active, sans boucle de redirection.
+                // L'utilisateur pourra reprendre après correction.
+            } else {
+                const messages = {
+                    "auth/email-already-in-use":
+                        "Cette adresse e-mail possède déjà un compte. Cliquez sur Se connecter.",
+                    "auth/invalid-email":
+                        "Veuillez saisir une adresse e-mail valide.",
+                    "auth/weak-password":
+                        "Votre mot de passe doit contenir au moins 6 caractères.",
+                    "auth/network-request-failed":
+                        "Problème Internet. Vérifiez votre connexion.",
+                    "auth/operation-not-allowed":
+                        "L'inscription par e-mail n'est pas activée dans Firebase Authentication."
+                };
+
+                regError.textContent =
+                    messages[error.code] ||
+                    error.message ||
+                    "Inscription impossible. Vérifiez la configuration Firebase.";
+            }
+
+        } finally {
+            isRegistering = false;
+            registerSubmitBtn.disabled = false;
+            registerSubmitBtn.textContent = "S'inscrire";
+        }
+    });
+
+    // --------------------------------------------------
+    // 7. ÉTAT INITIAL
+    // --------------------------------------------------
+
+    // Attendre que Firebase ait vérifié la session.
+    // Si aucune session n'existe, la connexion est affichée.
+    showForm(true);
+</script>
+
 </body>
 </html>
