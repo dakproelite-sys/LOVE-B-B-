@@ -191,7 +191,7 @@
                 <span class="toggle-password" onclick="togglePasswordVisibility('loginPassword', this)">👁️</span>
             </div>
 
-            <button type="submit">Se connecter</button>
+            <button type="submit" id="loginSubmitBtn">Se connecter</button>
             <div id="loginError" class="error-msg"></div>
         </form>
 
@@ -333,7 +333,7 @@
                 <label for="termsCheckbox" style="margin:0; font-weight:normal;">J'accepte les <a href="politique-de-confidentialite.html" target="_blank">Conditions d'utilisation et la Politique de confidentialité</a>.</label>
             </div>
 
-            <button type="submit">S'inscrire</button>
+            <button type="submit" id="registerSubmitBtn">S'inscrire</button>
             <div id="regError" class="error-msg"></div>
         </form>
 
@@ -367,32 +367,37 @@
         const toggleTextMsg = document.getElementById('toggleTextMsg');
         let isLoginMode = true;
 
-        // Bascule fluide entre Connexion et Inscription
+        // Bascule directe et instantanée entre Connexion et Inscription
         toggleBtn.addEventListener('click', () => {
             isLoginMode = !isLoginMode;
+            document.getElementById('loginError').textContent = "";
+            document.getElementById('regError').textContent = "";
+
             if (isLoginMode) {
                 formTitle.textContent = "Connexion Love Bébé";
-                loginForm.classList.remove('hidden');
-                registerForm.classList.add('hidden');
+                loginForm.style.display = "block";
+                registerForm.style.display = "none";
                 toggleTextMsg.textContent = "Pas encore de compte ?";
                 toggleBtn.textContent = "S'inscrire";
             } else {
                 formTitle.textContent = "Inscription Love Bébé";
-                loginForm.classList.add('hidden');
-                registerForm.classList.remove('hidden');
+                loginForm.style.display = "none";
+                registerForm.style.display = "block";
                 toggleTextMsg.textContent = "Déjà inscrit ?";
                 toggleBtn.textContent = "Se connecter";
             }
         });
 
-        // Gestion de la redirection selon le rôle (Admin vs Membre)
+        // Gestion optimisée de la redirection post-connexion / inscription
         async function handlePostAuthRedirection(user) {
             try {
-                const userSnap = await get(ref(rtdb, `users/${user.uid}`));
-                const adminSnap = await get(ref(rtdb, 'config/admin'));
+                const userSnapPromise = get(ref(rtdb, `users/${user.uid}`));
+                const adminSnapPromise = get(ref(rtdb, 'config/admin'));
+
+                const [userSnap, adminSnap] = await Promise.all([userSnapPromise, adminSnapPromise]);
 
                 let isAdmin = false;
-                if (adminSnap.exists() && adminSnap.val().email.toLowerCase() === user.email.toLowerCase()) {
+                if (adminSnap.exists() && adminSnap.val().email && adminSnap.val().email.toLowerCase() === user.email.toLowerCase()) {
                     isAdmin = true;
                 }
                 if (userSnap.exists() && userSnap.val().isAdmin === true) {
@@ -405,6 +410,7 @@
                     window.location.href = "index.html";
                 }
             } catch (err) {
+                console.warn("Redirection par défaut vers index.html", err);
                 window.location.href = "index.html";
             }
         }
@@ -413,7 +419,10 @@
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const errDiv = document.getElementById('loginError');
+            const submitBtn = document.getElementById('loginSubmitBtn');
             errDiv.textContent = "";
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Connexion en cours...";
 
             try {
                 const cred = await signInWithEmailAndPassword(
@@ -423,6 +432,8 @@
                 );
                 await handlePostAuthRedirection(cred.user);
             } catch (err) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Se connecter";
                 errDiv.textContent = "Erreur de connexion : " + err.message;
             }
         });
@@ -431,6 +442,7 @@
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const errDiv = document.getElementById('regError');
+            const submitBtn = document.getElementById('registerSubmitBtn');
             errDiv.textContent = "";
 
             const termsChecked = document.getElementById('termsCheckbox').checked;
@@ -445,6 +457,8 @@
                 return;
             }
 
+            submitBtn.disabled = true;
+
             try {
                 const mediaFile = document.getElementById('profileImage').files[0];
                 let mediaUrl = "https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png";
@@ -457,13 +471,14 @@
                     } catch (uploadErr) {
                         console.error("Cloudinary error:", uploadErr);
                         errDiv.style.color = "#D32F2F";
-                        errDiv.textContent = "Erreur de téléversement média.";
+                        errDiv.textContent = "Erreur de téléversement média. Inscription annulée.";
+                        submitBtn.disabled = false;
                         return;
                     }
                 }
 
                 errDiv.style.color = "#0D47A1";
-                errDiv.textContent = "Création du compte...";
+                errDiv.textContent = "Enregistrement dans la base de données...";
 
                 const cred = await createUserWithEmailAndPassword(
                     auth, 
@@ -474,6 +489,7 @@
 
                 const fullPhoneNumber = document.getElementById('phoneCode').value + document.getElementById('whatsappNumber').value.trim();
 
+                // Enregistrement immédiat des informations dans Realtime Database
                 await update(ref(rtdb, `users/${user.uid}`), {
                     fullName: document.getElementById('fullName').value.trim(),
                     gender: document.getElementById('gender').value,
@@ -490,6 +506,7 @@
 
                 await handlePostAuthRedirection(user);
             } catch (err) {
+                submitBtn.disabled = false;
                 errDiv.style.color = "#D32F2F";
                 errDiv.textContent = "Erreur d'inscription : " + err.message;
             }
