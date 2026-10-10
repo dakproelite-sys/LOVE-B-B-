@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#FFD700">
+    <meta name="description" content="Votre espace personnel Love Bébé">
+    <title>Love Bébé - Mon Profil</title>
+    <link rel="manifest" href="manifest.json">
+
+    <style>
+        :root {
+            --gold: #FFD700;
+            --deep-red: #D32F2F;
+            --dark-red: #B71C1C;
+            --blue: #0D47A1;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding-bottom: 40px;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(135deg, var(--gold), #FFA500);
+            color: #222;
+        }
+
+        header {
+            background: white;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-bottom: 3px solid var(--deep-red);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--deep-red);
+            font-weight: bold;
+        }
+
+        .brand img {
+            width: 45px;
+            height: 45px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+        }
+
+        .nav-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+        .nav-btn, .cam-btn, button[type="submit"] {
+            background: linear-gradient(135deg, var(--deep-red), var(--dark-red));
+            color: white;
+            border: 0;
+            border-radius: 8px;
+            padding: 10px 14px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-btn-blue { background: var(--blue); }
+
+        button:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .container { max-width: 900px; margin: 22px auto; padding: 0 14px; }
+
+        .profile-header, .card {
+            background: white;
+            padding: 22px;
+            border-radius: 15px;
+            border: 3px solid var(--gold);
+            box-shadow: 0 5px 20px #0002;
+            margin-bottom: 22px;
+        }
+
+        .profile-header { text-align: center; }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            margin: auto auto 12px;
+            overflow: hidden;
+            border-radius: 50%;
+            border: 4px solid var(--deep-red);
+            background: #eee;
+        }
+
+        .avatar img, .avatar video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h1, h2 { color: var(--deep-red); }
+        h1 { font-size: 1.5rem; }
+        h2 { font-size: 1.2rem; border-bottom: 2px solid #eee; padding-bottom: 9px; }
+
+        label {
+            display: block;
+            margin-top: 13px;
+            color: var(--blue);
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 11px;
+            margin-top: 5px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font: inherit;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--deep-red);
+        }
+
+        .media-section {
+            background: #111;
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .preview-video {
+            display: block;
+            width: 100%;
+            max-width: 360px;
+            height: 220px;
+            margin: 12px auto;
+            background: black;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .cam-controls { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+        .upload-gallery-box { margin-top: 15px; padding: 14px; background: #fffbe5; color: #222; border-radius: 8px; }
+        .gallery-preview { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 8px; margin-top: 12px; }
+        .gallery-item { position: relative; height: 85px; }
+        .gallery-item img, .gallery-item video { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+        .remove-media { position: absolute; right: 2px; top: 2px; border: 0; background: #b71c1c; color: white; border-radius: 4px; cursor: pointer; }
+        .media-title { margin-top: 15px; font-weight: bold; }
+
+        button[type="submit"] { width: 100%; margin-top: 24px; padding: 14px; font-size: 16px; }
+        #statusMsg { text-align: center; font-weight: bold; margin-top: 12px; overflow-wrap: anywhere; }
+        .profiles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; }
+        .profile-card { background: white; border: 2px solid var(--gold); border-radius: 12px; overflow: hidden; }
+        .profile-media { width: 100%; height: 210px; object-fit: cover; background: #eee; }
+        .profile-content { padding: 12px; }
+        .profile-name { color: var(--deep-red); font-weight: bold; font-size: 17px; }
+        .profile-detail { font-size: 13px; margin-top: 5px; overflow-wrap: anywhere; }
+        .card-actions-chat { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; padding: 0 10px 12px; }
+        .btn-interact { display: block; text-align: center; color: white; padding: 8px 3px; border-radius: 5px; font-size: 11px; text-decoration: none; }
+        .btn-msg { background: var(--blue); }
+        .btn-call { background: #2e7d32; }
+        .btn-video { background: var(--deep-red); }
+        .status-message { text-align: center; grid-column: 1 / -1; padding: 16px; }
+        @media (max-width: 600px) { header { flex-direction: column; } }
+    </style>
+</head>
+
+<body>
+<header>
+    <a href="index.html" class="brand">
+        <img src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png" alt="Logo Love Bébé">
+        <span>LOVE BÉBÉ</span>
+    </a>
+    <nav class="nav-actions">
+        <a href="index.html" class="nav-btn nav-btn-blue">🏠 Accueil</a>
+        <a href="admin.html" id="adminLink" class="nav-btn nav-btn-blue" hidden>⚙️ Administration</a>
+        <button type="button" id="logoutBtn" class="nav-btn">🚪 Déconnexion</button>
+    </nav>
+</header>
+
+<main class="container">
+    <section class="profile-header">
+        <div class="avatar" id="avatarWrapper">
+            <img id="currentAvatar" src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png" alt="Photo de profil">
+        </div>
+        <h1 id="headerFullName">Mon espace personnel</h1>
+        <p id="headerBioInfo">Vérification de votre compte...</p>
+    </section>
+
+    <section class="card">
+        <h2>✏️ Modifier mes informations</h2>
+
+        <form id="profileForm">
+            <label for="gender">Genre</label>
+            <select id="gender" required>
+                <option value="">Sélectionnez votre sexe</option>
+                <option value="Masculin">Masculin</option>
+                <option value="Féminin">Féminin</option>
+            </select>
+
+            <label for="fullName">Nom complet</label>
+            <input id="fullName" maxlength="100" required>
+
+            <label for="phone">Téléphone (lecture seule)</label>
+            <input id="phone" readonly>
+
+            <label for="maritalStatus">Situation matrimoniale</label>
+            <select id="maritalStatus" required>
+                <option value="">Sélectionnez votre situation</option>
+                <option value="Célibataire sans enfant">Célibataire sans enfant</option>
+                <option value="Célibataire avec enfant(s)">Célibataire avec enfant(s)</option>
+                <option value="Marié(e) sans enfant">Marié(e) sans enfant</option>
+                <option value="Marié(e) avec enfant(s)">Marié(e) avec enfant(s)</option>
+                <option value="Divorcé(e)">Divorcé(e)</option>
+                <option value="Veuf / Veuve">Veuf / Veuve</option>
+            </select>
+
+            <label for="childrenCount">Nombre d'enfants</label>
+            <input type="number" id="childrenCount" min="0" max="30" value="0">
+
+            <label for="city">Ville</label>
+            <input id="city" maxlength="100" placeholder="Ex. : Cotonou">
+
+            <label for="country">Pays</label>
+            <input id="country" maxlength="100" placeholder="Ex. : Bénin">
+
+            <label for="targetAge">Tranche d'âge recherchée</label>
+            <select id="targetAge">
+                <option value="18-25">18 - 25 ans</option>
+                <option value="25-30">25 - 30 ans</option>
+                <option value="30-35">30 - 35 ans</option>
+                <option value="35-40">35 - 40 ans</option>
+                <option value="40-45">40 - 45 ans</option>
+                <option value="45+">Plus de 45 ans</option>
+            </select>
+
+            <label for="bio">Biographie / Présentation</label>
+            <textarea id="bio" rows="4" maxlength="1000" placeholder="Présentez-vous..."></textarea>
+
+            <section class="media-section">
+                <h3>📷 Caméra et galerie</h3>
+                <p style="font-size:12px;color:#ddd;margin-top:8px">
+                    Maximum : 4 photos et 4 vidéos de 15 secondes maximum pour les enregistrements de cette page.
+                </p>
+
+                <video id="webcam" class="preview-video" autoplay playsinline muted></video>
+                <p id="timer" aria-live="polite"></p>
+
+                <div class="cam-controls">
+                    <button type="button" id="startCamBtn" class="cam-btn">🎥 Démarrer caméra</button>
+                    <button type="button" id="takePhotoBtn" class="cam-btn" disabled>📸 Photo</button>
+                    <button type="button" id="recordVideoBtn" class="cam-btn" disabled>⏺️ Vidéo 15 s</button>
+                    <button type="button" id="stopCamBtn" class="cam-btn" disabled>Arrêter caméra</button>
+                </div>
+
+                <div class="upload-gallery-box">
+                    <label for="galleryInput" style="margin:0;color:#0D47A1">
+                        Choisir des photos ou vidéos
+                    </label>
+                    <input type="file" id="galleryInput" accept="image/*,video/*" multiple>
+                </div>
+
+                <div class="media-title">Photos</div>
+                <div id="photoGallery" class="gallery-preview"></div>
+                <div class="media-title">Vidéos</div>
+                <div id="videoGallery" class="gallery-preview"></div>
+            </section>
+
+            <button type="submit" id="saveBtn">💾 Enregistrer mon profil</button>
+            <p id="statusMsg" role="status" aria-live="polite"></p>
+        </form>
+    </section>
+
+    <section class="profile-header">
+        <h2 id="targetTitle">💘 Profils recommandés</h2>
+        <p id="targetDesc">Découvrez les membres de Love Bébé.</p>
+    </section>
+
+    <section id="oppositeProfilesContainer" class="profiles-grid">
+        <p class="status-message">Chargement des profils...</p>
+    </section>
+</main>
+
+<script type="module">
+    import { auth, database } from "./love-bebe-service.js";
+
+    import {
+        onAuthStateChanged,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+    import {
+        ref,
+        get,
+        update
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    const FALLBACK_IMAGE =
+        "https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png";
+
+    const $ = (id) => document.getElementById(id);
+
+    let currentUser = null;
+    let profileReady = false;
+    let mediaStream = null;
+    let mediaRecorder = null;
+    let recordedChunks = [];
+    let recordingTimeout = null;
+
+    let existingPhotos = [];
+    let existingVideos = [];
+    let newPhotos = [];
+    let newVideos = [];
+    let objectUrls = [];
+
+    const webcam = $("webcam");
+
+    function showStatus(message, success = false) {
+        $("statusMsg").textContent = message;
+        $("statusMsg").style.color = success ? "green" : "#B71C1C";
+    }
+
+    function showMessage(container, message) {
+        container.replaceChildren();
+        const p = document.createElement("p");
+        p.className = "status-message";
+        p.textContent = message;
+        container.appendChild(p);
+    }
+
+    function isAdmin(data) {
+        const role = String(data?.role || "").trim().toLowerCase();
+        return data?.isAdmin === true ||
+            role === "admin" ||
+            role === "super admin";
+    }
+
+    function safeUrl(value) {
+        if (typeof value !== "string" || !value.trim()) return "";
+
+        try {
+            const url = new URL(value, location.href);
+            if (url.protocol === "https:" || url.protocol === "http:") {
+                return url.href;
+            }
+        } catch {}
+
+        return "";
+    }
+
+    function addText(parent, tag, className, value) {
+        const el = document.createElement(tag);
+        el.className = className;
+        el.textContent = String(value ?? "");
+        parent.appendChild(el);
+        return el;
+    }
+
+    function stopCamera() {
+        if (recordingTimeout) {
+            clearTimeout(recordingTimeout);
+            recordingTimeout = null;
+        }
+
+        if (mediaRecorder && mediaRecorder.state === "recording") {
+            mediaRecorder.stop();
+        }
+
+        if (mediaStream) {
+            mediaStream.getTracks().forEach(track => track.stop());
+            mediaStream = null;
+        }
+
+        webcam.srcObject = null;
+        $("startCamBtn").disabled = false;
+        $("takePhotoBtn").disabled = true;
+        $("recordVideoBtn").disabled = true;
+        $("stopCamBtn").disabled = true;
+    }
+
+    $("startCamBtn").addEventListener("click", async () => {
+        try {
+            if (!navigator.mediaDevices?.getUserMedia) {
+                throw new Error("Caméra indisponible. Utilisez HTTPS et un navigateur compatible.");
+            }
+
+            mediaStream = await navigator.mediaDevices.getUserMedia({
+                video: { facingMode: "user", width: { ideal: 1280 } },
+                audio: true
+            });
+
+            webcam.srcObject = mediaStream;
+            await webcam.play();
+
+            $("startCamBtn").disabled = true;
+            $("takePhotoBtn").disabled = false;
+            $("recordVideoBtn").disabled = !window.MediaRecorder;
+            $("stopCamBtn").disabled = false;
+            $("timer").textContent = "Caméra activée.";
+
+        } catch (error) {
+            alert("Impossible d'activer la caméra : " + error.message);
+        }
+    });
+
+    $("stopCamBtn").addEventListener("click", stopCamera);
+
+    function compressImage(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+
+            reader.onerror = () => reject(new Error("Lecture de l'image impossible."));
+
+            reader.onload = () => {
+                const img = new Image();
+
+                img.onerror = () => reject(new Error("Image non valide."));
+                img.onload = () => {
+                    const scale = Math.min(1, 1000 / Math.max(img.width, img.height));
+                    const canvas = document.createElement("canvas");
+
+                    canvas.width = Math.max(1, Math.round(img.width * scale));
+                    canvas.height = Math.max(1, Math.round(img.height * scale));
+
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                    canvas.toBlob(blob => {
+                        if (!blob) {
+                            reject(new Error("Compression de l'image impossible."));
+                            return;
+                        }
+
+                        resolve(new File([blob], "photo.jpg", {
+                            type: "image/jpeg",
+                            lastModified: Date.now()
+                        }));
+                    }, "image/jpeg", 0.78);
+                };
+
+                img.src = reader.result;
+            };
+
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function totalPhotos() {
+        return existingPhotos.length + newPhotos.length;
+    }
+
+    function totalVideos() {
+        return existingVideos.length + newVideos.length;
+    }
+
+    function addObjectUrl(file) {
+        const url = URL.createObjectURL(file);
+        objectUrls.push(url);
+        return url;
+    }
+
+    $("takePhotoBtn").addEventListener("click", async () => {
+        if (!mediaStream || !webcam.videoWidth) {
+            alert("Démarrez la caméra et attendez que l'image apparaisse.");
+            return;
+        }
+
+        if (totalPhotos() >= 4) {
+            alert("Maximum 4 photos.");
+            return;
+        }
+
+        try {
+            const canvas = document.createElement("canvas");
+            canvas.width = webcam.videoWidth;
+            canvas.height = webcam.videoHeight;
+            canvas.getContext("2d").drawImage(webcam, 0, 0);
+
+            const blob = await new Promise(resolve =>
+                canvas.toBlob(resolve, "image/jpeg", 0.85)
+            );
+
+            if (!blob) throw new Error("Capture impossible.");
+
+            const file = await compressImage(
+                new File([blob], "capture.jpg", { type: "image/jpeg" })
+            );
+
+            newPhotos.push(file);
+            renderGallery();
+        } catch (error) {
+            alert(error.message);
+        }
+    });
+
+    $("recordVideoBtn").addEventListener("click", () => {
+        if (!mediaStream || !window.MediaRecorder) {
+            alert("Activez d'abord la caméra.");
+            return;
+        }
+
+        if (totalVideos() >= 4) {
+            alert("Maximum 4 vidéos.");
+            return;
+        }
+
+        let mimeType = "";
+
+        if (MediaRecorder.isTypeSupported("video/webm;codecs=vp8,opus")) {
+            mimeType = "video/webm;codecs=vp8,opus";
+        } else if (MediaRecorder.isTypeSupported("video/webm")) {
+            mimeType = "video/webm";
+        } else if (MediaRecorder.isTypeSupported("video/mp4")) {
+            mimeType = "video/mp4";
+        }
+
+        try {
+            mediaRecorder = new MediaRecorder(
+                mediaStream,
+                mimeType ? { mimeType } : undefined
+            );
+
+            recordedChunks = [];
+
+            mediaRecorder.ondataavailable = event => {
+                if (event.data?.size) recordedChunks.push(event.data);
+            };
+
+            mediaRecorder.onstop = () => {
+                const type = mediaRecorder.mimeType || "video/webm";
+                const blob = new Blob(recordedChunks, { type });
+
+                if (blob.size > 0 && totalVideos() < 4) {
+                    newVideos.push(new File(
+                        [blob],
+                        type.includes("mp4") ? "video.mp4" : "video.webm",
+                        { type }
+                    ));
+                    renderGallery();
+                    $("timer").textContent = "Vidéo enregistrée.";
+                } else {
+                    $("timer").textContent = "Vidéo vide ou limite atteinte.";
+                }
+
+                $("recordVideoBtn").disabled = !mediaStream;
+            };
+
+            mediaRecorder.start();
+            $("recordVideoBtn").disabled = true;
+
+            let remaining = 15;
+            $("timer").textContent = `Enregistrement : ${remaining} s`;
+
+            const tick = () => {
+                remaining--;
+                if (remaining > 0 && mediaRecorder?.state === "recording") {
+                    $("timer").textContent = `Enregistrement : ${remaining} s`;
+                    recordingTimeout = setTimeout(tick, 1000);
+                } else if (mediaRecorder?.state === "recording") {
+                    mediaRecorder.stop();
+                }
+            };
+
+            recordingTimeout = setTimeout(tick, 1000);
+
+        } catch (error) {
+            alert("Enregistrement vidéo impossible : " + error.message);
+            $("recordVideoBtn").disabled = false;
+        }
+    });
+
+    $("galleryInput").addEventListener("change", async event => {
+        const files = Array.from(event.target.files || []);
+
+        for (const file of files) {
+            if (file.type.startsWith("image/")) {
+                if (totalPhotos() >= 4) continue;
+
+                if (file.size > 15 * 1024 * 1024) {
+                    alert("Une image dépasse la limite de 15 Mo.");
+                    continue;
+                }
+
+                try {
+                    newPhotos.push(await compressImage(file));
+                } catch (error) {
+                    console.error(error);
+                }
+
+            } else if (file.type.startsWith("video/")) {
+                if (totalVideos() >= 4) continue;
+
+                if (file.size > 50 * 1024 * 1024) {
+                    alert("Une vidéo dépasse la limite de 50 Mo.");
+                    continue;
+                }
+
+                newVideos.push(file);
+            }
+        }
+
+        event.target.value = "";
+        renderGallery();
+    });
+
+    function renderGallery() {
+        for (const url of objectUrls) URL.revokeObjectURL(url);
+        objectUrls = [];
+
+        const photoContainer = $("photoGallery");
+        const videoContainer = $("videoGallery");
+
+        photoContainer.replaceChildren();
+        videoContainer.replaceChildren();
+
+        function addMedia(container, source, type, index, isNew) {
+            const item = document.createElement("div");
+            item.className = "gallery-item";
+
+            const media = document.createElement(type === "video" ? "video" : "img");
+            media.alt = type === "video" ? "Vidéo du profil" : "Photo du profil";
+            media.src = isNew ? addObjectUrl(source) : safeUrl(source);
+
+            if (type === "video") media.controls = true;
+            item.appendChild(media);
+
+            const remove = document.createElement("button");
+            remove.type = "button";
+            remove.className = "remove-media";
+            remove.textContent = "×";
+            remove.setAttribute("aria-label", "Supprimer ce média");
+
+            remove.addEventListener("click", () => {
+                if (isNew) {
+                    if (type === "video") newVideos.splice(index, 1);
+                    else newPhotos.splice(index, 1);
+                } else {
+                    if (type === "video") existingVideos.splice(index, 1);
+                    else existingPhotos.splice(index, 1);
+                }
+
+                renderGallery();
+            });
+
+            item.appendChild(remove);
+            container.appendChild(item);
+        }
+
+        existingPhotos.forEach((url, i) =>
+            addMedia(photoContainer, url, "image", i, false)
+        );
+        newPhotos.forEach((file, i) =>
+            addMedia(photoContainer, file, "image", i, true)
+        );
+        existingVideos.forEach((url, i) =>
+            addMedia(videoContainer, url, "video", i, false)
+        );
+        newVideos.forEach((file, i) =>
+            addMedia(videoContainer, file, "video", i, true)
+        );
+    }
+
+    async function uploadToCloudinary(file) {
+        // Le preset doit être un preset de téléversement non signé.
+        // Ne placez jamais la clé secrète Cloudinary dans ce fichier.
+        const snapshot = await get(ref(database, "config/cloudinary"));
+
+        if (!snapshot.exists()) {
+            throw new Error("Configuration Cloudinary introuvable.");
+        }
+
+        const config = snapshot.val();
+
+        if (!config.cloud_name || !config.upload_preset) {
+            throw new Error("Cloudinary : cloud_name ou upload_preset manquant.");
+        }
+
+        const resourceType = file.type.startsWith("video/") ? "video" : "image";
+        const uploadUrl =
+            `https://api.cloudinary.com/v1_1/${encodeURIComponent(config.cloud_name)}/${resourceType}/upload`;
+
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", config.upload_preset);
+
+        const response = await fetch(uploadUrl, {
+            method: "POST",
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.secure_url) {
+            throw new Error(result.error?.message || "Échec du téléversement.");
+        }
+
+        return result.secure_url;
+    }
+
+    function fillForm(data) {
+        $("gender").value = data.gender || "";
+        $("fullName").value = data.fullName || "";
+        $("phone").value = data.phone || "Non renseigné";
+        $("maritalStatus").value = data.maritalStatus || "";
+        $("childrenCount").value = data.childrenCount ?? 0;
+        $("city").value = data.city || "";
+        $("country").value = data.country || "";
+        $("targetAge").value = data.targetAge || "25-30";
+        $("bio").value = data.bio || "";
+
+        existingPhotos = Array.isArray(data.capturedPhotos)
+            ? data.capturedPhotos.filter(url => safeUrl(url))
+            : (safeUrl(data.profileMediaUrl) ? [data.profileMediaUrl] : []);
+
+        existingVideos = Array.isArray(data.capturedVideos)
+            ? data.capturedVideos.filter(url => safeUrl(url))
+            : [];
+
+        $("headerFullName").textContent = data.fullName || "Mon espace personnel";
+        $("headerBioInfo").textContent =
+            [data.city, data.country, data.maritalStatus].filter(Boolean).join(" • ")
+            || "Complétez votre profil.";
+
+        $("currentAvatar").src = existingPhotos[0] || FALLBACK_IMAGE;
+        renderGallery();
+    }
+
+    async function loadRecommendations(myGender) {
+        const container = $("oppositeProfilesContainer");
+        container.replaceChildren();
+
+        let targetGender = "";
+
+        if (myGender === "Masculin") {
+            targetGender = "Féminin";
+            $("targetTitle").textContent = "👩 Profils des femmes";
+        } else if (myGender === "Féminin") {
+            targetGender = "Masculin";
+            $("targetTitle").textContent = "👨 Profils des hommes";
+        } else {
+            $("targetTitle").textContent = "💘 Profils recommandés";
+        }
+
+        try {
+            const snapshot = await get(ref(database, "users"));
+
+            if (!snapshot.exists()) {
+                showMessage(container, "Aucun profil disponible.");
+                return;
+            }
+
+            let count = 0;
+
+            for (const [uid, user] of Object.entries(snapshot.val())) {
+                if (!user || uid === currentUser?.uid || isAdmin(user)) continue;
+                if (targetGender && user.gender !== targetGender) continue;
+
+                const card = document.createElement("article");
+                card.className = "profile-card";
+
+                const image = document.createElement("img");
+                image.className = "profile-media";
+                image.alt = "Photo de profil";
+                image.loading = "lazy";
+
+                const firstPhoto = Array.isArray(user.capturedPhotos)
+                    ? safeUrl(user.capturedPhotos[0])
+                    : "";
+
+                image.src = firstPhoto || safeUrl(user.profileMediaUrl) || FALLBACK_IMAGE;
+                image.onerror = () => {
+                    image.onerror = null;
+                    image.src = FALLBACK_IMAGE;
+                };
+                card.appendChild(image);
+
+                const content = document.createElement("div");
+                content.className = "profile-content";
+
+                addText(content, "div", "profile-name", user.fullName || "Membre Love Bébé");
+                addText(content, "div", "profile-detail",
+                    "📍 " + [user.city, user.country].filter(Boolean).join(", "));
+                addText(content, "div", "profile-detail",
+                    "💍 " + (user.maritalStatus || "Non précisé"));
+                addText(content, "div", "profile-detail",
+                    "🎂 " + (user.age ? `${user.age} ans` : "Âge non précisé"));
+                addText(content, "p", "profile-detail",
+                    user.bio || "À la recherche de l'amour...");
+
+                card.appendChild(content);
+
+                const actions = document.createElement("div");
+                actions.className = "card-actions-chat";
+
+                for (const option of [
+                    { label: "💬 Message", type: "text", cls: "btn-msg" },
+                    { label: "📞 Vocal", type: "audio", cls: "btn-call" },
+                    { label: "🎥 Vidéo", type: "video", cls: "btn-video" }
+                ]) {
+                    const link = document.createElement("a");
+                    link.className = `btn-interact ${option.cls}`;
+                    link.textContent = option.label;
+                    link.href =
+                        `messagerie.html?id=${encodeURIComponent(uid)}&type=${option.type}`;
+                    actions.appendChild(link);
+                }
+
+                card.appendChild(actions);
+                container.appendChild(card);
+                count++;
+            }
+
+            if (!count) showMessage(container, "Aucun profil correspondant pour le moment.");
+
+        } catch (error) {
+            console.error("Chargement des recommandations :", error);
+            showMessage(container, "Impossible de charger les profils. Vérifiez les règles Firebase.");
+        }
+    }
+
+    // Barrière d'accès : vérifier l'authentification et le profil avant affichage.
+    onAuthStateChanged(auth, async user => {
+        if (!user) {
+            location.replace("connexion.html");
+            return;
+        }
+
+        try {
+            const snapshot = await get(ref(database, `users/${user.uid}`));
+
+            if (!snapshot.exists()) {
+                await signOut(auth);
+                location.replace("connexion.html");
+                return;
+            }
+
+            const data = snapshot.val();
+
+            if (isAdmin(data)) {
+                location.replace("admin.html");
+                return;
+            }
+
+            currentUser = user;
+            fillForm(data);
+            profileReady = true;
+
+            await loadRecommendations(data.gender);
+
+        } catch (error) {
+            console.error("Erreur de vérification du compte :", error);
+            showMessage(
+                $("oppositeProfilesContainer"),
+                "Impossible de vérifier votre compte. Vérifiez votre connexion et les règles Firebase."
+            );
+            $("profileForm").querySelectorAll("input,select,textarea,button").forEach(el => {
+                el.disabled = true;
+            });
+        }
+    });
+
+    $("profileForm").addEventListener("submit", async event => {
+        event.preventDefault();
+
+        if (!profileReady || !currentUser) {
+            showStatus("Votre compte n'est pas encore vérifié.");
+            return;
+        }
+
+        const saveBtn = $("saveBtn");
+        saveBtn.disabled = true;
+        showStatus("Enregistrement du profil et des médias...");
+
+        try {
+            if (totalPhotos() > 4 || totalVideos() > 4) {
+                throw new Error("La limite de 4 photos et 4 vidéos est dépassée.");
+            }
+
+            const finalPhotos = [...existingPhotos];
+            for (const file of newPhotos) {
+                finalPhotos.push(await uploadToCloudinary(file));
+            }
+
+            const finalVideos = [...existingVideos];
+            for (const file of newVideos) {
+                finalVideos.push(await uploadToCloudinary(file));
+            }
+
+            const childrenCount = Number.parseInt($("childrenCount").value, 10) || 0;
+
+            if (childrenCount < 0 || childrenCount > 30) {
+                throw new Error("Le nombre d'enfants doit être compris entre 0 et 30.");
+            }
+
+            const updateData = {
+                gender: $("gender").value,
+                fullName: $("fullName").value.trim(),
+                maritalStatus: $("maritalStatus").value,
+                childrenCount,
+                city: $("city").value.trim(),
+                country: $("country").value.trim(),
+                targetAge: $("targetAge").value,
+                bio: $("bio").value.trim(),
+                capturedPhotos: finalPhotos,
+                capturedVideos: finalVideos,
+                updatedAt: new Date().toISOString()
+            };
+
+            if (!updateData.fullName) {
+                throw new Error("Veuillez saisir votre nom complet.");
+            }
+
+            // Seul le profil du compte actuellement connecté est modifié.
+            // Aucun champ role/isAdmin n'est modifié par ce formulaire.
+            await update(ref(database, `users/${currentUser.uid}`), updateData);
+
+            existingPhotos = finalPhotos;
+            existingVideos = finalVideos;
+            newPhotos = [];
+            newVideos = [];
+
+            fillForm({ ...updateData, phone: $("phone").value });
+            showStatus("✅ Votre profil a été enregistré avec succès.", true);
+            await loadRecommendations(updateData.gender);
+
+        } catch (error) {
+            console.error("Enregistrement du profil :", error);
+            showStatus("Erreur : " + (error.message || "Enregistrement impossible."));
+        } finally {
+            saveBtn.disabled = false;
+        }
+    });
+
+    $("logoutBtn").addEventListener("click", async () => {
+        $("logoutBtn").disabled = true;
+        stopCamera();
+
+        try {
+            await signOut(auth);
+            location.replace("connexion.html");
+        } catch (error) {
+            console.error(error);
+            $("logoutBtn").disabled = false;
+            alert("Déconnexion impossible. Réessayez.");
+        }
+    });
+
+    window.addEventListener("pagehide", () => {
+        stopCamera();
+        for (const url of objectUrls) URL.revokeObjectURL(url);
+    });
+</script>
+</body>
+</html>

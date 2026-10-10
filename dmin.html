@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#FFD700">
+  <title>Love Bébé - Administration</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      color: #222;
+    }
+
+    header {
+      background: white;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-bottom: 4px solid #D32F2F;
+    }
+
+    .brand {
+      color: #D32F2F;
+      font-weight: bold;
+      font-size: 21px;
+      text-decoration: none;
+    }
+
+    nav, .links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 11px 14px;
+      border: 0;
+      border-radius: 7px;
+      color: white;
+      background: #B71C1C;
+      text-decoration: none;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .btn:hover { opacity: 0.85; }
+    .blue { background: #0D47A1; }
+    .gold { background: #8A6500; }
+
+    main {
+      max-width: 1000px;
+      margin: 25px auto;
+      padding: 0 15px 35px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #B71C1C;
+    }
+
+    .subtitle { text-align: center; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+      margin-top: 25px;
+    }
+
+    .stat {
+      background: white;
+      border: 3px solid #FFD700;
+      border-radius: 14px;
+      padding: 22px;
+      text-align: center;
+      box-shadow: 0 4px 15px #0002;
+    }
+
+    .stat h2 {
+      font-size: 16px;
+      color: #0D47A1;
+    }
+
+    .number {
+      font-size: 34px;
+      font-weight: bold;
+      color: #B71C1C;
+    }
+
+    .section {
+      background: white;
+      border-radius: 14px;
+      padding: 20px;
+      margin-top: 24px;
+      box-shadow: 0 4px 15px #0001;
+    }
+
+    #status {
+      padding: 12px;
+      text-align: center;
+      overflow-wrap: anywhere;
+      background: #fff;
+      border-radius: 8px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+    }
+
+    @media (max-width: 500px) {
+      header { justify-content: center; }
+      nav { justify-content: center; }
+      .btn { padding: 10px; }
+      .number { font-size: 29px; }
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <a class="brand" href="index.html">❤️ LOVE BÉBÉ</a>
+
+  <nav>
+    <a class="btn blue" href="index.html">🏠 Accueil</a>
+    <button class="btn" id="logoutBtn" type="button">
+      🚪 Déconnexion
+    </button>
+  </nav>
+</header>
+
+<main>
+  <h1>Tableau de bord administrateur</h1>
+  <p class="subtitle">Gestion et statistiques de Love Bébé</p>
+
+  <p id="status" role="status" aria-live="polite">
+    Connexion à Firebase...
+  </p>
+
+  <section class="grid">
+    <article class="stat">
+      <h2>👥 Total des membres</h2>
+      <div class="number" id="totalUsersCount">—</div>
+    </article>
+
+    <article class="stat">
+      <h2>👩 Membres féminins</h2>
+      <div class="number" id="womenCount">—</div>
+    </article>
+
+    <article class="stat">
+      <h2>👨 Membres masculins</h2>
+      <div class="number" id="menCount">—</div>
+    </article>
+
+    <article class="stat">
+      <h2>💰 Dépôts aujourd'hui</h2>
+      <div class="number" id="dailyDepositsCount">—</div>
+    </article>
+
+    <article class="stat">
+      <h2>📅 Dépôts sur 7 jours</h2>
+      <div class="number" id="weeklyDepositsCount">—</div>
+    </article>
+
+    <article class="stat">
+      <h2>🗓️ Dépôts ce mois-ci</h2>
+      <div class="number" id="monthlyDepositsCount">—</div>
+    </article>
+  </section>
+
+  <section class="section">
+    <h2>👥 Gestion des membres</h2>
+
+    <div class="links">
+      <a class="btn blue" href="profil-femme-admin.html">
+        👩 Profils des femmes
+      </a>
+
+      <a class="btn blue" href="profil-homme-admin.html">
+        👨 Profils des hommes
+      </a>
+
+      <a class="btn blue" href="activation.html">
+        ✅ Activations
+      </a>
+
+      <a class="btn blue" href="configuration.html">
+        ⚙️ Configuration
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>🖼️ Gestion des publications</h2>
+
+    <p>
+      Consulte et gère les publications des membres de Love Bébé
+      depuis une page dédiée.
+    </p>
+
+    <div class="links">
+      <a class="btn gold" href="publication.html">
+        🖼️ Ouvrir les publications
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer>Love Bébé © Administration</footer>
+
+<script type="module">
+  import { auth, database } from "./love-bebe-service.js";
+
+  import {
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+  import {
+    ref,
+    get
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+  const $ = id => document.getElementById(id);
+  const status = $("status");
+
+  let authorized = false;
+
+  function setStatus(message, isError = false) {
+    status.textContent = message;
+    status.style.color = isError ? "#B71C1C" : "#0D47A1";
+  }
+
+  $("logoutBtn").addEventListener("click", async () => {
+    try {
+      await signOut(auth);
+      window.location.replace("connexion.html");
+    } catch (error) {
+      console.error("Erreur de déconnexion :", error);
+      setStatus("Déconnexion impossible. Réessaie.", true);
+    }
+  });
+
+  onAuthStateChanged(auth, async user => {
+    if (!user) {
+      window.location.replace("connexion.html");
+      return;
+    }
+
+    setStatus("Vérification du compte administrateur...");
+
+    try {
+      const snap = await get(ref(database, "users/" + user.uid));
+
+      if (!snap.exists()) {
+        setStatus(
+          "Profil introuvable dans Firebase. Vérifie le profil du compte.",
+          true
+        );
+        return;
+      }
+
+      const data = snap.val() || {};
+      const admin =
+        data.role === "admin" ||
+        data.isAdmin === true;
+
+      if (!admin) {
+        setStatus(
+          "Ce compte n'a pas le rôle administrateur.",
+          true
+        );
+        return;
+      }
+
+      authorized = true;
+      await loadStats();
+
+    } catch (error) {
+      console.error("Erreur de vérification Firebase :", error);
+
+      setStatus(
+        "Erreur de lecture Firebase. Vérifie les règles et la connexion.",
+        true
+      );
+    }
+  });
+
+  async function loadStats() {
+    if (!authorized) return;
+
+    setStatus("Chargement des statistiques...");
+
+    try {
+      const usersSnap = await get(ref(database, "users"));
+
+      let total = 0;
+      let women = 0;
+      let men = 0;
+
+      if (usersSnap.exists()) {
+        const users = usersSnap.val();
+
+        for (const user of Object.values(users)) {
+          if (!user) continue;
+
+          if (
+            user.role === "admin" ||
+            user.isAdmin === true
+          ) {
+            continue;
+          }
+
+          total++;
+
+          const gender = String(user.gender || "")
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .trim();
+
+          if (
+            gender.includes("femme") ||
+            gender.includes("feminin")
+          ) {
+            women++;
+          } else if (
+            gender.includes("homme") ||
+            gender.includes("masculin")
+          ) {
+            men++;
+          }
+        }
+      }
+
+      $("totalUsersCount").textContent = total;
+      $("womenCount").textContent = women;
+      $("menCount").textContent = men;
+
+      const depositsSnap = await get(ref(database, "deposits"));
+
+      let daily = 0;
+      let weekly = 0;
+      let monthly = 0;
+
+      const now = Date.now();
+      const today = new Date();
+
+      const startToday = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate()
+      ).getTime();
+
+      const startWeek = startToday - 6 * 24 * 60 * 60 * 1000;
+
+      const startMonth = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        1
+      ).getTime();
+
+      if (depositsSnap.exists()) {
+        const deposits = depositsSnap.val();
+
+        for (const dep of Object.values(deposits)) {
+          if (!dep || dep.timestamp == null) continue;
+
+          let time = Number(dep.timestamp);
+
+          if (!Number.isFinite(time) || time <= 0) continue;
+
+          // Accepte les timestamps en secondes ou millisecondes.
+          if (time < 1e12) {
+            time *= 1000;
+          }
+
+          if (time > now) continue;
+
+          if (time >= startToday) daily++;
+          if (time >= startWeek) weekly++;
+          if (time >= startMonth) monthly++;
+        }
+      }
+
+      $("dailyDepositsCount").textContent = daily;
+      $("weeklyDepositsCount").textContent = weekly;
+      $("monthlyDepositsCount").textContent = monthly;
+
+      setStatus("Statistiques chargées.");
+
+    } catch (error) {
+      console.error(
+        "Erreur de chargement des statistiques :",
+        error
+      );
+
+      setStatus(
+        "Impossible de lire les statistiques. Vérifie les règles Firebase.",
+        true
+      );
+    }
+  }
+</script>
+
+</body>
+</html>

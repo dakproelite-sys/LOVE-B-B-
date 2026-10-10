@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FFD700">
+    <meta name="description" content="Connectez-vous à votre compte Love Bébé.">
     <title>Love Bébé - Connexion</title>
+
     <style>
         :root {
             --primary-gold: #FFD700;
@@ -12,110 +15,442 @@
             --dark-red: #B71C1C;
             --accent-blue: #0D47A1;
         }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--dark-gold) 100%);
+            background: linear-gradient(
+                135deg,
+                var(--primary-gold),
+                var(--dark-gold)
+            );
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; margin: 0; padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
         }
+
         .card {
-            background: #FFFFFF; padding: 30px; border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3); width: 100%; max-width: 500px;
-            border: 4px solid var(--primary-gold); box-sizing: border-box;
+            background: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            border: 4px solid var(--primary-gold);
         }
-        .logo-container { text-align: center; margin-bottom: 15px; }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
         .logo-wrapper {
-            width: 90px; height: 90px; margin: 0 auto; border-radius: 50%;
-            background: #fff; border: 3px solid var(--primary-gold);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2); overflow: hidden;
-            display: flex; align-items: center; justify-content: center;
+            width: 90px;
+            height: 90px;
+            margin: 0 auto;
+            border-radius: 50%;
+            background: #fff;
+            border: 3px solid var(--primary-gold);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .logo-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-        h2 { text-align: center; color: var(--deep-red); text-transform: uppercase; margin-bottom: 20px; font-size: 1.4rem; }
-        label { display: block; margin-top: 10px; font-weight: bold; color: var(--accent-blue); font-size: 13px; }
-        input { width: 100%; padding: 11px; margin-top: 5px; border: 2px solid #E0E0E0; border-radius: 8px; font-size: 14px; }
-        input:focus { outline: none; border-color: var(--deep-red); }
-        .password-container { position: relative; }
-        .password-container input { padding-right: 40px; }
-        .toggle-password { position: absolute; right: 12px; top: 55%; transform: translateY(-50%); cursor: pointer; }
+
+        .logo-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--deep-red);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .intro {
+            text-align: center;
+            color: #444;
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        label {
+            display: block;
+            margin-top: 14px;
+            font-weight: bold;
+            color: var(--accent-blue);
+            font-size: 13px;
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            background: #fff;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--deep-red);
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .password-container input {
+            padding-right: 48px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-35%);
+            cursor: pointer;
+            font-size: 20px;
+            user-select: none;
+        }
+
         button[type="submit"] {
-            background: linear-gradient(to right, var(--deep-red), var(--dark-red));
-            color: #FFFFFF; border: none; padding: 13px; width: 100%;
-            border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 20px;
+            background: linear-gradient(
+                to right,
+                var(--deep-red),
+                var(--dark-red)
+            );
+            color: #fff;
+            border: none;
+            padding: 13px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 22px;
         }
-        .switch-link { text-align: center; margin-top: 18px; font-size: 14px; }
-        .switch-link a { color: var(--accent-blue); font-weight: bold; text-decoration: underline; }
-        .error-msg { color: var(--deep-red); font-size: 13px; text-align: center; margin-top: 12px; font-weight: bold; }
+
+        button[type="submit"]:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        .error-msg,
+        .success-msg {
+            font-size: 13px;
+            text-align: center;
+            margin-top: 14px;
+            font-weight: bold;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .error-msg {
+            color: var(--dark-red);
+        }
+
+        .success-msg {
+            color: #176b2c;
+        }
+
+        .switch-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .switch-link a {
+            color: var(--accent-blue);
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        .home-link {
+            display: block;
+            text-align: center;
+            margin-top: 12px;
+            font-size: 13px;
+            color: #555;
+            text-decoration: none;
+        }
     </style>
 </head>
-<body>
 
-    <div class="card">
+<body>
+    <main class="card">
         <div class="logo-container">
             <div class="logo-wrapper">
-                <img src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png" alt="Logo Love Bébé" crossorigin="anonymous">
+                <img
+                    src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png"
+                    alt="Logo Love Bébé"
+                >
             </div>
         </div>
 
         <h2>Connexion Love Bébé</h2>
 
-        <form id="loginForm">
-            <label>Email :</label>
-            <input type="email" id="loginEmail" required placeholder="exemple@domaine.com">
+        <p class="intro">
+            Connectez-vous pour accéder à votre compte et découvrir les profils
+            de Love Bébé.
+        </p>
 
-            <label>Mot de passe :</label>
+        <form id="loginForm">
+            <label for="loginEmail">Adresse email</label>
+            <input
+                type="email"
+                id="loginEmail"
+                name="email"
+                required
+                autocomplete="username"
+                placeholder="exemple@domaine.com"
+            >
+
+            <label for="loginPassword">Mot de passe</label>
             <div class="password-container">
-                <input type="password" id="loginPassword" required placeholder="••••••••">
-                <span class="toggle-password" onclick="togglePasswordVisibility('loginPassword', this)">👁️</span>
+                <input
+                    type="password"
+                    id="loginPassword"
+                    name="password"
+                    required
+                    autocomplete="current-password"
+                    placeholder="Votre mot de passe"
+                >
+
+                <span
+                    class="toggle-password"
+                    id="togglePassword"
+                    role="button"
+                    tabindex="0"
+                    aria-label="Afficher le mot de passe"
+                    aria-pressed="false"
+                >👁️</span>
             </div>
 
-            <button type="submit" id="btnLogin">Se connecter</button>
-            <div id="loginError" class="error-msg"></div>
+            <button type="submit" id="btnLogin">
+                Se connecter
+            </button>
+
+            <p id="loginMessage" class="error-msg" role="status" aria-live="polite"></p>
         </form>
 
         <div class="switch-link">
-            <span>Pas encore de compte ?</span> <a href="inscription.html">S'inscrire</a>
+            <span>Pas encore de compte ?</span>
+            <a href="inscription.html">Créer un compte</a>
         </div>
-    </div>
 
-    <script>
-        function togglePasswordVisibility(fieldId, iconElement) {
-            const field = document.getElementById(fieldId);
-            field.type = field.type === "password" ? "text" : "password";
-            iconElement.textContent = field.type === "password" ? "👁️" : "🙈";
-        }
-    </script>
+        <a href="index.html" class="home-link">
+            Retour à Love Bébé
+        </a>
+    </main>
 
     <script type="module">
-        import { auth } from "./love-bebe-service.js";
-        import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { auth, database } from "./love-bebe-service.js";
 
-        const loginForm = document.getElementById('loginForm');
-        const loginError = document.getElementById('loginError');
+        import {
+            signInWithEmailAndPassword,
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            loginError.textContent = "";
-            const btnLogin = document.getElementById('btnLogin');
+        import {
+            ref,
+            get
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const loginForm = document.getElementById("loginForm");
+        const emailInput = document.getElementById("loginEmail");
+        const passwordInput = document.getElementById("loginPassword");
+        const btnLogin = document.getElementById("btnLogin");
+        const loginMessage = document.getElementById("loginMessage");
+        const togglePassword = document.getElementById("togglePassword");
+
+        let processing = false;
+
+        function showMessage(message, type = "error") {
+            loginMessage.textContent = message;
+            loginMessage.className =
+                type === "success" ? "success-msg" : "error-msg";
+        }
+
+        function setLoading(loading) {
+            btnLogin.disabled = loading;
+            emailInput.disabled = loading;
+            passwordInput.disabled = loading;
+
+            btnLogin.textContent = loading
+                ? "Connexion en cours..."
+                : "Se connecter";
+        }
+
+        // Afficher ou masquer le mot de passe.
+        function togglePasswordVisibility() {
+            const visible = passwordInput.type === "password";
+
+            passwordInput.type = visible ? "text" : "password";
+            togglePassword.textContent = visible ? "🙈" : "👁️";
+            togglePassword.setAttribute("aria-pressed", String(visible));
+            togglePassword.setAttribute(
+                "aria-label",
+                visible ? "Masquer le mot de passe" : "Afficher le mot de passe"
+            );
+        }
+
+        togglePassword.addEventListener("click", togglePasswordVisibility);
+
+        togglePassword.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                togglePasswordVisibility();
+            }
+        });
+
+        // Reconnaître uniquement un rôle administrateur déjà enregistré.
+        function isAdministrator(userData) {
+            if (!userData) return false;
+
+            const role = String(userData.role || "")
+                .trim()
+                .toLowerCase();
+
+            return userData.isAdmin === true ||
+                role === "admin" ||
+                role === "super admin";
+        }
+
+        // Lire le profil du compte connecté et choisir sa destination.
+        async function redirectAccordingToRole(user) {
+            showMessage("Vérification de votre compte...", "success");
+            setLoading(true);
 
             try {
-                btnLogin.disabled = true;
-                btnLogin.textContent = "Connexion en cours...";
+                const snapshot = await get(
+                    ref(database, `users/${user.uid}`)
+                );
 
-                const email = document.getElementById('loginEmail').value.trim();
-                const password = document.getElementById('loginPassword').value.trim();
-
-                await signInWithEmailAndPassword(auth, email, password);
-                window.location.href = "index.html";
-            } catch (err) {
-                let errorMsg = err.message;
-                if (err.code === "auth/invalid-credential" || err.code === "auth/user-not-found" || err.code === "auth/wrong-password") {
-                    errorMsg = "Email ou mot de passe incorrect.";
+                if (!snapshot.exists()) {
+                    await signOut(auth);
+                    showMessage(
+                        "Votre compte de connexion ne possède pas de profil Love Bébé valide. " +
+                        "Vérifiez votre compte ou contactez l'administrateur."
+                    );
+                    setLoading(false);
+                    return;
                 }
-                loginError.textContent = errorMsg;
+
+                const userData = snapshot.val();
+
+                if (isAdministrator(userData)) {
+                    window.location.replace("admin.html");
+                } else {
+                    window.location.replace("profil.html");
+                }
+
+            } catch (error) {
+                console.error("Vérification du compte impossible :", error);
+
+                // Ne pas laisser poursuivre vers une page protégée
+                // si le rôle ne peut pas être vérifié.
+                try {
+                    await signOut(auth);
+                } catch (signOutError) {
+                    console.error("Erreur de déconnexion :", signOutError);
+                }
+
+                showMessage(
+                    "Impossible de vérifier votre compte dans Firebase. " +
+                    "Vérifiez les règles Realtime Database et réessayez."
+                );
+
+                setLoading(false);
+            }
+        }
+
+        // Si une session existe déjà, vérifier son rôle.
+        onAuthStateChanged(auth, async (user) => {
+            if (user && !processing) {
+                processing = true;
+                await redirectAccordingToRole(user);
+                processing = false;
+            }
+        });
+
+        // Connexion avec email et mot de passe.
+        loginForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            if (processing) return;
+            processing = true;
+
+            showMessage("");
+            setLoading(true);
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            try {
+                const credential = await signInWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+
+                await redirectAccordingToRole(credential.user);
+
+            } catch (error) {
+                console.error("Erreur de connexion :", error);
+
+                let message =
+                    "La connexion a échoué. Veuillez réessayer.";
+
+                switch (error.code) {
+                    case "auth/invalid-credential":
+                    case "auth/user-not-found":
+                    case "auth/wrong-password":
+                    case "auth/invalid-email":
+                        message = "Adresse email ou mot de passe incorrect.";
+                        break;
+
+                    case "auth/user-disabled":
+                        message = "Ce compte a été désactivé.";
+                        break;
+
+                    case "auth/too-many-requests":
+                        message =
+                            "Trop de tentatives. Patientez un moment avant de réessayer.";
+                        break;
+
+                    case "auth/network-request-failed":
+                        message =
+                            "Connexion Internet indisponible. Vérifiez votre réseau.";
+                        break;
+
+                    case "auth/operation-not-allowed":
+                        message =
+                            "La connexion par email et mot de passe n'est pas activée dans Firebase.";
+                        break;
+                }
+
+                showMessage(message);
+                setLoading(false);
+
             } finally {
-                btnLogin.disabled = false;
-                btnLogin.textContent = "Se connecter";
+                processing = false;
             }
         });
     </script>

@@ -1,203 +1,405 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Bébé - Inscription</title>
-    <style>
-        :root {
-            --primary-gold: #FFD700;
-            --dark-gold: #FFA500;
-            --deep-red: #D32F2F;
-            --dark-red: #B71C1C;
-            --accent-blue: #0D47A1;
-        }
-        body {
-            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--dark-gold) 100%);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
-        .card {
-            background: #FFFFFF;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            width: 100%;
-            max-width: 520px;
-            border: 4px solid var(--primary-gold);
-            box-sizing: border-box;
-        }
-        .logo-container { text-align: center; margin-bottom: 15px; }
-        .logo-wrapper {
-            width: 90px; height: 90px; margin: 0 auto; border-radius: 50%;
-            background: #fff; border: 3px solid var(--primary-gold);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2); overflow: hidden;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .logo-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-        h2 { text-align: center; color: var(--deep-red); text-transform: uppercase; margin-bottom: 20px; font-size: 1.4rem; }
-        label { display: block; margin-top: 12px; font-weight: bold; color: var(--accent-blue); font-size: 13px; }
-        input, select { width: 100%; padding: 11px; margin-top: 5px; border: 2px solid #E0E0E0; border-radius: 8px; font-size: 14px; }
-        input:focus, select:focus { outline: none; border-color: var(--deep-red); }
-        .phone-container { display: flex; gap: 8px; margin-top: 5px; }
-        .phone-container select { width: 45%; margin-top: 0; }
-        .phone-container input { width: 55%; margin-top: 0; }
-        .password-container { position: relative; }
-        .password-container input { padding-right: 40px; }
-        .toggle-password { position: absolute; right: 12px; top: 55%; transform: translateY(-50%); cursor: pointer; }
-        .terms-container { display: flex; align-items: flex-start; gap: 10px; margin-top: 15px; font-size: 13px; }
-        .terms-container input { width: 18px; height: 18px; accent-color: var(--deep-red); cursor: pointer; }
-        button[type="submit"] {
-            background: linear-gradient(to right, var(--deep-red), var(--dark-red));
-            color: #FFFFFF; border: none; padding: 13px; width: 100%;
-            border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 20px;
-        }
-        .switch-link { text-align: center; margin-top: 18px; font-size: 14px; }
-        .switch-link a { color: var(--accent-blue); font-weight: bold; text-decoration: underline; }
-        .error-msg { color: var(--deep-red); font-size: 13px; text-align: center; margin-top: 12px; font-weight: bold; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Love Bébé - Inscription</title>
+
+  <style>
+    :root {
+      --primary-gold: #FFD700;
+      --dark-gold: #FFA500;
+      --deep-red: #D32F2F;
+      --dark-red: #B71C1C;
+      --accent-blue: #0D47A1;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,.3);
+      width: 100%;
+      max-width: 520px;
+      border: 4px solid var(--primary-gold);
+    }
+
+    .logo-container { text-align: center; margin-bottom: 15px; }
+
+    .logo-wrapper {
+      width: 90px;
+      height: 90px;
+      margin: auto;
+      border-radius: 50%;
+      background: #fff;
+      border: 3px solid var(--primary-gold);
+      box-shadow: 0 4px 10px rgba(0,0,0,.2);
+      overflow: hidden;
+    }
+
+    .logo-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    h2 {
+      text-align: center;
+      color: var(--deep-red);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      font-size: 1.4rem;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+      color: var(--accent-blue);
+      font-size: 13px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 11px;
+      margin-top: 5px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--deep-red);
+    }
+
+    .phone-container {
+      display: flex;
+      gap: 8px;
+      margin-top: 5px;
+    }
+
+    .phone-container select { width: 45%; margin-top: 0; }
+    .phone-container input { width: 55%; margin-top: 0; }
+
+    .password-container { position: relative; }
+
+    .password-container input { padding-right: 45px; }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 55%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .terms-container {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 15px;
+      font-size: 13px;
+    }
+
+    .terms-container input {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      accent-color: var(--deep-red);
+    }
+
+    .terms-container label {
+      margin-top: 0;
+      font-weight: normal;
+    }
+
+    button[type="submit"] {
+      background: linear-gradient(to right, var(--deep-red), var(--dark-red));
+      color: #fff;
+      border: none;
+      padding: 13px;
+      width: 100%;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    button:disabled { opacity: .65; cursor: wait; }
+
+    .switch-link {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 14px;
+    }
+
+    .switch-link a {
+      color: var(--accent-blue);
+      font-weight: bold;
+    }
+
+    .message {
+      font-size: 13px;
+      text-align: center;
+      margin-top: 12px;
+      font-weight: bold;
+      overflow-wrap: anywhere;
+    }
+
+    .error-msg { color: var(--deep-red); }
+    .success-msg { color: #176b35; }
+
+    @media (max-width: 380px) {
+      .card { padding: 20px; }
+      .phone-container { flex-direction: column; }
+      .phone-container select,
+      .phone-container input { width: 100%; }
+    }
+  </style>
 </head>
+
 <body>
-
-    <div class="card">
-        <div class="logo-container">
-            <div class="logo-wrapper">
-                <img src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png" alt="Logo Love Bébé" crossorigin="anonymous">
-            </div>
-        </div>
-
-        <h2>Inscription Love Bébé</h2>
-
-        <form id="registerForm">
-            <label>Nom complet :</label>
-            <input type="text" id="fullName" required placeholder="Ex: Kouassi Jean">
-
-            <label>Genre / Sexe :</label>
-            <select id="gender" required>
-                <option value="">Sélectionnez votre sexe</option>
-                <option value="Masculin">Masculin (Homme)</option>
-                <option value="Féminin">Féminin (Femme)</option>
-            </select>
-
-            <label>Numéro de Téléphone (WhatsApp) :</label>
-            <div class="phone-container">
-                <select id="countryCode" required>
-                    <option value="+229">🇧🇯 Bénin (+229)</option>
-                    <option value="+225">🇨🇮 Côte d'Ivoire (+225)</option>
-                    <option value="+33">🇫🇷 France (+33)</option>
-                </select>
-                <input type="tel" id="phoneNumber" required placeholder="97 00 00 00">
-            </div>
-
-            <label>Ville :</label>
-            <input type="text" id="city" required placeholder="Ex: Cotonou">
-
-            <label>Pays :</label>
-            <input type="text" id="countryInput" required placeholder="Ex: Bénin">
-
-            <label>Statut Matrimonial :</label>
-            <select id="maritalStatus" required>
-                <option value="Célibataire sans enfant">Célibataire sans enfant</option>
-                <option value="Célibataire avec enfant(s)">Célibataire avec enfant(s)</option>
-                <option value="Marié(e)">Marié(e)</option>
-            </select>
-
-            <label>Âge (minimum 18 ans) :</label>
-            <input type="number" id="age" min="18" required placeholder="Votre âge">
-
-            <label>Email :</label>
-            <input type="email" id="regEmail" required placeholder="exemple@domaine.com">
-
-            <label>Mot de passe :</label>
-            <div class="password-container">
-                <input type="password" id="regPassword" required placeholder="••••••••">
-                <span class="toggle-password" onclick="togglePasswordVisibility('regPassword', this)">👁️</span>
-            </div>
-
-            <div class="terms-container">
-                <input type="checkbox" id="acceptTerms" required>
-                <label for="acceptTerms" style="display:inline; margin-top:0; font-weight:normal;">
-                    J'accepte les conditions d'utilisation.
-                </label>
-            </div>
-
-            <button type="submit" id="btnRegister">S'inscrire</button>
-            <div id="regError" class="error-msg"></div>
-        </form>
-
-        <div class="switch-link">
-            <span>Déjà inscrit ?</span> <a href="connexion.html">Se connecter</a>
-        </div>
+  <main class="card">
+    <div class="logo-container">
+      <div class="logo-wrapper">
+        <img
+          src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png"
+          alt="Logo Love Bébé"
+        >
+      </div>
     </div>
 
-    <script>
-        function togglePasswordVisibility(fieldId, iconElement) {
-            const field = document.getElementById(fieldId);
-            field.type = field.type === "password" ? "text" : "password";
-            iconElement.textContent = field.type === "password" ? "👁️" : "🙈";
-        }
-    </script>
+    <h2>Inscription Love Bébé</h2>
 
-    <script type="module">
-        import { auth, database } from "./love-bebe-service.js";
-        import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { ref, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    <form id="registerForm">
+      <label for="fullName">Nom complet :</label>
+      <input type="text" id="fullName" autocomplete="name"
+        required maxlength="100" placeholder="Ex. : Kouassi Jean">
 
-        const registerForm = document.getElementById('registerForm');
-        const regError = document.getElementById('regError');
+      <label for="gender">Genre / Sexe :</label>
+      <select id="gender" required>
+        <option value="">Sélectionnez votre sexe</option>
+        <option value="Masculin">Masculin (Homme)</option>
+        <option value="Féminin">Féminin (Femme)</option>
+      </select>
 
-        registerForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            regError.textContent = "";
-            const btnRegister = document.getElementById('btnRegister');
+      <label for="countryCode">Numéro de téléphone (WhatsApp) :</label>
+      <div class="phone-container">
+        <select id="countryCode" required>
+          <option value="+229">Bénin (+229)</option>
+          <option value="+225">Côte d'Ivoire (+225)</option>
+          <option value="+33">France (+33)</option>
+        </select>
+        <input type="tel" id="phoneNumber" autocomplete="tel-national"
+          required maxlength="25" placeholder="97 00 00 00">
+      </div>
 
-            try {
-                const ageInput = parseInt(document.getElementById('age').value);
-                if (isNaN(ageInput) || ageInput < 18) {
-                    regError.textContent = "Inscription refusée : Vous devez avoir au moins 18 ans.";
-                    return;
-                }
+      <label for="city">Ville :</label>
+      <input type="text" id="city" required maxlength="100"
+        placeholder="Ex. : Cotonou">
 
-                if (!document.getElementById('acceptTerms').checked) {
-                    regError.textContent = "Vous devez accepter les conditions d'utilisation.";
-                    return;
-                }
+      <label for="countryInput">Pays :</label>
+      <input type="text" id="countryInput" required maxlength="100"
+        placeholder="Ex. : Bénin">
 
-                btnRegister.disabled = true;
-                btnRegister.textContent = "Création du compte...";
+      <label for="maritalStatus">Statut matrimonial :</label>
+      <select id="maritalStatus" required>
+        <option value="">Sélectionnez votre statut</option>
+        <option value="Célibataire sans enfant">Célibataire sans enfant</option>
+        <option value="Célibataire avec enfant(s)">Célibataire avec enfant(s)</option>
+        <option value="Marié(e)">Marié(e)</option>
+      </select>
 
-                const email = document.getElementById('regEmail').value.trim();
-                const password = document.getElementById('regPassword').value.trim();
-                const fullPhone = document.getElementById('countryCode').value + " " + document.getElementById('phoneNumber').value.trim();
+      <label for="age">Âge (minimum 18 ans) :</label>
+      <input type="number" id="age" min="18" max="120"
+        required step="1" placeholder="Votre âge">
 
-                const cred = await createUserWithEmailAndPassword(auth, email, password);
-                const user = cred.user;
+      <label for="regEmail">Adresse e-mail :</label>
+      <input type="email" id="regEmail" required maxlength="254"
+        autocomplete="email" placeholder="exemple@domaine.com">
 
-                await set(ref(database, `users/${user.uid}`), {
-                    fullName: document.getElementById('fullName').value.trim(),
-                    gender: document.getElementById('gender').value,
-                    phone: fullPhone,
-                    city: document.getElementById('city').value.trim(),
-                    country: document.getElementById('countryInput').value.trim(),
-                    maritalStatus: document.getElementById('maritalStatus').value,
-                    age: ageInput,
-                    email: user.email,
-                    createdAt: new Date().toISOString()
-                });
+      <label for="regPassword">Mot de passe (8 caractères minimum) :</label>
+      <div class="password-container">
+        <input type="password" id="regPassword"
+          autocomplete="new-password" minlength="8"
+          maxlength="128" required placeholder="8 caractères minimum">
+        <span class="toggle-password" id="togglePassword"
+          role="button" tabindex="0" aria-label="Afficher le mot de passe">👁️</span>
+      </div>
 
-                window.location.href = "index.html";
-            } catch (err) {
-                regError.textContent = "Erreur d'inscription : " + err.message;
-            } finally {
-                btnRegister.disabled = false;
-                btnRegister.textContent = "S'inscrire";
-            }
+      <div class="terms-container">
+        <input type="checkbox" id="acceptTerms" required>
+        <label for="acceptTerms">
+          J'accepte les conditions d'utilisation.
+        </label>
+      </div>
+
+      <button type="submit" id="btnRegister">S'inscrire</button>
+      <div id="regMessage" class="message" role="status"
+        aria-live="polite"></div>
+    </form>
+
+    <div class="switch-link">
+      Déjà inscrit ? <a href="connexion.html">Se connecter</a>
+    </div>
+  </main>
+
+  <script type="module">
+    import { auth, database } from "./love-bebe-service.js";
+
+    import {
+      createUserWithEmailAndPassword,
+      updateProfile
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+    import {
+      ref,
+      set
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    const form = document.getElementById("registerForm");
+    const message = document.getElementById("regMessage");
+    const button = document.getElementById("btnRegister");
+    const passwordInput = document.getElementById("regPassword");
+    const togglePassword = document.getElementById("togglePassword");
+
+    function showMessage(text, isError = true) {
+      message.textContent = text;
+      message.className = "message " +
+        (isError ? "error-msg" : "success-msg");
+    }
+
+    function togglePasswordVisibility() {
+      const visible = passwordInput.type === "password";
+      passwordInput.type = visible ? "text" : "password";
+      togglePassword.textContent = visible ? "🙈" : "👁️";
+      togglePassword.setAttribute(
+        "aria-label",
+        visible ? "Masquer le mot de passe" : "Afficher le mot de passe"
+      );
+    }
+
+    togglePassword.addEventListener("click", togglePasswordVisibility);
+    togglePassword.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        togglePasswordVisibility();
+      }
+    });
+
+    const errorMessages = {
+      "auth/email-already-in-use": "Cette adresse e-mail possède déjà un compte. Connectez-vous.",
+      "auth/invalid-email": "L'adresse e-mail n'est pas valide.",
+      "auth/weak-password": "Choisissez un mot de passe plus robuste, avec au moins 8 caractères.",
+      "auth/network-request-failed": "Connexion Internet indisponible. Réessayez.",
+      "auth/operation-not-allowed": "L'inscription par e-mail n'est pas activée dans Firebase.",
+      "PERMISSION_DENIED": "Firebase a refusé l'enregistrement du profil. Vérifiez les règles de la base."
+    };
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      showMessage("");
+
+      if (!form.reportValidity()) return;
+
+      const age = Number(document.getElementById("age").value);
+
+      if (!Number.isInteger(age) || age < 18 || age > 120) {
+        showMessage("L'inscription est réservée aux personnes âgées de 18 ans ou plus.");
+        return;
+      }
+
+      if (!document.getElementById("acceptTerms").checked) {
+        showMessage("Vous devez accepter les conditions d'utilisation.");
+        return;
+      }
+
+      const email = document.getElementById("regEmail").value.trim();
+      const password = passwordInput.value;
+
+      const fullName = document.getElementById("fullName").value.trim();
+      const phone = document.getElementById("countryCode").value
+        + " " + document.getElementById("phoneNumber").value.trim();
+      const city = document.getElementById("city").value.trim();
+      const country = document.getElementById("countryInput").value.trim();
+      const gender = document.getElementById("gender").value;
+      const maritalStatus = document.getElementById("maritalStatus").value;
+
+      if (!fullName || !city || !country || !phone) {
+        showMessage("Veuillez remplir tous les champs.");
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "Création du compte...";
+
+      let accountCreated = false;
+
+      try {
+        const credential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+        const user = credential.user;
+        accountCreated = true;
+
+        await updateProfile(user, { displayName: fullName });
+
+        // Un nouvel inscrit est toujours un utilisateur ordinaire.
+        // Le rôle administrateur ne doit jamais être attribué ici.
+        await set(ref(database, `users/${user.uid}`), {
+          fullName,
+          gender,
+          phone,
+          city,
+          country,
+          maritalStatus,
+          age,
+          email: user.email,
+          role: "utilisateur",
+          createdAt: new Date().toISOString()
         });
-    </script>
+
+        showMessage("Compte créé avec succès. Ouverture de votre profil...", false);
+
+        window.location.replace("profil.html");
+
+      } catch (error) {
+        console.error("Erreur d'inscription :", error);
+
+        if (accountCreated) {
+          showMessage(
+            "Le compte d'authentification a été créé, mais son profil n'a pas pu être enregistré. Ne recréez pas de compte : contactez l'administrateur pour corriger l'enregistrement."
+          );
+        } else {
+          showMessage(
+            errorMessages[error.code] ||
+            "Impossible de créer le compte. Vérifiez votre connexion et les paramètres Firebase."
+          );
+        }
+      } finally {
+        button.disabled = false;
+        button.textContent = "S'inscrire";
+      }
+    });
+  </script>
 </body>
 </html>
