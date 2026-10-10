@@ -3,71 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Love Bébé - Plateforme de rencontre internationale de haut prestige. Trouvez votre âme sœur, profils certifiés, relations sérieuses et mariages.">
-    <meta name="keywords" content="Love Bébé, rencontre célibataires, mariage, amour, recherche âme sœur, Afrique rencontre">
-    <meta name="author" content="DAKPROELITE">
-    <meta name="robots" content="index, follow">
-    <title>Love Bébé - L'Élite des Rencontres & Âmes Sœurs</title>
+    <meta name="description" content="Love Bébé - Plateforme de rencontre internationale de haut prestige.">
+    <title>Love Bébé - L'Élite des Rencontres</title>
 
-    <!-- Support PWA Natif & Thème -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#FFD700">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png">
 
-    <!-- Fichier CSS Externe -->
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary-gold: #FFD700;
+            --dark-gold: #FFA500;
+            --deep-red: #D32F2F;
+            --dark-red: #B71C1C;
+            --accent-blue: #0D47A1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--dark-gold) 100%);
+            min-height: 100vh;
+            color: #222;
+        }
+
+        /* FIX DU LOGO : Taille forcée à 50px pour éviter qu'il prenne tout l'écran */
+        header {
+            background: #ffffff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--deep-red);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .header-logo {
+            width: 50px !important;
+            height: 50px !important;
+            max-width: 50px !important;
+            max-height: 50px !important;
+            border-radius: 50%;
+            border: 2px solid var(--primary-gold);
+            object-fit: cover;
+        }
+
+        .header-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--deep-red);
+            text-transform: uppercase;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, var(--deep-red), var(--dark-red));
+            color: white;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 13px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .nav-btn-blue {
+            background: linear-gradient(135deg, var(--accent-blue), #1565C0);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .hero-banner {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid var(--primary-gold);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .hero-banner h1 {
+            color: var(--deep-red);
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .hero-banner p {
+            color: var(--accent-blue);
+            font-size: 0.95rem;
+        }
+
+        .filter-section {
+            background: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid var(--primary-gold);
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-input, .filter-select {
+            flex: 1;
+            min-width: 140px;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .profiles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .profile-card {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid var(--primary-gold);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .profile-media {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            background: #111;
+        }
+
+        .profile-content {
+            padding: 15px;
+        }
+
+        .profile-name {
+            font-size: 1.2rem;
+            color: var(--deep-red);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .profile-detail {
+            font-size: 13px;
+            color: #444;
+            margin-bottom: 4px;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 8px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 12px;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+        }
+
+        .btn-view { background: var(--deep-red); }
+        .btn-connect { background: var(--accent-blue); }
+
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- En-tête Officiel -->
     <header>
         <a href="index.html" class="header-brand">
             <img src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png" alt="Logo Love Bébé" class="header-logo">
             <span class="header-title">Love Bébé</span>
         </a>
         <div class="nav-actions">
-            <a href="mon-profil.html" class="nav-btn nav-btn-secondary">👤 Mon Profil</a>
+            <a href="mon-profil.html" class="nav-btn nav-btn-blue">👤 Mon Profil</a>
             <a href="connexion.html" class="nav-btn" id="auth-btn">🔐 Connexion</a>
         </div>
     </header>
 
-    <!-- Zone Principale -->
     <div class="container">
-        
-        <!-- Bannière d'Accueil -->
         <div class="hero-banner">
             <h1>L'Amour Véritable Vous Attend ❤️</h1>
-            <p>Rencontrez des célibataires distingués, prêts pour un engagement sincère et durable.</p>
+            <p>Rencontrez des célibataires prêts pour un engagement sincère.</p>
         </div>
 
-        <!-- Filtre de Recherche Avancé -->
         <div class="filter-section">
-            <div class="filter-group">
-                <input type="text" id="searchInput" class="filter-input" placeholder="🔍 Chercher par ville ou nom...">
-                <select id="ageFilter" class="filter-select">
-                    <option value="">Toutes les tranches d'âge</option>
-                    <option value="18-25">18 - 25 ans</option>
-                    <option value="25-30">25 - 30 ans</option>
-                    <option value="30-35">30 - 35 ans</option>
-                    <option value="35-40">35 - 40 ans</option>
-                    <option value="40-45">40 - 45 ans</option>
-                    <option value="45-50">45 - 50 ans</option>
-                    <option value="50-55">50 - 55 ans</option>
-                    <option value="55+">55 ans et plus</option>
-                </select>
-            </div>
+            <input type="text" id="searchInput" class="filter-input" placeholder="🔍 Ville ou nom...">
+            <select id="ageFilter" class="filter-select">
+                <option value="">Toutes les tranches d'âge</option>
+                <option value="18-25">18 - 25 ans</option>
+                <option value="25-30">25 - 30 ans</option>
+                <option value="30-35">30 - 35 ans</option>
+                <option value="35-40">35 - 40 ans</option>
+                <option value="40-45">40 - 45 ans</option>
+                <option value="45+">45 ans et plus</option>
+            </select>
         </div>
 
-        <!-- Conteneur Dynamique des Profils -->
         <div id="profilesContainer" class="profiles-grid">
-            <p style="text-align:center; grid-column: 1/-1; font-weight:bold; color:#0D47A1; padding: 40px;">Chargement des célibataires en cours...</p>
+            <p style="text-align:center; grid-column: 1/-1; font-weight:bold; color:#0D47A1;">Chargement des célibataires...</p>
         </div>
-
     </div>
 
-    <!-- Logique JS Firebase & PWA -->
     <script type="module">
         import { auth, rtdb } from "./love-bebe-service.js";
         import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -75,7 +247,6 @@
 
         let allUsersData = {};
 
-        // Suivi de l'authentification
         const authBtn = document.getElementById('auth-btn');
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -86,12 +257,11 @@
                     window.location.reload();
                 };
             } else {
-                authBtn.textContent = "🔐 Connexion";
+                authBtn.textContent = "🔐 Connexion / Inscription";
                 authBtn.href = "connexion.html";
             }
         });
 
-        // Chargement des Profils depuis Firebase Realtime Database
         async function fetchProfiles() {
             const container = document.getElementById('profilesContainer');
             try {
@@ -99,7 +269,7 @@
                 const snapshot = await get(usersRef);
 
                 if (!snapshot.exists()) {
-                    container.innerHTML = "<p style='text-align:center; grid-column: 1/-1; font-weight:bold; color:#D32F2F;'>Aucun profil disponible pour le moment.</p>";
+                    container.innerHTML = "<p style='text-align:center; grid-column: 1/-1; font-weight:bold; color:#D32F2F;'>Aucun profil trouvé pour le moment.</p>";
                     return;
                 }
 
@@ -107,69 +277,43 @@
                 renderProfiles(allUsersData);
 
             } catch (error) {
-                console.error("Erreur de chargement des profils :", error);
-                container.innerHTML = "<p style='text-align:center; grid-column: 1/-1; color:#D32F2F;'>Erreur de chargement des données.</p>";
+                console.error("Erreur de chargement :", error);
+                container.innerHTML = "<p style='text-align:center; grid-column: 1/-1; color:#D32F2F;'>Ouvrez un compte pour voir les profils ou reconnectez-vous.</p>";
             }
         }
 
-        // Rendu Dynamique HTML des Cartes Célibataires
         function renderProfiles(data) {
             const container = document.getElementById('profilesContainer');
             container.innerHTML = "";
 
             const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
             const ageVal = document.getElementById('ageFilter').value;
-
             let count = 0;
 
             Object.keys(data).forEach(uid => {
                 const user = data[uid];
-                
-                // Exclure les comptes administrateurs
                 if (user.isAdmin) return;
 
                 const name = user.fullName || 'Célibataire Love Bébé';
                 const city = user.city || '';
                 const country = user.country || '';
-                const targetAge = user.targetAge || '';
 
-                // Application des filtres
-                if (searchVal && !name.toLowerCase().includes(searchVal) && !city.toLowerCase().includes(searchVal) && !country.toLowerCase().includes(searchVal)) {
-                    return;
-                }
-
-                if (ageVal && targetAge !== ageVal) {
-                    return;
-                }
+                if (searchVal && !name.toLowerCase().includes(searchVal) && !city.toLowerCase().includes(searchVal)) return;
 
                 count++;
                 const mediaUrl = user.profileMediaUrl || 'https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png';
-                const isVideo = mediaUrl.endsWith('.mp4') || mediaUrl.endsWith('.webm') || mediaUrl.includes('/video/upload/');
 
                 const card = document.createElement('div');
                 card.className = 'profile-card';
                 card.innerHTML = `
-                    <span class="badge-verified">✓ Profil Vérifié</span>
-                    <div class="media-container">
-                        ${isVideo 
-                            ? `<video src="${mediaUrl}" class="profile-media" controls autoplay muted loop></video>`
-                            : `<img src="${mediaUrl}" alt="${name}" class="profile-media" loading="lazy">`
-                        }
-                    </div>
+                    <img src="${mediaUrl}" alt="${name}" class="profile-media">
                     <div class="profile-content">
-                        <div>
-                            <div class="profile-name-age">
-                                <span>${name}</span>
-                                <span>${user.age ? user.age + ' ans' : ''}</span>
-                            </div>
-                            <div class="profile-detail">📍 <strong>Localisation :</strong> ${city}${city && country ? ', ' : ''}${country}</div>
-                            <div class="profile-detail">🎯 <strong>Recherche Femme :</strong> ${targetAge || 'Non précisé'}</div>
-                            <div class="profile-detail">💍 <strong>Objectif :</strong> ${user.soulMateType || 'Relation sérieuse'}</div>
-                            <div class="profile-quote">"${user.nationalitySearch || 'Prêt(e) à écrire une belle histoire d\'amour...'}"</div>
-                        </div>
+                        <div class="profile-name">${name}</div>
+                        <div class="profile-detail">📍 ${city}, ${country}</div>
+                        <div class="profile-detail">💍 ${user.soulMateType || 'Relation sérieuse'}</div>
                         <div class="card-actions">
-                            <a href="mon-profil.html?id=${uid}" class="action-btn btn-view">👁️ Voir Profil</a>
-                            <a href="paiement.html?id=${uid}" class="action-btn btn-connect">💬 Contacter</a>
+                            <a href="mon-profil.html?id=${uid}" class="action-btn btn-view">Voir Profil</a>
+                            <a href="paiement.html?id=${uid}" class="action-btn btn-connect">Contacter</a>
                         </div>
                     </div>
                 `;
@@ -177,23 +321,14 @@
             });
 
             if (count === 0) {
-                container.innerHTML = "<p style='text-align:center; grid-column: 1/-1; font-weight:bold; color:#D32F2F;'>Aucun profil ne correspond à vos critères de recherche.</p>";
+                container.innerHTML = "<p style='text-align:center; grid-column: 1/-1; font-weight:bold; color:#D32F2F;'>Aucun profil trouvé.</p>";
             }
         }
 
-        // Écouteurs pour les Filtres
         document.getElementById('searchInput').addEventListener('input', () => renderProfiles(allUsersData));
         document.getElementById('ageFilter').addEventListener('change', () => renderProfiles(allUsersData));
 
-        // Invocations au chargement
         fetchProfiles();
-
-        // Enregistrement PWA
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js').catch(err => console.log('Erreur SW:', err));
-            });
-        }
     </script>
 </body>
 </html>
