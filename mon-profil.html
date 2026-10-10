@@ -102,7 +102,6 @@
             border: 3px solid var(--primary-gold);
             box-shadow: 0 5px 20px rgba(0,0,0,0.15);
             margin-bottom: 25px;
-            position: relative;
         }
 
         .profile-avatar-container {
@@ -174,7 +173,7 @@
             border-color: var(--deep-red);
         }
 
-        /* STUDIO CAMÉRA & GALERIE */
+        /* STUDIO CAMÉRA PRO & GALERIE */
         .media-section {
             background: #111;
             border-radius: 12px;
@@ -241,7 +240,6 @@
             object-fit: cover;
         }
 
-        /* IMPORT GALERIE ALTERNATIF */
         .upload-gallery-box {
             margin-top: 15px;
             border: 2px dashed var(--dark-gold);
@@ -379,6 +377,9 @@
                 <label>Nom complet :</label>
                 <input type="text" id="fullName" required placeholder="Nom et prénom">
 
+                <label>Téléphone :</label>
+                <input type="text" id="phone" readonly style="background:#f5f5f5; color:#555;" title="Numéro enregistré à l'inscription">
+
                 <label>Statut Matrimonial :</label>
                 <select id="maritalStatus" required>
                     <option value="">Sélectionnez votre situation</option>
@@ -412,10 +413,10 @@
                 <label>Biographie / Présentation :</label>
                 <textarea id="bio" rows="3" placeholder="Décrivez votre personnalité et vos attentes..."></textarea>
 
-                <!-- STUDIO CAMÉRA & GALERIE -->
+                <!-- STUDIO CAMÉRA PRO & GALERIE -->
                 <div class="media-section">
-                    <h3>📷 Studio Caméra & Galerie</h3>
-                    <p style="font-size:11px; color:#ddd; margin-bottom: 8px;">Capturez directement ou téléversez depuis votre appareil (Max 4 photos, 4 vidéos de 15s).</p>
+                    <h3>📷 Studio Caméra Pro & Galerie</h3>
+                    <p style="font-size:11px; color:#ddd; margin-bottom: 8px;">Publiez jusqu'à 4 photos et 4 vidéos (15s max chacune).</p>
                     
                     <video id="webcam" class="preview-video" autoplay playsinline muted></video>
                     <div id="timer" style="color:#FFD700; font-size:12px; margin-top:4px;"></div>
@@ -427,7 +428,7 @@
                     </div>
 
                     <div class="upload-gallery-box" onclick="document.getElementById('galleryInput').click()">
-                        <span style="font-size: 13px; font-weight: bold; color: var(--accent-blue);">📂 Choisir une image ou vidéo depuis votre galerie</span>
+                        <span style="font-size: 13px; font-weight: bold; color: var(--accent-blue);">📂 Choisir des photos/vidéos depuis votre galerie</span>
                         <input type="file" id="galleryInput" accept="image/*,video/*" multiple style="display: none;" onchange="handleGalleryFiles(event)">
                     </div>
 
@@ -435,12 +436,12 @@
                     <div id="videoGallery" class="gallery-preview"></div>
                 </div>
 
-                <button type="submit">💾 Enregistrer & Mettre à jour</button>
+                <button type="submit">💾 Enregistrer & Publier le Profil</button>
                 <div id="statusMsg" style="text-align:center; font-weight:bold; margin-top:12px;"></div>
             </form>
         </div>
 
-        <!-- SECTION DES PROFIL RECOMMANDÉS -->
+        <!-- SECTION DES PROFILS RECOMMANDÉS -->
         <div class="profile-header-card" style="background: #FFFDF0; border: 2px solid var(--primary-gold);">
             <h2 id="targetTitle" style="color: var(--deep-red); border:none; margin:0;">💘 Profils Recommandés</h2>
             <p id="targetDesc" style="margin-top: 5px;">Découvrez les célibataires correspondant à vos critères.</p>
@@ -461,8 +462,10 @@
         let mediaStream = null;
         let mediaRecorder = null;
         let recordedChunks = [];
-        let capturedPhotosBlobs = [];
-        let capturedVideosBlobs = [];
+        let newCapturedPhotosFiles = [];
+        let newCapturedVideosFiles = [];
+        let existingPhotos = [];
+        let existingVideos = [];
 
         const webcam = document.getElementById('webcam');
         const startCamBtn = document.getElementById('startCamBtn');
@@ -470,20 +473,20 @@
         const recordVideoBtn = document.getElementById('recordVideoBtn');
         const timerDiv = document.getElementById('timer');
 
-        // Gestion de la Caméra Directe
+        // Activation de la Caméra Pro
         startCamBtn.addEventListener('click', async () => {
             try {
-                mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                mediaStream = await navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 }, audio: true });
                 webcam.srcObject = mediaStream;
                 takePhotoBtn.disabled = false;
                 recordVideoBtn.disabled = false;
                 startCamBtn.disabled = true;
             } catch (err) {
-                alert("Erreur d'accès à la caméra : " + err.message);
+                alert("Erreur d'accès à la caméra : Veuillez autoriser l'accès dans votre navigateur. (" + err.message + ")");
             }
         });
 
-        // Compression Canvas Haute Performance pour une netteté professionnelle
+        // Compression Canvas Haute Performance
         function compressImageBlob(file, maxWidth = 800, maxHeight = 800, quality = 0.75) {
             return new Promise((resolve, reject) => {
                 if (file.type.startsWith('video/')) {
@@ -523,42 +526,30 @@
             });
         }
 
-        // Capture Photo via Canvas
+        // Capture Photo Studio Directe
         takePhotoBtn.addEventListener('click', async () => {
-            if (capturedPhotosBlobs.length >= 4) return alert("Maximum 4 photos autorisées !");
+            if ((existingPhotos.length + newCapturedPhotosFiles.length) >= 4) return alert("Maximum 4 photos autorisées au total !");
             const canvas = document.createElement('canvas');
             canvas.width = webcam.videoWidth || 640;
             canvas.height = webcam.videoHeight || 480;
             canvas.getContext('2d').drawImage(webcam, 0, 0, canvas.width, canvas.height);
             canvas.toBlob(async (blob) => {
                 const compressed = await compressImageBlob(blob);
-                capturedPhotosBlobs.push(compressed);
-                
-                const img = document.createElement('img');
-                img.src = URL.createObjectURL(compressed);
-                const item = document.createElement('div');
-                item.className = 'gallery-item';
-                item.appendChild(img);
-                document.getElementById('photoGallery').appendChild(item);
+                newCapturedPhotosFiles.push(compressed);
+                renderGalleryPreviews();
             }, 'image/jpeg', 0.85);
         });
 
-        // Enregistrement Vidéo (15s)
+        // Enregistrement Vidéo Studio (15s)
         recordVideoBtn.addEventListener('click', () => {
-            if (capturedVideosBlobs.length >= 4) return alert("Maximum 4 vidéos autorisées !");
+            if ((existingVideos.length + newCapturedVideosFiles.length) >= 4) return alert("Maximum 4 vidéos autorisées au total !");
             recordedChunks = [];
             mediaRecorder = new MediaRecorder(mediaStream, { mimeType: 'video/webm' });
             mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) recordedChunks.push(e.data); };
             mediaRecorder.onstop = () => {
                 const blob = new Blob(recordedChunks, { type: 'video/webm' });
-                capturedVideosBlobs.push(blob);
-                const vid = document.createElement('video');
-                vid.src = URL.createObjectURL(blob);
-                vid.controls = true;
-                const item = document.createElement('div');
-                item.className = 'gallery-item';
-                item.appendChild(vid);
-                document.getElementById('videoGallery').appendChild(item);
+                newCapturedVideosFiles.push(blob);
+                renderGalleryPreviews();
                 timerDiv.textContent = "Vidéo capturée avec succès !";
                 recordVideoBtn.disabled = false;
             };
@@ -578,35 +569,59 @@
             }, 1000);
         });
 
-        // Import depuis la Galerie Locale
+        // Import Galerie Multiple
         window.handleGalleryFiles = async function(event) {
             const files = event.target.files;
             for (let file of files) {
                 if (file.type.startsWith('image/')) {
-                    if (capturedPhotosBlobs.length >= 4) continue;
+                    if ((existingPhotos.length + newCapturedPhotosFiles.length) >= 4) continue;
                     const compressed = await compressImageBlob(file);
-                    capturedPhotosBlobs.push(compressed);
-                    const img = document.createElement('img');
-                    img.src = URL.createObjectURL(compressed);
-                    const item = document.createElement('div');
-                    item.className = 'gallery-item';
-                    item.appendChild(img);
-                    document.getElementById('photoGallery').appendChild(item);
+                    newCapturedPhotosFiles.push(compressed);
                 } else if (file.type.startsWith('video/')) {
-                    if (capturedVideosBlobs.length >= 4) continue;
-                    capturedVideosBlobs.push(file);
-                    const vid = document.createElement('video');
-                    vid.src = URL.createObjectURL(file);
-                    vid.controls = true;
-                    const item = document.createElement('div');
-                    item.className = 'gallery-item';
-                    item.appendChild(vid);
-                    document.getElementById('videoGallery').appendChild(item);
+                    if ((existingVideos.length + newCapturedVideosFiles.length) >= 4) continue;
+                    newCapturedVideosFiles.push(file);
                 }
             }
+            renderGalleryPreviews();
         };
 
-        // Envoi sécurisé vers Cloudinary[span_1](start_span)[span_1](end_span) via configuration Realtime Database
+        // Rendu visuel des galeries
+        function renderGalleryPreviews() {
+            const photoContainer = document.getElementById('photoGallery');
+            const videoContainer = document.getElementById('videoGallery');
+            photoContainer.innerHTML = "";
+            videoContainer.innerHTML = "";
+
+            existingPhotos.forEach(url => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.innerHTML = `<img src="${url}" alt="Photo">`;
+                photoContainer.appendChild(item);
+            });
+
+            newCapturedPhotosFiles.forEach(file => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.innerHTML = `<img src="${URL.createObjectURL(file)}" alt="Photo">`;
+                photoContainer.appendChild(item);
+            });
+
+            existingVideos.forEach(url => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.innerHTML = `<video src="${url}" controls></video>`;
+                videoContainer.appendChild(item);
+            });
+
+            newCapturedVideosFiles.forEach(file => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.innerHTML = `<video src="${URL.createObjectURL(file)}" controls></video>`;
+                videoContainer.appendChild(item);
+            });
+        }
+
+        // Envoi vers Cloudinary dynamiquement depuis Realtime Database[span_1](start_span)[span_1](end_span)
         async function uploadMediaToCloudinary(file) {
             const snapshot = await get(child(ref(database), 'config/cloudinary'));
             if (!snapshot.exists()) {
@@ -627,7 +642,7 @@
             return data.secure_url;
         }
 
-        // Chargement des données utilisateur à l'ouverture
+        // Chargement automatique des données de la personne connectée
         onAuthStateChanged(auth, async (user) => {
             if (!user) return window.location.href = "connexion.html";
             currentUser = user;
@@ -636,6 +651,7 @@
                 const data = snapshot.val();
                 document.getElementById('gender').value = data.gender || '';
                 document.getElementById('fullName').value = data.fullName || '';
+                document.getElementById('phone').value = data.phone || 'Non renseigné';
                 document.getElementById('maritalStatus').value = data.maritalStatus || '';
                 document.getElementById('childrenCount').value = data.childrenCount || 0;
                 document.getElementById('city').value = data.city || '';
@@ -643,14 +659,17 @@
                 document.getElementById('targetAge').value = data.targetAge || '25-30';
                 document.getElementById('bio').value = data.bio || '';
 
-                // Affichage dynamique dans l'en-tête de profil style Facebook
+                // Récupération des médias existants s'ils sont déjà enregistrés
+                existingPhotos = data.capturedPhotos || (data.profileMediaUrl ? [data.profileMediaUrl] : []);
+                existingVideos = data.capturedVideos || [];
+                renderGalleryPreviews();
+
+                // Mise à jour de l'en-tête de profil style Facebook
                 document.getElementById('headerFullName').textContent = data.fullName || "Mon Espace VIP";
                 document.getElementById('headerBioInfo').textContent = `${data.city || 'Ville'}, ${data.country || 'Pays'} • ${data.maritalStatus || 'Célibataire'}`;
                 
-                const mainAvatar = data.capturedPhotos?.[0] || data.profileMediaUrl;
-                if (mainAvatar) {
-                    document.getElementById('currentAvatarWrapper').innerHTML = `<img src="${mainAvatar}" alt="Avatar">`;
-                }
+                const mainAvatar = existingPhotos[0] || 'https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png';
+                document.getElementById('currentAvatarWrapper').innerHTML = `<img src="${mainAvatar}" alt="Avatar">`;
 
                 loadOppositeProfiles(data.gender);
             } else {
@@ -658,22 +677,22 @@
             }
         });
 
-        // Soumission et mise à jour
+        // Enregistrement et Publication
         document.getElementById('profileForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const statusMsg = document.getElementById('statusMsg');
             statusMsg.style.color = "#0D47A1";
-            statusMsg.textContent = "🔄 Enregistrement et publication des médias...";
+            statusMsg.textContent = "🔄 Publication des médias et mise à jour du profil...";
 
             try {
-                let photoUrls = [];
-                for (let blob of capturedPhotosBlobs) {
-                    photoUrls.push(await uploadMediaToCloudinary(blob));
+                let finalPhotos = [...existingPhotos];
+                for (let file of newCapturedPhotosFiles) {
+                    finalPhotos.push(await uploadMediaToCloudinary(file));
                 }
 
-                let videoUrls = [];
-                for (let blob of capturedVideosBlobs) {
-                    videoUrls.push(await uploadMediaToCloudinary(blob));
+                let finalVideos = [...existingVideos];
+                for (let file of newCapturedVideosFiles) {
+                    finalVideos.push(await uploadMediaToCloudinary(file));
                 }
 
                 const gender = document.getElementById('gender').value;
@@ -686,22 +705,28 @@
                     country: document.getElementById('country').value.trim(),
                     targetAge: document.getElementById('targetAge').value,
                     bio: document.getElementById('bio').value.trim(),
+                    capturedPhotos: finalPhotos,
+                    capturedVideos: finalVideos,
                     updatedAt: new Date().toISOString()
                 };
-
-                if (photoUrls.length > 0) updateData.capturedPhotos = photoUrls;
-                if (videoUrls.length > 0) updateData.capturedVideos = videoUrls;
 
                 await update(ref(database, `users/${currentUser.uid}`), updateData);
                 
                 statusMsg.style.color = "green";
                 statusMsg.textContent = "✅ Profil mis à jour et publié avec succès !";
                 
+                // Réinitialisation des tableaux temporaires
+                newCapturedPhotosFiles = [];
+                newCapturedVideosFiles = [];
+                existingPhotos = finalPhotos;
+                existingVideos = finalVideos;
+                renderGalleryPreviews();
+
                 // Actualisation immédiate de l'en-tête
                 document.getElementById('headerFullName').textContent = updateData.fullName;
                 document.getElementById('headerBioInfo').textContent = `${updateData.city}, ${updateData.country} • ${updateData.maritalStatus}`;
-                if (photoUrls.length > 0) {
-                    document.getElementById('currentAvatarWrapper').innerHTML = `<img src="${photoUrls[0]}" alt="Avatar">`;
+                if (finalPhotos.length > 0) {
+                    document.getElementById('currentAvatarWrapper').innerHTML = `<img src="${finalPhotos[0]}" alt="Avatar">`;
                 }
 
                 loadOppositeProfiles(gender);
@@ -711,7 +736,7 @@
             }
         });
 
-        // Chargement des profils recommandés
+        // Chargement des profils recommandés avec accès à la messagerie
         async function loadOppositeProfiles(myGender) {
             const container = document.getElementById('oppositeProfilesContainer');
             const title = document.getElementById('targetTitle');
@@ -776,7 +801,7 @@
                 });
 
                 if (count === 0) {
-                    container.innerHTML = `<p style='text-align:center; grid-column:1/-1; font-weight:bold; color:var(--deep-red);'>Aucun profil disponible pour le moment.</p>`;
+                    container.innerHTML = "<p style='text-align:center; grid-column:1/-1; font-weight:bold; color:var(--deep-red);'>Aucun profil disponible pour le moment.</p>";
                 }
 
             } catch (err) {
