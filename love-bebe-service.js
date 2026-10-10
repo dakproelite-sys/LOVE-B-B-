@@ -1,141 +1,95 @@
-// ==========================================
-// 1. CONFIGURATION CLOUDINARY
-// ==========================================
-const CLOUD_NAME = "jnwkfel1";
-// Identifiants Cloudinary issus de votre compte
-// API Key : 688731538869986
-// API Secret : p43yS4YoggqBIRcClxDiZgfueBE
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getDatabase, ref, get, push, set, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-/**
- * Fonction universelle d'upload vers Cloudinary
- * Envoie automatiquement les images, vidéos, audios et appels vocaux/vidéos.
- * @param {File|Blob} fileOrBlob - Le fichier à envoyer (image, vidéo, audio, blob d'appel)
- * @param {string} resourceType - 'image', 'video', 'raw' ou 'auto'
- * @returns {Promise<string>} - L'URL publique sécurisée hébergée sur Cloudinary
- */
-export async function uploadToCloudinary(fileOrBlob, resourceType = "auto") {
-    const formData = new FormData();
-    formData.append("file", fileOrBlob);
-    // Utilisation d'un preset d'upload anonyme (Unsigned Upload Preset)
-    formData.append("upload_preset", "love_bebe_preset"); 
+// 1. Initialisation de Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyC7x2d7kXK8hT0h7GvTBHZDZ30R-vqiSEY",
+  authDomain: "love-bebe.firebaseapp.com",
+  projectId: "love-bebe",
+  storageBucket: "love-bebe.firebasestorage.app",
+  messagingSenderId: "403955591576",
+  appId: "1:403955591576:web:2d596ca141905e32e4e3ed",
+  databaseURL: "https://love-bebe-default-rtdb.firebaseio.com"
+};
 
-    const endpoint = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${resourceType}/upload`;
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export const rtdb = getDatabase(app);
 
+// 2. Fonction d'upload universel vers Cloudinary
+export async function uploadMediaToCloudinary(fileOrBlob) {
     try {
-        const response = await fetch(endpoint, {
+        // Lecture dynamique de la configuration depuis la Realtime Database
+        const configSnap = await get(ref(rtdb, 'config/cloudinary'));
+        if (!configSnap.exists()) {
+            throw new Error("Configuration Cloudinary introuvable dans Realtime Database");
+        }
+        const cloudConfig = configSnap.val();
+
+        const formData = new FormData();
+        formData.append("file", fileOrBlob);
+        formData.append("upload_preset", cloudConfig.upload_preset || "love_bebe_preset");
+
+        // Envoi automatique vers l'API Cloudinary
+        const response = await fetch(cloudConfig.upload_url, {
             method: "POST",
             body: formData
         });
 
         const data = await response.json();
         if (data.secure_url) {
-            return data.secure_url;
+            return data.secure_url; // Retourne l'URL publique générée
         } else {
-            throw new Error(data.error ? data.error.message : "Échec de l'upload vers Cloudinary.");
+            throw new Error(data.error?.message || "Échec de l'upload Cloudinary");
         }
     } catch (error) {
-        console.error("Erreur Upload Cloudinary :", error);
+        console.error("Erreur lors de l'upload du média :", error);
         throw error;
     }
 }
 
+// 3. Envoi et enregistrement d'un message avec média (Vidéo, Vocal, Photo)
+export async function sendMediaMessage(chatRoomId, senderUid, mediaFileOrBlob, type = "audio") {
+    // A. Upload du fichier/vocal vers Cloudinary
+    const mediaUrl = await uploadMediaToCloudinary(mediaFileOrBlob);
 
-// ==========================================
-// 2. CONFIGURATION & ÉCRITURE DANS FIREBASE REALTIME DATABASE & FIRESTORE
-// ==========================================
-import { auth, db } from "./firebase-config.js";
-import { getDatabase, ref, set, update, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-import { doc, setDoc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    // B. Enregistrement SEULEMENT de l'URL dans la Realtime Database
+    const chatRef = ref(rtdb, `chats/${chatRoomId}`);
+    const newMessageRef = push(chatRef);
 
-// Liste des adresses emails déclarées Administrateur
-const ADMIN_EMAILS = [
-    "davidaglignamou2@gmail.com"
-];
+    await set(newMessageRef, {
+        senderUid: senderUid,
+        mediaUrl: mediaUrl,
+        type: type, // 'video', 'audio' (vocal/appel), 'image'
+        timestamp: Date.now()
+    });
 
-const realtimeDb = getDatabase();
+    return mediaUrl;
+}
 
-/**
- * Enregistre ou met à jour un utilisateur dans Realtime Database et Firestore.
- * Attribue automatiquement le rôle Administrateur pour davidaglignamou2@gmail.com.
- * @param {Object} user - L'objet utilisateur issu de Firebase Auth
- * @param {Object} additionalProfileData - Données complémentaires (médias Cloudinary, pays, téléphone, etc.)
- */
-export async function saveUserToDatabase(user, additionalProfileData = {}) {
-    const isAdmin = ADMIN_EMAILS.includes(user.email.toLowerCase());
-    const uid = user.uid;
+// 4. Vérification automatique du Rôle Administrateur (dakjubile@gmail.com)
+export async function checkAdminAndRedirect(user) {
+    const adminSnap = await get(ref(rtdb, 'config/admin'));
+    let isAdmin = false;
 
-    const userData = {
-        uid: uid,
+    if (adminSnap.exists() && adminSnap.val().email.toLowerCase() === user.email.toLowerCase()) {
+        isAdmin = true;
+    }
+
+    // Mise à jour de l'utilisateur dans le nœud users/
+    const userRef = ref(rtdb, `users/${user.uid}`);
+    await update(userRef, {
         email: user.email,
         isAdmin: isAdmin,
         role: isAdmin ? "admin" : "user",
-        updatedAt: new Date().toISOString(),
-        ...additionalProfileData
-    };
+        lastLogin: new Date().toISOString()
+    });
 
-    try {
-        // 1. Écriture directe dans Firebase Realtime Database
-        const dbRef = ref(realtimeDb, 'users/' + uid);
-        const snapshot = await get(dbRef);
-
-        if (snapshot.exists()) {
-            await update(dbRef, userData);
-        } else {
-            await set(dbRef, userData);
-        }
-
-        // 2. Écriture directe dans Firestore
-        const firestoreRef = doc(db, "users", uid);
-        const docSnap = await getDoc(firestoreRef);
-
-        if (docSnap.exists()) {
-            await updateDoc(firestoreRef, userData);
-        } else {
-            await setDoc(firestoreRef, userData);
-        }
-
-        console.log(`Données enregistrées avec succès pour : ${user.email} (Rôle Admin : ${isAdmin})`);
-        return { isAdmin, userData };
-
-    } catch (error) {
-        console.error("Erreur d'écriture dans Realtime Database / Firestore :", error);
-        throw error;
-    }
-}
-
-
-// ==========================================
-// 3. ENREGISTREMENT DES MÉDIAS DE CHAT OU D'APPELS DANS REALTIME DATABASE
-// ==========================================
-/**
- * Enregistre un média (image, vidéo, enregistrement audio d'un appel) directement dans Realtime DB
- * @param {string} senderUid - ID de l'expéditeur
- * @param {string} receiverUid - ID du destinataire
- * @param {File|Blob} mediaBlob - Le fichier ou enregistrement audio/vidéo
- * @param {string} mediaType - 'image', 'video', ou 'audio'
- */
-export async function sendMediaMessage(senderUid, receiverUid, mediaBlob, mediaType) {
-    try {
-        // 1. Upload automatique du média vers Cloudinary
-        const mediaUrl = await uploadToCloudinary(mediaBlob, mediaType === "image" ? "image" : "video");
-
-        // 2. Création de l'objet message
-        const messageData = {
-            senderUid: senderUid,
-            receiverUid: receiverUid,
-            mediaUrl: mediaUrl,
-            mediaType: mediaType, // 'image', 'video', ou 'audio'
-            timestamp: Date.now()
-        };
-
-        // 3. Écriture directe dans Realtime Database sous l'historique des conversations
-        const chatRoomId = [senderUid, receiverUid].sort().join("_");
-        const newMessageRef = ref(realtimeDb, `chats/${chatRoomId}/${Date.now()}`);
-        await set(newMessageRef, messageData);
-
-        return mediaUrl;
-    } catch (error) {
-        console.error("Erreur lors de l'envoi du média :", error);
-        throw error;
+    // Redirection automatique
+    if (isAdmin) {
+        window.location.href = "admin.html"; // Redirection vers le profil Administrateur
+    } else {
+        window.location.href = "index.html"; // Redirection vers l'accueil Célibataires
     }
 }

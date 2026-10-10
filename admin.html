@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Love Bébé - Panneau d'Administration Centralized Dashboard">
+    <title>Love Bébé - Administration Général</title>
+
+    <!-- Support PWA Natif -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FFD700">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png">
+
+    <!-- Fichier CSS Externe -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .admin-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 20px;
+            border: 3px solid var(--primary-gold);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h3 {
+            font-size: 1rem;
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+        }
+
+        .stat-card .number {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--deep-red);
+        }
+
+        .stat-card .sub-text {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .admin-nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .admin-nav-card {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid var(--deep-red);
+            text-align: center;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-nav-card h2 {
+            font-size: 1.25rem;
+            color: var(--deep-red);
+            margin-bottom: 10px;
+        }
+
+        .admin-nav-card p {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .admin-btn {
+            background: linear-gradient(135deg, var(--deep-red), var(--dark-red));
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            width: 100%;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(211,47,47,0.3);
+            transition: 0.3s;
+        }
+
+        .admin-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .admin-btn-blue {
+            background: linear-gradient(135deg, var(--accent-blue), #1565C0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- En-tête d'Administration -->
+    <header>
+        <a href="admin.html" class="header-brand">
+            <img src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png" alt="Logo Love Bébé" class="header-logo">
+            <span class="header-title">Admin Love Bébé</span>
+        </a>
+        <div class="nav-actions">
+            <a href="index.html" class="nav-btn nav-btn-secondary">🏠 Site Public</a>
+            <button id="logoutBtn" class="nav-btn">🚪 Déconnexion</button>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- Bannière d'Accueil Admin -->
+        <div class="hero-banner">
+            <h1>👑 Tableau de Bord Administrateur</h1>
+            <p>Aperçu analytique global de la plateforme Love Bébé</p>
+        </div>
+
+        <!-- 1. STATISTIQUES DES UTILISATEURS -->
+        <h2 style="color: var(--deep-red); margin-bottom: 15px;">📊 Statistiques des Utilisateurs</h2>
+        <div class="admin-dashboard">
+            <div class="stat-card">
+                <h3>👥 Total Utilisateurs</h3>
+                <div class="number" id="totalUsersCount">0</div>
+                <div class="sub-text">Inscrits sur la plateforme</div>
+            </div>
+            <div class="stat-card">
+                <h3>👩 Profils Femmes</h3>
+                <div class="number" id="womenCount">0</div>
+                <div class="sub-text">Sexe Féminin</div>
+            </div>
+            <div class="stat-card">
+                <h3>👨 Profils Hommes</h3>
+                <div class="number" id="menCount">0</div>
+                <div class="sub-text">Sexe Masculin</div>
+            </div>
+        </div>
+
+        <!-- 2. STATISTIQUES DES DÉPÔTS / PAIEMENTS -->
+        <h2 style="color: var(--deep-red); margin-bottom: 15px;">💳 Dashboard des Dépôts Effectués</h2>
+        <div class="admin-dashboard">
+            <div class="stat-card">
+                <h3>📅 Dépôts du Jour</h3>
+                <div class="number" id="dailyDepositsCount">0</div>
+                <div class="sub-text">Transactions aujourd'hui</div>
+            </div>
+            <div class="stat-card">
+                <h3>📆 Dépôts de la Semaine</h3>
+                <div class="number" id="weeklyDepositsCount">0</div>
+                <div class="sub-text">7 derniers jours</div>
+            </div>
+            <div class="stat-card">
+                <h3>🗓️ Dépôts du Mois</h3>
+                <div class="number" id="monthlyDepositsCount">0</div>
+                <div class="sub-text">Ce mois-ci</div>
+            </div>
+        </div>
+
+        <!-- 3. ACCÈS DIRECT AUX MODULES DE GESTION -->
+        <h2 style="color: var(--deep-red); margin-bottom: 15px; margin-top: 30px;">⚙️ Module de Gestion Administrateur</h2>
+        <div class="admin-nav-grid">
+            
+            <div class="admin-nav-card">
+                <h2>👩 Gestion Profils Femmes</h2>
+                <p>Consulter, valider ou gérer l'ensemble des profils féminins de la plateforme.</p>
+                <a href="profil-femme-admin.html" class="admin-btn">Ouvrir Profils Femmes</a>
+            </div>
+
+            <div class="admin-nav-card">
+                <h2>👨 Gestion Profils Hommes</h2>
+                <p>Consulter, valider ou gérer l'ensemble des profils masculins de la plateforme.</p>
+                <a href="profil-homme-admin.html" class="admin-btn">Ouvrir Profils Hommes</a>
+            </div>
+
+            <div class="admin-nav-card">
+                <h2>⚡ Activation des Comptes</h2>
+                <p>Activer les abonnements, valider les jetons et autoriser les accès de mise en relation.</p>
+                <a href="activation.html" class="admin-btn admin-btn-blue">Ouvrir Activations</a>
+            </div>
+
+            <div class="admin-nav-card">
+                <h2>🔧 Configuration Générale</h2>
+                <p>Modifier les paramètres système, clés d'API Cloudinary et règles de la plateforme.</p>
+                <a href="configuration.html" class="admin-btn admin-btn-blue">Ouvrir Configuration</a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Script JS d'administration et calcul analytique -->
+    <script type="module">
+        import { auth, rtdb } from "./love-bebe-service.js";
+        import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { ref, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Vérification de l'accès Administrateur
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = "connexion.html";
+                return;
+            }
+
+            // Contrôle des droits dans Firebase Realtime Database
+            const userSnap = await get(ref(rtdb, `users/${user.uid}`));
+            const adminConfigSnap = await get(ref(rtdb, 'config/admin'));
+
+            let isAdmin = false;
+
+            if (userSnap.exists() && userSnap.val().isAdmin === true) {
+                isAdmin = true;
+            } else if (adminConfigSnap.exists() && adminConfigSnap.val().email.toLowerCase() === user.email.toLowerCase()) {
+                isAdmin = true;
+            }
+
+            if (!isAdmin) {
+                alert("Accès refusé : réservé à l'administrateur principal.");
+                window.location.href = "index.html";
+                return;
+            }
+
+            // Chargement des données analytiques
+            loadAdminAnalytics();
+        });
+
+        // Chargement et calcul des statistiques
+        async function loadAdminAnalytics() {
+            try {
+                // 1. Compteurs d'utilisateurs
+                const usersSnap = await get(ref(rtdb, 'users'));
+                if (usersSnap.exists()) {
+                    const users = usersSnap.val();
+                    let totalUsers = 0;
+                    let women = 0;
+                    let men = 0;
+
+                    Object.keys(users).forEach(uid => {
+                        const user = users[uid];
+                        if (user.isAdmin) return; // Ne pas compter l'admin principal
+
+                        totalUsers++;
+
+                        const gender = user.gender ? user.gender.toLowerCase() : '';
+                        if (gender === 'féminin' || gender === 'femme') {
+                            women++;
+                        } else if (gender === 'masculin' || gender === 'homme') {
+                            men++;
+                        }
+                    });
+
+                    document.getElementById('totalUsersCount').textContent = totalUsers;
+                    document.getElementById('womenCount').textContent = women;
+                    document.getElementById('menCount').textContent = men;
+                }
+
+                // 2. Compteurs des Dépôts / Transactions
+                const depositsSnap = await get(ref(rtdb, 'deposits'));
+                if (depositsSnap.exists()) {
+                    const deposits = depositsSnap.val();
+                    const now = new Date();
+
+                    let daily = 0;
+                    let weekly = 0;
+                    let monthly = 0;
+
+                    const oneDayMs = 24 * 60 * 60 * 1000;
+                    const oneWeekMs = 7 * oneDayMs;
+
+                    Object.keys(deposits).forEach(id => {
+                        const dep = deposits[id];
+                        if (!dep.timestamp) return;
+
+                        const depDate = new Date(dep.timestamp);
+                        const diffTime = now - depDate;
+
+                        // Dépôts du jour (même jour/mois/année)
+                        if (depDate.toDateString() === now.toDateString()) {
+                            daily++;
+                        }
+
+                        // Dépôts de la semaine (dans les 7 derniers jours)
+                        if (diffTime <= oneWeekMs) {
+                            weekly++;
+                        }
+
+                        // Dépôts du mois (même mois et même année)
+                        if (depDate.getMonth() === now.getMonth() && depDate.getFullYear() === now.getFullYear()) {
+                            monthly++;
+                        }
+                    });
+
+                    document.getElementById('dailyDepositsCount').textContent = daily;
+                    document.getElementById('weeklyDepositsCount').textContent = weekly;
+                    document.getElementById('monthlyDepositsCount').textContent = monthly;
+                }
+
+            } catch (err) {
+                console.error("Erreur de chargement des métriques admin :", err);
+            }
+        }
+
+        // Gestion de la Déconnexion
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            await signOut(auth);
+            window.location.href = "connexion.html";
+        });
+    </script>
+</body>
+</html>

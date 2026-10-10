@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Love Bébé - Mon Profil Professionnel. Gestion du profil, statut matrimonial, capturation caméra direct et affichage par genre.">
+    <title>Love Bébé - Mon Profil VIP</title>
+
+    <!-- Support PWA Natif -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FFD700">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png">
+
+    <!-- Fichier CSS Externe -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* Styles spécifiques pour le studio Caméra et les vidéos */
+        .camera-box {
+            background: #111;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            color: #fff;
+            margin-top: 15px;
+            border: 2px solid var(--primary-gold);
+        }
+        video.preview-video {
+            width: 100%;
+            max-width: 380px;
+            height: 240px;
+            border-radius: 8px;
+            background: #000;
+            object-fit: cover;
+        }
+        .cam-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .cam-btn {
+            background: linear-gradient(135deg, var(--deep-red), var(--dark-red));
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .cam-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
+        .gallery-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .gallery-item {
+            position: relative;
+            width: 100%;
+            height: 100px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid var(--primary-gold);
+        }
+        .gallery-item img, .gallery-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .timer-badge {
+            color: #FFD700;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- En-tête de Navigation -->
+    <header>
+        <a href="index.html" class="header-brand">
+            <img src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png" alt="Logo Love Bébé" class="header-logo">
+            <span class="header-title">Love Bébé</span>
+        </a>
+        <div class="nav-actions">
+            <a href="index.html" class="nav-btn nav-btn-secondary">🏠 Accueil</a>
+            <button id="logoutBtn" class="nav-btn">🚪 Déconnexion</button>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <!-- SECTION 1 : MODIFICATION DU PROFIL UTILISATEUR -->
+        <div class="hero-banner">
+            <h1>⚙️ Mon Profil VIP</h1>
+            <p>Mettez à jour vos informations personnelles, votre statut familial et votre présentation.</p>
+        </div>
+
+        <div class="card" style="max-width: 800px; margin: 0 auto 30px auto;">
+            <form id="profileForm">
+                
+                <label>Genre / Sexe :</label>
+                <select id="gender" required>
+                    <option value="">Sélectionnez votre sexe</option>
+                    <option value="Masculin">Masculin (Homme)</option>
+                    <option value="Féminin">Féminin (Femme)</option>
+                </select>
+
+                <label>Nom complet :</label>
+                <input type="text" id="fullName" required placeholder="Votre nom et prénom">
+
+                <label>Statut Matrimonial :</label>
+                <select id="maritalStatus" required>
+                    <option value="">Sélectionnez votre situation</option>
+                    <option value="Célibataire sans enfant">Célibataire sans enfant</option>
+                    <option value="Célibataire avec enfant(s)">Célibataire avec enfant(s)</option>
+                    <option value="Marié(e) sans enfant">Marié(e) sans enfant</option>
+                    <option value="Marié(e) avec enfant(s)">Marié(e) avec enfant(s)</option>
+                    <option value="Divorcé(e)">Divorcé(e)</option>
+                    <option value="Veuf / Veuve">Veuf / Veuve</option>
+                </select>
+
+                <label>Nombre d'enfants :</label>
+                <input type="number" id="childrenCount" min="0" value="0">
+
+                <label>Ville :</label>
+                <input type="text" id="city" placeholder="Ex: Cotonou / Abidjan">
+
+                <label>Pays :</label>
+                <input type="text" id="country" placeholder="Ex: Bénin / Côte d'Ivoire">
+
+                <label>Tranche d'âge recherchée :</label>
+                <select id="targetAge">
+                    <option value="18-25">18 - 25 ans</option>
+                    <option value="25-30">25 - 30 ans</option>
+                    <option value="30-35">30 - 35 ans</option>
+                    <option value="35-40">35 - 40 ans</option>
+                    <option value="40-45">40 - 45 ans</option>
+                    <option value="45-50">45 - 50 ans</option>
+                    <option value="50+">Plus de 50 ans</option>
+                </select>
+
+                <label>Biographie / Présentation complète :</label>
+                <textarea id="bio" rows="4" style="width:100%; padding:10px; border-radius:8px; border:2px solid #E0E0E0;" placeholder="Décrivez votre personnalité, vos passions et vos attentes..."></textarea>
+
+                <!-- STUDIO CAMÉRA : PHOTO & VIDÉO DIRECTE -->
+                <div class="camera-box">
+                    <h3>📷 Studio Caméra Directe</h3>
+                    <p style="font-size:12px; color:#ddd;">Prenez jusqu'à 4 photos et 4 vidéos courtes (15 secondes max) directement avec votre caméra.</p>
+                    
+                    <video id="webcam" class="preview-video" autoplay playsinline muted></video>
+                    <div id="timer" class="timer-badge"></div>
+
+                    <div class="cam-controls">
+                        <button type="button" id="startCamBtn" class="cam-btn">Démarrer Caméra</button>
+                        <button type="button" id="takePhotoBtn" class="cam-btn" disabled>📸 Prendre Photo</button>
+                        <button type="button" id="recordVideoBtn" class="cam-btn" disabled>🎥 Enregistrer Vidéo (15s)</button>
+                    </div>
+
+                    <!-- Prévisualisation des médias capturés -->
+                    <h4 style="margin-top:15px; color:var(--primary-gold);">Photos Capturées (<span id="photoCount">0</span>/4)</h4>
+                    <div id="photoGallery" class="gallery-preview"></div>
+
+                    <h4 style="margin-top:15px; color:var(--primary-gold);">Vidéos Enregistrées (<span id="videoCount">0</span>/4)</h4>
+                    <div id="videoGallery" class="gallery-preview"></div>
+                </div>
+
+                <button type="submit" style="margin-top:25px;">💾 Enregistrer & Mettre à jour mon profil</button>
+                <div id="statusMsg" class="error-msg" style="color:#0D47A1;"></div>
+            </form>
+        </div>
+
+        <!-- SECTION 2 : VUE DES PROFILS OPPOSÉS DYNAMIQUES -->
+        <div class="hero-banner">
+            <h2 id="targetSectionTitle">💘 Profils recommandés pour vous</h2>
+            <p id="targetSectionDesc">Découvrez les célibataires correspondant à vos critères.</p>
+        </div>
+
+        <div id="oppositeProfilesContainer" class="profiles-grid">
+            <p style="text-align:center; grid-column: 1/-1; font-weight:bold; color:#0D47A1;">Chargement des profils en cours...</p>
+        </div>
+
+    </div>
+
+    <!-- Logique JS Firebase + Cloudinary + Caméra -->
+    <script type="module">
+        import { auth, rtdb, uploadMediaToCloudinary } from "./love-bebe-service.js";
+        import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { ref, get, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        let currentUser = null;
+        let mediaStream = null;
+        let mediaRecorder = null;
+        let recordedChunks = [];
+
+        let capturedPhotosBlobs = [];
+        let capturedVideosBlobs = [];
+
+        // Éléments DOM
+        const webcam = document.getElementById('webcam');
+        const startCamBtn = document.getElementById('startCamBtn');
+        const takePhotoBtn = document.getElementById('takePhotoBtn');
+        const recordVideoBtn = document.getElementById('recordVideoBtn');
+        const timerDiv = document.getElementById('timer');
+
+        // 1. Démarrage de la Caméra
+        startCamBtn.addEventListener('click', async () => {
+            try {
+                mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                webcam.srcObject = mediaStream;
+                takePhotoBtn.disabled = false;
+                recordVideoBtn.disabled = false;
+                startCamBtn.disabled = true;
+            } catch (err) {
+                alert("Erreur d'accès à la caméra/micro : " + err.message);
+            }
+        });
+
+        // 2. Capture de Photo Directe
+        takePhotoBtn.addEventListener('click', () => {
+            if (capturedPhotosBlobs.length >= 4) {
+                alert("Vous avez déjà pris le maximum de 4 photos.");
+                return;
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = webcam.videoWidth || 640;
+            canvas.height = webcam.videoHeight || 480;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(webcam, 0, 0, canvas.width, canvas.height);
+
+            canvas.toBlob((blob) => {
+                capturedPhotosBlobs.push(blob);
+                document.getElementById('photoCount').textContent = capturedPhotosBlobs.length;
+
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(blob);
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.appendChild(img);
+                document.getElementById('photoGallery').appendChild(item);
+            }, 'image/jpeg', 0.85);
+        });
+
+        // 3. Enregistrement de Vidéo Directe (15s Max)
+        recordVideoBtn.addEventListener('click', () => {
+            if (capturedVideosBlobs.length >= 4) {
+                alert("Vous avez déjà enregistré le maximum de 4 vidéos.");
+                return;
+            }
+
+            recordedChunks = [];
+            mediaRecorder = new MediaRecorder(mediaStream, { mimeType: 'video/webm' });
+
+            mediaRecorder.ondataavailable = (e) => {
+                if (e.data.size > 0) recordedChunks.push(e.data);
+            };
+
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                capturedVideosBlobs.push(blob);
+                document.getElementById('videoCount').textContent = capturedVideosBlobs.length;
+
+                const vid = document.createElement('video');
+                vid.src = URL.createObjectURL(blob);
+                vid.controls = true;
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.appendChild(vid);
+                document.getElementById('videoGallery').appendChild(item);
+                timerDiv.textContent = "Vidéo capturée !";
+                recordVideoBtn.disabled = false;
+            };
+
+            mediaRecorder.start();
+            recordVideoBtn.disabled = true;
+
+            let timeLeft = 15;
+            timerDiv.textContent = `Enregistrement : ${timeLeft}s restantes...`;
+
+            const interval = setInterval(() => {
+                timeLeft--;
+                if (timeLeft > 0) {
+                    timerDiv.textContent = `Enregistrement : ${timeLeft}s restantes...`;
+                } else {
+                    clearInterval(interval);
+                    if (mediaRecorder.state === 'recording') mediaRecorder.stop();
+                }
+            }, 1000);
+        });
+
+        // 4. Authentification et Chargement des Données
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = "connexion.html";
+                return;
+            }
+
+            currentUser = user;
+            const userRef = ref(rtdb, `users/${user.uid}`);
+            const snapshot = await get(userRef);
+
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                document.getElementById('gender').value = data.gender || '';
+                document.getElementById('fullName').value = data.fullName || '';
+                document.getElementById('maritalStatus').value = data.maritalStatus || '';
+                document.getElementById('childrenCount').value = data.childrenCount || 0;
+                document.getElementById('city').value = data.city || '';
+                document.getElementById('country').value = data.country || '';
+                document.getElementById('targetAge').value = data.targetAge || '25-30';
+                document.getElementById('bio').value = data.bio || '';
+
+                // Charger les profils du sexe opposé
+                loadOppositeProfiles(data.gender);
+            } else {
+                loadOppositeProfiles(null);
+            }
+        });
+
+        // 5. Sauvegarde et Mise à Jour du Profil dans Realtime Database
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const statusMsg = document.getElementById('statusMsg');
+            statusMsg.textContent = "Téléversement des médias et mise à jour du profil en cours...";
+
+            try {
+                // Upload des photos
+                let photoUrls = [];
+                for (let blob of capturedPhotosBlobs) {
+                    const url = await uploadMediaToCloudinary(blob);
+                    photoUrls.push(url);
+                }
+
+                // Upload des vidéos
+                let videoUrls = [];
+                for (let blob of capturedVideosBlobs) {
+                    const url = await uploadMediaToCloudinary(blob);
+                    videoUrls.push(url);
+                }
+
+                const gender = document.getElementById('gender').value;
+
+                const updateData = {
+                    gender: gender,
+                    fullName: document.getElementById('fullName').value.trim(),
+                    maritalStatus: document.getElementById('maritalStatus').value,
+                    childrenCount: parseInt(document.getElementById('childrenCount').value) || 0,
+                    city: document.getElementById('city').value.trim(),
+                    country: document.getElementById('country').value.trim(),
+                    targetAge: document.getElementById('targetAge').value,
+                    bio: document.getElementById('bio').value.trim(),
+                    updatedAt: new Date().toISOString()
+                };
+
+                if (photoUrls.length > 0) updateData.capturedPhotos = photoUrls;
+                if (videoUrls.length > 0) updateData.capturedVideos = videoUrls;
+
+                await update(ref(rtdb, `users/${currentUser.uid}`), updateData);
+
+                statusMsg.style.color = "green";
+                statusMsg.textContent = "✅ Profil mis à jour avec succès !";
+
+                // Recharger l'affichage des profils opposés
+                loadOppositeProfiles(gender);
+
+            } catch (err) {
+                statusMsg.style.color = "red";
+                statusMsg.textContent = "Erreur : " + err.message;
+            }
+        });
+
+        // 6. Filtrage Strict par Genre (Homme voit Profils Femmes / Femme voit Profils Hommes)
+        async function loadOppositeProfiles(myGender) {
+            const container = document.getElementById('oppositeProfilesContainer');
+            const title = document.getElementById('targetSectionTitle');
+            const desc = document.getElementById('targetSectionDesc');
+
+            let targetGender = "";
+            if (myGender === "Masculin") {
+                targetGender = "Féminin";
+                title.textContent = "👩 Profils des Femmes";
+                desc.textContent = "Découvrez toutes les femmes inscrites sur Love Bébé.";
+            } else if (myGender === "Féminin") {
+                targetGender = "Masculin";
+                title.textContent = "👨 Profils des Hommes";
+                desc.textContent = "Découvrez tous les hommes inscrits sur Love Bébé.";
+            } else {
+                title.textContent = "💘 Tous les Profils";
+                desc.textContent = "Veuillez préciser votre sexe ci-dessus pour un affichage ciblé.";
+            }
+
+            try {
+                const snapshot = await get(ref(rtdb, 'users'));
+                if (!snapshot.exists()) {
+                    container.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Aucun profil trouvé.</p>";
+                    return;
+                }
+
+                container.innerHTML = "";
+                const users = snapshot.val();
+                let count = 0;
+
+                Object.keys(users).forEach(uid => {
+                    // Ne pas afficher son propre profil ni les admins
+                    if (uid === currentUser?.uid || users[uid].isAdmin) return;
+
+                    const user = users[uid];
+
+                    // Filtrage strict selon le genre
+                    if (targetGender && user.gender !== targetGender) return;
+
+                    count++;
+                    const card = document.createElement('div');
+                    card.className = 'profile-card';
+
+                    const mainPhoto = user.capturedPhotos?.[0] || user.profileMediaUrl || 'https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png';
+
+                    card.innerHTML = `
+                        <div class="media-container">
+                            <img src="${mainPhoto}" class="profile-media" alt="Profil">
+                        </div>
+                        <div class="profile-content">
+                            <div>
+                                <h3 class="profile-name-age">${user.fullName || 'Célibataire'}</h3>
+                                <div class="profile-detail">📍 <strong>Ville/Pays :</strong> ${user.city || 'N/A'}, ${user.country || 'N/A'}</div>
+                                <div class="profile-detail">💍 <strong>Statut :</strong> ${user.maritalStatus || 'Non précisé'}</div>
+                                <div class="profile-detail">👶 <strong>Enfant(s) :</strong> ${user.childrenCount ?? 0}</div>
+                                <div class="profile-quote">"${user.bio || 'À la recherche de l\'amour...'}"</div>
+                            </div>
+                            <div class="card-actions">
+                                <a href="paiement.html?id=${uid}" class="action-btn btn-connect">💬 Entrer en contact</a>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+
+                if (count === 0) {
+                    container.innerHTML = `<p style='text-align:center; grid-column:1/-1; font-weight:bold; color:var(--deep-red);'>Aucun profil ${targetGender ? targetGender.toLowerCase() : ''} disponible actuellement.</p>`;
+                }
+
+            } catch (err) {
+                console.error("Erreur de chargement :", err);
+            }
+        }
+
+        // Déconnexion
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            await signOut(auth);
+            window.location.href = "connexion.html";
+        });
+    </script>
+</body>
+</html>
