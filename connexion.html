@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Bébé - Connexion & Inscription Internationale</title>
-
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#FFD700">
-
+    <title>Love Bébé - Connexion & Inscription</title>
     <style>
         :root {
             --primary-gold: #FFD700;
@@ -16,9 +12,8 @@
             --dark-red: #B71C1C;
             --accent-blue: #0D47A1;
         }
-
         body {
-            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--dark-gold) 100%);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
@@ -27,23 +22,20 @@
             margin: 0;
             padding: 20px;
         }
-
         .card {
-            background: #fff;
+            background: #FFFFFF;
             padding: 30px;
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,.3);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
             width: 100%;
-            max-width: 520px;
+            max-width: 500px;
             border: 4px solid var(--primary-gold);
             box-sizing: border-box;
         }
-
         .logo-container {
             text-align: center;
             margin-bottom: 15px;
         }
-
         .logo-wrapper {
             width: 90px;
             height: 90px;
@@ -51,19 +43,17 @@
             border-radius: 50%;
             background: #fff;
             border: 3px solid var(--primary-gold);
-            box-shadow: 0 4px 10px rgba(0,0,0,.2);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-
         .logo-wrapper img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
         h2 {
             text-align: center;
             color: var(--deep-red);
@@ -72,15 +62,13 @@
             margin-bottom: 20px;
             font-size: 1.4rem;
         }
-
         label {
             display: block;
-            margin-top: 12px;
+            margin-top: 10px;
             font-weight: bold;
             color: var(--accent-blue);
             font-size: 13px;
         }
-
         input, select {
             width: 100%;
             padding: 10px;
@@ -90,20 +78,16 @@
             box-sizing: border-box;
             font-size: 14px;
         }
-
         input:focus, select:focus {
             outline: none;
             border-color: var(--deep-red);
         }
-
         .password-container {
             position: relative;
         }
-
         .password-container input {
             padding-right: 40px;
         }
-
         .toggle-password {
             position: absolute;
             right: 12px;
@@ -112,49 +96,9 @@
             cursor: pointer;
             font-size: 16px;
         }
-
-        .phone-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 5px;
-        }
-
-        .phone-group select,
-        .phone-group input {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .checkbox-container {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            margin-top: 15px;
-            font-size: 12px;
-            color: #333;
-        }
-
-        .checkbox-container input {
-            width: auto;
-            margin-top: 3px;
-            flex-shrink: 0;
-        }
-
-        .checkbox-container label {
-            margin: 0;
-            font-weight: normal;
-            color: #333;
-        }
-
-        .checkbox-container a {
-            color: var(--accent-blue);
-            font-weight: bold;
-            text-decoration: underline;
-        }
-
         button[type="submit"] {
             background: linear-gradient(to right, var(--deep-red), var(--dark-red));
-            color: #fff;
+            color: #FFFFFF;
             border: none;
             padding: 12px;
             width: 100%;
@@ -163,758 +107,325 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 20px;
-            box-shadow: 0 4px 15px rgba(211,47,47,.4);
+            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.4);
         }
-
-        button[type="submit"]:disabled {
-            opacity: .65;
+        button[type="submit"]:hover {
+            opacity: 0.9;
+        }
+        button:disabled {
+            background: #cccccc !important;
             cursor: not-allowed;
         }
-
         .switch-link {
             text-align: center;
             margin-top: 15px;
             font-size: 14px;
             color: #333;
         }
-
         .switch-link span {
             color: var(--accent-blue);
             font-weight: bold;
             text-decoration: underline;
             cursor: pointer;
         }
-
         .error-msg {
             color: var(--deep-red);
             font-size: 13px;
             text-align: center;
             margin-top: 10px;
             font-weight: bold;
-            overflow-wrap: anywhere;
         }
-
         .hidden {
-            display: none !important;
-        }
-
-        .photo-preview {
-            display: block;
-            width: 90px;
-            height: 90px;
-            margin: 12px auto 0;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 2px solid var(--primary-gold);
-        }
-
-        .help-text {
-            font-size: 12px;
-            color: #555;
-            margin-top: 5px;
-            line-height: 1.4;
-        }
-
-        @media (max-width: 400px) {
-            .card {
-                padding: 20px 15px;
-            }
-
-            .phone-group {
-                gap: 6px;
-            }
+            display: none;
         }
     </style>
 </head>
-
 <body>
-<div class="card">
 
-    <div class="logo-container">
-        <div class="logo-wrapper">
-            <img
-                src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png"
-                alt="Logo Love Bébé"
-            >
-        </div>
-    </div>
-
-    <h2 id="form-title">Connexion Love Bébé</h2>
-
-    <!-- CONNEXION -->
-    <form id="loginForm">
-        <label for="loginEmail">Email :</label>
-        <input
-            type="email"
-            id="loginEmail"
-            autocomplete="email"
-            required
-            placeholder="exemple@domaine.com"
-        >
-
-        <label for="loginPassword">Mot de passe :</label>
-        <div class="password-container">
-            <input
-                type="password"
-                id="loginPassword"
-                autocomplete="current-password"
-                required
-                placeholder="Votre mot de passe"
-            >
-            <span
-                class="toggle-password"
-                onclick="togglePasswordVisibility('loginPassword', this)"
-                role="button"
-                aria-label="Afficher ou masquer le mot de passe"
-            >👁️</span>
+    <div class="card">
+        <div class="logo-container">
+            <div class="logo-wrapper">
+                <img src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png" alt="Logo Love Bébé" crossorigin="anonymous">
+            </div>
         </div>
 
-        <button type="submit" id="loginButton">Se connecter</button>
-        <div id="loginError" class="error-msg" role="status"></div>
-    </form>
+        <h2 id="form-title">Connexion Love Bébé</h2>
 
-    <!-- INSCRIPTION -->
-    <form id="registerForm" class="hidden">
+        <!-- FORMULAIRE DE CONNEXION -->
+        <form id="loginForm">
+            <label>Email :</label>
+            <input type="email" id="loginEmail" required placeholder="exemple@domaine.com">
 
-        <label for="fullName">Nom complet :</label>
-        <input
-            type="text"
-            id="fullName"
-            autocomplete="name"
-            required
-            placeholder="Ex : Kouassi Jean"
-        >
+            <label>Mot de passe :</label>
+            <div class="password-container">
+                <input type="password" id="loginPassword" required placeholder="••••••••">
+                <span class="toggle-password" onclick="togglePasswordVisibility('loginPassword', this)">👁️</span>
+            </div>
 
-        <label for="gender">Genre / Sexe :</label>
-        <select id="gender" required>
-            <option value="">Sélectionnez votre sexe</option>
-            <option value="Masculin">Masculin (Homme)</option>
-            <option value="Féminin">Féminin (Femme)</option>
-        </select>
+            <button type="submit" id="btnLogin">Se connecter</button>
+            <div id="loginError" class="error-msg"></div>
+        </form>
 
-        <label for="city">Ville :</label>
-        <input
-            type="text"
-            id="city"
-            required
-            placeholder="Ex : Cotonou, Abidjan, Paris"
-        >
+        <!-- FORMULAIRE D'INSCRIPTION -->
+        <form id="registerForm" class="hidden">
+            <label>Nom complet :</label>
+            <input type="text" id="fullName" required placeholder="Ex: Kouassi Jean">
 
-        <label for="countryInput">Pays de résidence :</label>
-        <input
-            type="text"
-            id="countryInput"
-            required
-            placeholder="Ex : Bénin, France, Canada"
-        >
-
-        <label for="phoneCode">Numéro WhatsApp :</label>
-        <div class="phone-group">
-            <select id="phoneCode" required>
-                <option value="+229">🇧🇯 Bénin (+229)</option>
+            <label>Genre / Sexe :</label>
+            <select id="gender" required>
+                <option value="">Sélectionnez votre sexe</option>
+                <option value="Masculin">Masculin (Homme)</option>
+                <option value="Féminin">Féminin (Femme)</option>
             </select>
 
-            <input
-                type="tel"
-                id="whatsappNumber"
-                required
-                autocomplete="tel-national"
-                placeholder="Numéro de téléphone"
-            >
+            <label>Ville :</label>
+            <input type="text" id="city" required placeholder="Ex: Cotonou / Abidjan">
+
+            <label>Pays :</label>
+            <input type="text" id="countryInput" required placeholder="Ex: Bénin / Côte d'Ivoire">
+
+            <label>Statut Matrimonial :</label>
+            <select id="maritalStatus" required>
+                <option value="Célibataire sans enfant">Célibataire sans enfant</option>
+                <option value="Célibataire avec enfant(s)">Célibataire avec enfant(s)</option>
+                <option value="Marié(e)">Marié(e)</option>
+            </select>
+
+            <label>Âge (minimum 18 ans requis) :</label>
+            <input type="number" id="age" min="18" required placeholder="Votre âge">
+
+            <label>Email :</label>
+            <input type="email" id="regEmail" required placeholder="exemple@domaine.com">
+
+            <label>Mot de passe :</label>
+            <div class="password-container">
+                <input type="password" id="regPassword" required placeholder="••••••••">
+                <span class="toggle-password" onclick="togglePasswordVisibility('regPassword', this)">👁️</span>
+            </div>
+
+            <label>Photo ou Vidéo de profil :</label>
+            <input type="file" id="profileImage" accept="image/*,video/*">
+
+            <button type="submit" id="btnRegister">S'inscrire</button>
+            <div id="regError" class="error-msg"></div>
+        </form>
+
+        <div class="switch-link">
+            <span id="toggleTextMsg">Pas encore de compte ?</span> <span id="toggleBtn">S'inscrire</span>
         </div>
-
-        <label for="maritalStatus">Statut matrimonial :</label>
-        <select id="maritalStatus" required>
-            <option value="">Sélectionnez votre situation</option>
-            <option value="Je ne suis jamais marié(e)">
-                Je ne suis jamais marié(e)
-            </option>
-            <option value="Je n'ai jamais été marié(e) et je suis célibataire">
-                Jamais marié(e), actuellement célibataire
-            </option>
-            <option value="J'ai été marié(e) une fois et aujourd'hui je suis célibataire">
-                Déjà marié(e), aujourd'hui célibataire
-            </option>
-            <option value="Célibataire sans enfant">Célibataire sans enfant</option>
-            <option value="Célibataire avec un enfant">Célibataire avec un enfant</option>
-            <option value="Célibataire avec des enfants">
-                Célibataire avec des enfants
-            </option>
-            <option value="Divorcé(e)">Divorcé(e)</option>
-            <option value="Veuf / Veuve">Veuf / Veuve</option>
-        </select>
-
-        <label for="age">Âge (18 ans minimum) :</label>
-        <input
-            type="number"
-            id="age"
-            min="18"
-            max="120"
-            step="1"
-            required
-            placeholder="Ex : 24"
-        >
-
-        <label for="regEmail">Email :</label>
-        <input
-            type="email"
-            id="regEmail"
-            autocomplete="email"
-            required
-            placeholder="exemple@domaine.com"
-        >
-
-        <label for="regPassword">Mot de passe (6 caractères minimum) :</label>
-        <div class="password-container">
-            <input
-                type="password"
-                id="regPassword"
-                autocomplete="new-password"
-                minlength="6"
-                required
-                placeholder="Créer un mot de passe"
-            >
-            <span
-                class="toggle-password"
-                onclick="togglePasswordVisibility('regPassword', this)"
-                role="button"
-                aria-label="Afficher ou masquer le mot de passe"
-            >👁️</span>
-        </div>
-
-        <label for="profileImage">Photo de profil (facultative) :</label>
-        <input
-            type="file"
-            id="profileImage"
-            accept="image/jpeg,image/png,image/webp,image/gif"
-        >
-
-        <p class="help-text">
-            Choisissez une photo dans la galerie de votre téléphone.
-            Elle sera redimensionnée et enregistrée dans le profil Firebase.
-            Aucune photo n'est envoyée à Cloudinary.
-        </p>
-
-        <img id="photoPreview" class="photo-preview hidden" alt="Aperçu de la photo">
-
-        <div class="checkbox-container">
-            <input type="checkbox" id="termsCheckbox" required>
-            <label for="termsCheckbox">
-                J'accepte les
-                <a href="politique-de-confidentialite.html" target="_blank" rel="noopener">
-                    Conditions d'utilisation et la Politique de confidentialité
-                </a>.
-            </label>
-        </div>
-
-        <button type="submit" id="registerButton">Créer mon compte</button>
-        <div id="regError" class="error-msg" role="status"></div>
-    </form>
-
-    <div class="switch-link">
-        <span id="toggleTextMsg">Pas encore de compte ?</span>
-        <span id="toggleBtn">S'inscrire</span>
     </div>
-</div>
 
-<script>
-    function togglePasswordVisibility(fieldId, iconElement) {
-        const field = document.getElementById(fieldId);
-
-        if (field.type === "password") {
-            field.type = "text";
-            iconElement.textContent = "🙈";
-        } else {
-            field.type = "password";
-            iconElement.textContent = "👁️";
+    <script>
+        function togglePasswordVisibility(fieldId, iconElement) {
+            const field = document.getElementById(fieldId);
+            if (field.type === "password") {
+                field.type = "text";
+                iconElement.textContent = "🙈";
+            } else {
+                field.type = "password";
+                iconElement.textContent = "👁️";
+            }
         }
-    }
-</script>
 
-<script type="module">
-    import { auth, rtdb } from "./love-bebe-service.js";
+        // Compression locale de l'image via Canvas
+        function compressImage(file, maxWidth = 600, maxHeight = 600, quality = 0.6) {
+            return new Promise((resolve, reject) => {
+                if (file.type.startsWith('video/')) {
+                    resolve(file); // Les vidéos ne sont pas traitées via le canvas
+                    return;
+                }
 
-    import {
-        signInWithEmailAndPassword,
-        createUserWithEmailAndPassword
-    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        let width = img.width;
+                        let height = img.height;
 
-    import {
-        ref,
-        get,
-        set
-    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+                        if (width > height) {
+                            if (width > maxWidth) {
+                                height *= maxWidth / width;
+                                width = maxWidth;
+                            }
+                        } else {
+                            if (height > maxHeight) {
+                                width *= maxHeight / height;
+                                height = maxHeight;
+                            }
+                        }
 
-    const loginForm = document.getElementById("loginForm");
-    const registerForm = document.getElementById("registerForm");
-    const formTitle = document.getElementById("form-title");
-    const toggleBtn = document.getElementById("toggleBtn");
-    const toggleTextMsg = document.getElementById("toggleTextMsg");
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
 
-    const loginButton = document.getElementById("loginButton");
-    const registerButton = document.getElementById("registerButton");
+                        canvas.toBlob((blob) => {
+                            if (blob) {
+                                const compressedFile = new File([blob], file.name, {
+                                    type: 'image/jpeg',
+                                    lastModified: Date.now()
+                                });
+                                resolve(compressedFile);
+                            } else {
+                                resolve(file);
+                            }
+                        }, 'image/jpeg', quality);
+                    };
+                    img.onerror = (err) => reject(err);
+                };
+            });
+        }
+    </script>
 
-    const loginError = document.getElementById("loginError");
-    const regError = document.getElementById("regError");
+    <script type="module">
+        import { auth, checkAdminAndRedirect, rtdb } from "./love-bebe-service.js";
+        import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-    let isLoginMode = true;
-    let isSubmitting = false;
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const formTitle = document.getElementById('form-title');
+        const toggleBtn = document.getElementById('toggleBtn');
+        const toggleTextMsg = document.getElementById('toggleTextMsg');
+        const loginError = document.getElementById('loginError');
+        const regError = document.getElementById('regError');
 
-    // =====================================================
-    // CHARGEMENT DES INDICATIFS INTERNATIONAUX
-    // =====================================================
+        let isLoginMode = true;
 
-    async function loadWorldPhoneCodes() {
-        const phoneSelect = document.getElementById("phoneCode");
+        // Bascule Connexion <-> Inscription
+        toggleBtn.addEventListener('click', () => {
+            isLoginMode = !isLoginMode;
+            loginError.textContent = "";
+            regError.textContent = "";
 
-        // Toujours avoir une option utilisable, même hors connexion.
-        phoneSelect.innerHTML = "";
+            if (isLoginMode) {
+                formTitle.textContent = "Connexion Love Bébé";
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+                toggleTextMsg.textContent = "Pas encore de compte ?";
+                toggleBtn.textContent = "S'inscrire";
+            } else {
+                formTitle.textContent = "Inscription Love Bébé";
+                loginForm.classList.add('hidden');
+                registerForm.classList.remove('hidden');
+                toggleTextMsg.textContent = "Déjà inscrit ?";
+                toggleBtn.textContent = "Se connecter";
+            }
+        });
 
-        const beninOption = document.createElement("option");
-        beninOption.value = "+229";
-        beninOption.textContent = "🇧🇯 Bénin (+229)";
-        phoneSelect.appendChild(beninOption);
+        // Envoi vers Cloudinary en utilisant la configuration stockée dans Firebase Realtime Database
+        async function uploadFileToCloudinary(file) {
+            const snapshot = await get(child(ref(rtdb), 'config/cloudinary'));
+            
+            if (!snapshot.exists()) {
+                throw new Error("La configuration Cloudinary est introuvable dans Realtime Database.");
+            }
 
-        try {
-            const response = await fetch(
-                "https://restcountries.com/v3.1/all?fields=name,idd,flag,translations"
-            );
+            const cloudConfig = snapshot.val();
+            const uploadUrl = cloudConfig.upload_url || `https://api.cloudinary.com/v1_1/${cloudConfig.cloud_name}/auto/upload`;
+            const uploadPreset = cloudConfig.upload_preset;
 
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', uploadPreset);
+
+            const response = await fetch(uploadUrl, {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
             if (!response.ok) {
-                throw new Error("Impossible de charger les indicatifs.");
+                throw new Error(data.error?.message || "Échec du téléversement vers Cloudinary.");
             }
 
-            const countries = await response.json();
-            const codes = new Map();
-
-            countries.forEach(country => {
-                if (!country.idd || !country.idd.root) return;
-
-                const root = country.idd.root;
-                const suffixes =
-                    country.idd.suffixes && country.idd.suffixes.length
-                        ? country.idd.suffixes
-                        : [""];
-
-                const countryName =
-                    country.translations?.fra?.common ||
-                    country.name?.common ||
-                    "Pays";
-
-                const flag = country.flag || "🌐";
-
-                suffixes.forEach(suffix => {
-                    const code = `${root}${suffix}`.trim();
-
-                    if (!code || code === "+" || code === "+229") return;
-
-                    const key = `${countryName}|${code}`;
-
-                    codes.set(key, {
-                        code,
-                        name: countryName,
-                        flag
-                    });
-                });
-            });
-
-            [...codes.values()]
-                .sort((a, b) => a.name.localeCompare(b.name, "fr"))
-                .forEach(item => {
-                    const option = document.createElement("option");
-                    option.value = item.code;
-                    option.textContent =
-                        `${item.flag} ${item.name} (${item.code})`;
-
-                    phoneSelect.appendChild(option);
-                });
-
-        } catch (error) {
-            console.warn("Indicatifs internationaux :", error);
-            // L'indicatif du Bénin reste disponible.
-        }
-    }
-
-    loadWorldPhoneCodes();
-
-    // =====================================================
-    // BASCULE ENTRE CONNEXION ET INSCRIPTION
-    // =====================================================
-
-    toggleBtn.addEventListener("click", () => {
-        if (isSubmitting) return;
-
-        isLoginMode = !isLoginMode;
-
-        loginError.textContent = "";
-        regError.textContent = "";
-
-        if (isLoginMode) {
-            formTitle.textContent = "Connexion Love Bébé";
-            loginForm.classList.remove("hidden");
-            registerForm.classList.add("hidden");
-            toggleTextMsg.textContent = "Pas encore de compte ?";
-            toggleBtn.textContent = "S'inscrire";
-        } else {
-            formTitle.textContent = "Inscription Love Bébé";
-            loginForm.classList.add("hidden");
-            registerForm.classList.remove("hidden");
-            toggleTextMsg.textContent = "Déjà inscrit ?";
-            toggleBtn.textContent = "Se connecter";
-        }
-    });
-
-    // =====================================================
-    // APERÇU DE LA PHOTO CHOISIE
-    // =====================================================
-
-    const profileImageInput = document.getElementById("profileImage");
-    const photoPreview = document.getElementById("photoPreview");
-
-    profileImageInput.addEventListener("change", () => {
-        photoPreview.classList.add("hidden");
-        photoPreview.removeAttribute("src");
-
-        const file = profileImageInput.files?.[0];
-        if (!file) return;
-
-        if (!file.type.startsWith("image/")) {
-            regError.textContent = "Veuillez choisir un fichier image.";
-            profileImageInput.value = "";
-            return;
+            return data.secure_url;
         }
 
-        if (file.size > 8 * 1024 * 1024) {
-            regError.textContent =
-                "La photo dépasse 8 Mo. Choisissez une image plus légère.";
-            profileImageInput.value = "";
-            return;
-        }
+        // Soumission du Formulaire de Connexion
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            loginError.textContent = "";
+            const btnLogin = document.getElementById('btnLogin');
 
-        regError.textContent = "";
+            try {
+                btnLogin.disabled = true;
+                btnLogin.textContent = "Connexion en cours...";
 
-        const previewUrl = URL.createObjectURL(file);
-        photoPreview.src = previewUrl;
-        photoPreview.classList.remove("hidden");
-
-        photoPreview.onload = () => URL.revokeObjectURL(previewUrl);
-    });
-
-    // =====================================================
-    // COMPRESSION LOCALE DE LA PHOTO
-    // Aucun envoi vers un service d'hébergement.
-    // =====================================================
-
-    async function compressImageToDataURL(file) {
-        if (!file) return "";
-
-        if (!file.type.startsWith("image/")) {
-            throw new Error("Le fichier sélectionné n'est pas une image.");
-        }
-
-        if (file.size > 8 * 1024 * 1024) {
-            throw new Error("La photo doit peser moins de 8 Mo.");
-        }
-
-        const image = new Image();
-        const objectUrl = URL.createObjectURL(file);
-
-        try {
-            await new Promise((resolve, reject) => {
-                image.onload = resolve;
-                image.onerror = () => reject(
-                    new Error("Impossible de lire cette image.")
+                const cred = await signInWithEmailAndPassword(
+                    auth,
+                    document.getElementById('loginEmail').value.trim(),
+                    document.getElementById('loginPassword').value.trim()
                 );
-                image.src = objectUrl;
-            });
-
-            const maxDimension = 350;
-            const scale = Math.min(
-                1,
-                maxDimension / Math.max(image.naturalWidth, image.naturalHeight)
-            );
-
-            const width = Math.max(1, Math.round(image.naturalWidth * scale));
-            const height = Math.max(1, Math.round(image.naturalHeight * scale));
-
-            const canvas = document.createElement("canvas");
-            canvas.width = width;
-            canvas.height = height;
-
-            const context = canvas.getContext("2d");
-
-            if (!context) {
-                throw new Error("Impossible de préparer la photo.");
+                await checkAdminAndRedirect(cred.user);
+            } catch (err) {
+                loginError.textContent = "Erreur de connexion : " + err.message;
+            } finally {
+                btnLogin.disabled = false;
+                btnLogin.textContent = "Se connecter";
             }
+        });
 
-            context.fillStyle = "#FFFFFF";
-            context.fillRect(0, 0, width, height);
-            context.drawImage(image, 0, 0, width, height);
+        // Soumission du Formulaire d'Inscription
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            regError.textContent = "";
+            const btnRegister = document.getElementById('btnRegister');
 
-            // JPEG compressé pour réduire la taille enregistrée dans Firebase.
-            const dataUrl = canvas.toDataURL("image/jpeg", 0.65);
+            try {
+                const ageInput = parseInt(document.getElementById('age').value);
 
-            // Vérification indicative pour éviter une très grosse valeur.
-            const approximateBytes = Math.ceil(dataUrl.length * 3 / 4);
+                // Vérification stricte de l'âge
+                if (isNaN(ageInput) || ageInput < 18) {
+                    regError.textContent = "Inscription refusée : Vous devez avoir au moins 18 ans.";
+                    return;
+                }
 
-            if (approximateBytes > 300 * 1024) {
-                throw new Error(
-                    "La photo reste trop volumineuse après compression. " +
-                    "Choisissez une autre photo."
-                );
+                btnRegister.disabled = true;
+                btnRegister.textContent = "Traitement en cours...";
+
+                const mediaFileInput = document.getElementById('profileImage').files[0];
+                let profileMediaUrl = "";
+
+                if (mediaFileInput) {
+                    btnRegister.textContent = "Compression de l'image...";
+                    const compressedFile = await compressImage(mediaFileInput);
+
+                    btnRegister.textContent = "Téléversement sur Cloudinary...";
+                    profileMediaUrl = await uploadFileToCloudinary(compressedFile);
+                }
+
+                btnRegister.textContent = "Création du compte...";
+                const email = document.getElementById('regEmail').value.trim();
+                const password = document.getElementById('regPassword').value.trim();
+
+                const cred = await createUserWithEmailAndPassword(auth, email, password);
+                const user = cred.user;
+
+                // Enregistrement dans Realtime Database sous users/{uid}
+                await set(ref(rtdb, `users/${user.uid}`), {
+                    fullName: document.getElementById('fullName').value.trim(),
+                    gender: document.getElementById('gender').value,
+                    city: document.getElementById('city').value.trim(),
+                    country: document.getElementById('countryInput').value.trim(),
+                    maritalStatus: document.getElementById('maritalStatus').value,
+                    age: ageInput,
+                    email: user.email,
+                    profileMediaUrl: profileMediaUrl,
+                    createdAt: new Date().toISOString()
+                });
+
+                await checkAdminAndRedirect(user);
+            } catch (err) {
+                regError.textContent = "Erreur d'inscription : " + err.message;
+            } finally {
+                btnRegister.disabled = false;
+                btnRegister.textContent = "S'inscrire";
             }
-
-            return dataUrl;
-
-        } finally {
-            URL.revokeObjectURL(objectUrl);
-        }
-    }
-
-    // =====================================================
-    // REDIRECTION APRÈS CONNEXION OU INSCRIPTION
-    // =====================================================
-
-    async function handlePostAuthRedirection(user) {
-        const userRef = ref(rtdb, `users/${user.uid}`);
-        const adminRef = ref(rtdb, "config/admin");
-
-        const [userSnap, adminSnap] = await Promise.all([
-            get(userRef),
-            get(adminRef)
-        ]);
-
-        const userData = userSnap.exists() ? userSnap.val() : {};
-        const adminData = adminSnap.exists() ? adminSnap.val() : {};
-
-        const accountEmail = String(user.email || "").toLowerCase();
-        const configuredAdminEmail =
-            String(adminData.email || "").toLowerCase();
-
-        const isAdmin =
-            (configuredAdminEmail !== "" &&
-             accountEmail === configuredAdminEmail) ||
-            userData.isAdmin === true;
-
-        window.location.replace(isAdmin ? "admin.html" : "index.html");
-    }
-
-    // =====================================================
-    // CONNEXION
-    // =====================================================
-
-    loginForm.addEventListener("submit", async event => {
-        event.preventDefault();
-
-        if (isSubmitting) return;
-
-        loginError.textContent = "";
-        isSubmitting = true;
-        loginButton.disabled = true;
-        loginButton.textContent = "Connexion en cours...";
-
-        try {
-            const email =
-                document.getElementById("loginEmail").value.trim();
-
-            // Ne pas supprimer les espaces du mot de passe :
-            // ils peuvent en faire partie.
-            const password =
-                document.getElementById("loginPassword").value;
-
-            const credential = await signInWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
-
-            await handlePostAuthRedirection(credential.user);
-
-        } catch (error) {
-            console.error("Erreur de connexion :", error);
-
-            const messages = {
-                "auth/invalid-credential":
-                    "Email ou mot de passe incorrect.",
-                "auth/user-not-found":
-                    "Aucun compte ne correspond à cet email.",
-                "auth/wrong-password":
-                    "Mot de passe incorrect.",
-                "auth/invalid-email":
-                    "Veuillez saisir une adresse email valide.",
-                "auth/too-many-requests":
-                    "Trop de tentatives. Réessayez plus tard.",
-                "auth/network-request-failed":
-                    "Connexion Internet indisponible. Vérifiez votre réseau."
-            };
-
-            if (error.code && messages[error.code]) {
-                loginError.textContent = messages[error.code];
-            } else if (error.code && error.code.startsWith("auth/")) {
-                loginError.textContent =
-                    "Connexion impossible : " + error.message;
-            } else {
-                loginError.textContent =
-                    "Connexion réussie, mais la vérification du profil " +
-                    "ou des droits administrateur a échoué. " +
-                    "Vérifiez les règles Firebase Realtime Database.";
-            }
-
-        } finally {
-            isSubmitting = false;
-            loginButton.disabled = false;
-            loginButton.textContent = "Se connecter";
-        }
-    });
-
-    // =====================================================
-    // INSCRIPTION
-    // =====================================================
-
-    registerForm.addEventListener("submit", async event => {
-        event.preventDefault();
-
-        if (isSubmitting) return;
-
-        regError.textContent = "";
-
-        const termsChecked =
-            document.getElementById("termsCheckbox").checked;
-
-        if (!termsChecked) {
-            regError.textContent =
-                "Veuillez accepter les conditions d'utilisation.";
-            return;
-        }
-
-        const age = Number(document.getElementById("age").value);
-
-        if (!Number.isInteger(age) || age < 18 || age > 120) {
-            regError.textContent =
-                "L'inscription est réservée aux personnes âgées de 18 ans ou plus.";
-            return;
-        }
-
-        const password =
-            document.getElementById("regPassword").value;
-
-        if (password.length < 6) {
-            regError.textContent =
-                "Le mot de passe doit contenir au moins 6 caractères.";
-            return;
-        }
-
-        const photoFile = profileImageInput.files?.[0];
-
-        isSubmitting = true;
-        registerButton.disabled = true;
-
-        let accountCreated = false;
-
-        try {
-            let profilePhoto = "";
-
-            // Étape 1 : préparer la photo localement, si elle existe.
-            // Aucune dépendance à Cloudinary.
-            if (photoFile) {
-                registerButton.textContent = "Préparation de la photo...";
-                profilePhoto = await compressImageToDataURL(photoFile);
-            }
-
-            // Étape 2 : créer le compte Firebase Authentication.
-            registerButton.textContent = "Création du compte...";
-
-            const email =
-                document.getElementById("regEmail").value.trim();
-
-            const credential = await createUserWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
-
-            const user = credential.user;
-            accountCreated = true;
-
-            const phoneCode =
-                document.getElementById("phoneCode").value;
-
-            const phoneNumber =
-                document.getElementById("whatsappNumber").value.trim();
-
-            const fullPhoneNumber =
-                `${phoneCode}${phoneNumber}`;
-
-            // Étape 3 : enregistrer le profil et la photo dans Firebase RTDB.
-            // La photo est une chaîne data:image/jpeg;base64,...
-            // Le champ profileMediaUrl est conservé pour compatibilité.
-            registerButton.textContent = "Enregistrement du profil...";
-
-            const profileData = {
-                uid: user.uid,
-                fullName: document.getElementById("fullName").value.trim(),
-                gender: document.getElementById("gender").value,
-                city: document.getElementById("city").value.trim(),
-                country: document.getElementById("countryInput").value.trim(),
-                whatsappNumber: fullPhoneNumber,
-                maritalStatus: document.getElementById("maritalStatus").value,
-                age: age,
-                email: user.email,
-                profileMediaUrl: profilePhoto,
-                acceptedTerms: true,
-                createdAt: new Date().toISOString()
-            };
-
-            await set(ref(rtdb, `users/${user.uid}`), profileData);
-
-            // Étape 4 : redirection après enregistrement réussi.
-            registerButton.textContent = "Ouverture du profil...";
-
-            await handlePostAuthRedirection(user);
-
-        } catch (error) {
-            console.error("Erreur d'inscription :", error);
-
-            if (accountCreated) {
-                regError.textContent =
-                    "Le compte de connexion a été créé, mais l'enregistrement " +
-                    "du profil ou la vérification des droits a échoué. " +
-                    "Ne recréez pas un autre compte avec le même email. " +
-                    "Vérifiez les règles de Firebase Realtime Database " +
-                    "et la connexion Internet, puis corrigez le profil existant.";
-
-            } else if (error.code === "auth/email-already-in-use") {
-                regError.textContent =
-                    "Cet email possède déjà un compte. Connectez-vous plutôt.";
-
-            } else if (error.code === "auth/weak-password") {
-                regError.textContent =
-                    "Choisissez un mot de passe plus solide.";
-
-            } else if (error.code === "auth/invalid-email") {
-                regError.textContent =
-                    "Veuillez saisir une adresse email valide.";
-
-            } else if (error.code === "auth/network-request-failed") {
-                regError.textContent =
-                    "Connexion Internet indisponible. Vérifiez votre réseau.";
-
-            } else if (error.code && error.code.startsWith("auth/")) {
-                regError.textContent =
-                    "Erreur de création du compte : " + error.message;
-
-            } else {
-                regError.textContent =
-                    error.message ||
-                    "Une erreur est survenue. Veuillez réessayer.";
-            }
-
-        } finally {
-            isSubmitting = false;
-            registerButton.disabled = false;
-            registerButton.textContent = "Créer mon compte";
-        }
-    });
-</script>
+        });
+    </script>
 </body>
 </html>
