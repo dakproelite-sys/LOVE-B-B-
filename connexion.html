@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -18,16 +17,8 @@
             --accent-blue: #0D47A1;
         }
 
-        * {
-            box-sizing: border-box;
-        }
-
         body {
-            background: linear-gradient(
-                135deg,
-                var(--primary-gold) 0%,
-                var(--dark-gold) 100%
-            );
+            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
@@ -38,13 +29,14 @@
         }
 
         .card {
-            background: #FFFFFF;
+            background: #fff;
             padding: 30px;
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            box-shadow: 0 15px 35px rgba(0,0,0,.3);
             width: 100%;
             max-width: 520px;
             border: 4px solid var(--primary-gold);
+            box-sizing: border-box;
         }
 
         .logo-container {
@@ -59,7 +51,7 @@
             border-radius: 50%;
             background: #fff;
             border: 3px solid var(--primary-gold);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 10px rgba(0,0,0,.2);
             overflow: hidden;
             display: flex;
             align-items: center;
@@ -95,8 +87,8 @@
             margin-top: 5px;
             border: 2px solid #E0E0E0;
             border-radius: 8px;
+            box-sizing: border-box;
             font-size: 14px;
-            background: #fff;
         }
 
         input:focus, select:focus {
@@ -119,7 +111,6 @@
             transform: translateY(-50%);
             cursor: pointer;
             font-size: 16px;
-            user-select: none;
         }
 
         .phone-group {
@@ -128,13 +119,9 @@
             margin-top: 5px;
         }
 
-        .phone-group select {
-            flex: 1.6;
-            min-width: 0;
-        }
-
+        .phone-group select,
         .phone-group input {
-            flex: 1.4;
+            flex: 1;
             min-width: 0;
         }
 
@@ -149,15 +136,14 @@
 
         .checkbox-container input {
             width: auto;
-            margin: 3px 0 0;
-            cursor: pointer;
+            margin-top: 3px;
             flex-shrink: 0;
         }
 
         .checkbox-container label {
             margin: 0;
             font-weight: normal;
-            line-height: 1.5;
+            color: #333;
         }
 
         .checkbox-container a {
@@ -167,12 +153,8 @@
         }
 
         button[type="submit"] {
-            background: linear-gradient(
-                to right,
-                var(--deep-red),
-                var(--dark-red)
-            );
-            color: #FFFFFF;
+            background: linear-gradient(to right, var(--deep-red), var(--dark-red));
+            color: #fff;
             border: none;
             padding: 12px;
             width: 100%;
@@ -181,24 +163,19 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 20px;
-            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.4);
-        }
-
-        button[type="submit"]:hover {
-            opacity: 0.9;
+            box-shadow: 0 4px 15px rgba(211,47,47,.4);
         }
 
         button[type="submit"]:disabled {
-            opacity: 0.65;
-            cursor: wait;
+            opacity: .65;
+            cursor: not-allowed;
         }
 
         .switch-link {
             text-align: center;
-            margin-top: 18px;
+            margin-top: 15px;
             font-size: 14px;
             color: #333;
-            line-height: 1.8;
         }
 
         .switch-link span {
@@ -206,11 +183,6 @@
             font-weight: bold;
             text-decoration: underline;
             cursor: pointer;
-        }
-
-        .switch-link span:focus-visible {
-            outline: 2px solid var(--accent-blue);
-            outline-offset: 3px;
         }
 
         .error-msg {
@@ -226,25 +198,26 @@
             display: none !important;
         }
 
-        #pageStatus {
-            text-align: center;
-            color: var(--accent-blue);
-            font-size: 14px;
-            font-weight: bold;
-            margin: 12px 0;
+        .photo-preview {
+            display: block;
+            width: 90px;
+            height: 90px;
+            margin: 12px auto 0;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid var(--primary-gold);
         }
 
-        @media (max-width: 420px) {
-            body {
-                padding: 10px;
-            }
+        .help-text {
+            font-size: 12px;
+            color: #555;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
 
+        @media (max-width: 400px) {
             .card {
                 padding: 20px 15px;
-            }
-
-            h2 {
-                font-size: 1.2rem;
             }
 
             .phone-group {
@@ -267,17 +240,14 @@
     </div>
 
     <h2 id="form-title">Connexion Love Bébé</h2>
-    <div id="pageStatus" class="hidden" role="status"></div>
 
-    <!-- FORMULAIRE DE CONNEXION -->
-    <form id="loginForm" autocomplete="on">
-
+    <!-- CONNEXION -->
+    <form id="loginForm">
         <label for="loginEmail">Email :</label>
         <input
             type="email"
             id="loginEmail"
-            name="email"
-            autocomplete="username"
+            autocomplete="email"
             required
             placeholder="exemple@domaine.com"
         >
@@ -287,38 +257,32 @@
             <input
                 type="password"
                 id="loginPassword"
-                name="password"
                 autocomplete="current-password"
                 required
-                placeholder="••••••••"
+                placeholder="Votre mot de passe"
             >
             <span
                 class="toggle-password"
-                role="button"
-                tabindex="0"
-                aria-label="Afficher ou masquer le mot de passe"
                 onclick="togglePasswordVisibility('loginPassword', this)"
-                onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePasswordVisibility('loginPassword',this)}"
+                role="button"
+                aria-label="Afficher ou masquer le mot de passe"
             >👁️</span>
         </div>
 
-        <button type="submit" id="loginSubmitBtn">
-            Se connecter
-        </button>
-
-        <div id="loginError" class="error-msg" role="alert"></div>
+        <button type="submit" id="loginButton">Se connecter</button>
+        <div id="loginError" class="error-msg" role="status"></div>
     </form>
 
-    <!-- FORMULAIRE D'INSCRIPTION INTERNATIONALE -->
-    <form id="registerForm" class="hidden" autocomplete="on">
+    <!-- INSCRIPTION -->
+    <form id="registerForm" class="hidden">
 
-        <label for="fullName">Nom complet (Carte d'identité) :</label>
+        <label for="fullName">Nom complet :</label>
         <input
             type="text"
             id="fullName"
             autocomplete="name"
             required
-            placeholder="Ex: Kouassi Jean"
+            placeholder="Ex : Kouassi Jean"
         >
 
         <label for="gender">Genre / Sexe :</label>
@@ -332,126 +296,55 @@
         <input
             type="text"
             id="city"
-            autocomplete="address-level2"
             required
-            placeholder="Ex: Cotonou / Abidjan / Paris / New York"
+            placeholder="Ex : Cotonou, Abidjan, Paris"
         >
 
         <label for="countryInput">Pays de résidence :</label>
         <input
             type="text"
             id="countryInput"
-            autocomplete="country-name"
             required
-            placeholder="Ex: Bénin, France, USA, Canada..."
+            placeholder="Ex : Bénin, France, Canada"
         >
 
-        <label for="phoneCode">Numéro WhatsApp (Indicatif Mondial) :</label>
-
+        <label for="phoneCode">Numéro WhatsApp :</label>
         <div class="phone-group">
             <select id="phoneCode" required>
-                <optgroup label="🌍 AFRIQUE">
-                    <option value="+229" selected>🇧🇯 Bénin (+229)</option>
-                    <option value="+225">🇨🇮 Côte d'Ivoire (+225)</option>
-                    <option value="+228">🇹🇬 Togo (+228)</option>
-                    <option value="+221">🇸🇳 Sénégal (+221)</option>
-                    <option value="+237">🇨🇲 Cameroun (+237)</option>
-                    <option value="+226">🇧🇫 Burkina Faso (+226)</option>
-                    <option value="+223">🇲🇱 Mali (+223)</option>
-                    <option value="+224">🇬🇳 Guinée (+224)</option>
-                    <option value="+242">🇨🇬 Congo-Brazzaville (+242)</option>
-                    <option value="+243">🇨🇩 RDC Congo (+243)</option>
-                    <option value="+234">🇳🇬 Nigéria (+234)</option>
-                    <option value="+233">🇬🇭 Ghana (+233)</option>
-                    <option value="+212">🇲🇦 Maroc (+212)</option>
-                    <option value="+216">🇹🇳 Tunisie (+216)</option>
-                    <option value="+213">🇩🇿 Algérie (+213)</option>
-                    <option value="+20">🇪🇬 Égypte (+20)</option>
-                    <option value="+27">🇿🇦 Afrique du Sud (+27)</option>
-                    <option value="+254">🇰🇪 Kenya (+254)</option>
-                    <option value="+256">🇺🇬 Ouganda (+256)</option>
-                    <option value="+255">🇹🇿 Tanzanie (+255)</option>
-                    <option value="+241">🇬🇦 Gabon (+241)</option>
-                    <option value="+235">🇹🇩 Tchad (+235)</option>
-                    <option value="+227">🇳🇪 Niger (+227)</option>
-                    <option value="+222">🇲🇷 Mauritanie (+222)</option>
-                    <option value="+240">🇬🇶 Guinée Équatoriale (+240)</option>
-                    <option value="+245">🇬🇼 Guinée-Bissau (+245)</option>
-                    <option value="+238">🇨🇻 Cap-Vert (+238)</option>
-                    <option value="+232">🇸🇱 Sierra Leone (+232)</option>
-                    <option value="+231">🇱🇷 Libéria (+231)</option>
-                    <option value="+220">🇬🇲 Gambie (+220)</option>
-                    <option value="+236">🇨🇫 République Centrafricaine (+236)</option>
-                    <option value="+250">🇷🇼 Rwanda (+250)</option>
-                    <option value="+257">🇧🇮 Burundi (+257)</option>
-                    <option value="+251">🇪🇹 Éthiopie (+251)</option>
-                    <option value="+252">🇸🇴 Somalie (+252)</option>
-                    <option value="+253">🇩🇯 Djibouti (+253)</option>
-                    <option value="+261">🇲🇬 Madagascar (+261)</option>
-                    <option value="+230">🇲🇺 Maurice (+230)</option>
-                    <option value="+262">🇷🇪 Réunion / Mayotte (+262)</option>
-                    <option value="+248">🇸🇨 Seychelles (+248)</option>
-                    <option value="+269">🇰🇲 Comores (+269)</option>
-                    <option value="+260">🇿🇲 Zambie (+260)</option>
-                    <option value="+263">🇿🇼 Zimbabwe (+263)</option>
-                    <option value="+258">🇲🇿 Mozambique (+258)</option>
-                    <option value="+244">🇦🇴 Angola (+244)</option>
-                    <option value="+264">🇳🇦 Namibie (+264)</option>
-                    <option value="+267">🇧🇼 Botswana (+267)</option>
-                    <option value="+266">🇱🇸 Lesotho (+266)</option>
-                    <option value="+268">🇸🇿 Eswatini (+268)</option>
-                    <option value="+211">🇸🇸 Soudan du Sud (+211)</option>
-                    <option value="+249">🇸🇩 Soudan (+249)</option>
-                    <option value="+218">🇱🇾 Libye (+218)</option>
-                    <option value="+239">🇸🇹 Sao Tomé-et-Principe (+239)</option>
-                    <option value="+291">🇪🇷 Érythrée (+291)</option>
-                </optgroup>
-
-                <optgroup label="🇪🇺 EUROPE">
-                    <option value="+33">🇫🇷 France (+33)</option>
-                    <option value="+32">🇧🇪 Belgique (+32)</option>
-                    <option value="+41">🇨🇭 Suisse (+41)</option>
-                    <option value="+39">🇮🇹 Italie (+39)</option>
-                    <option value="+34">🇪🇸 Espagne (+34)</option>
-                    <option value="+44">🇬🇧 Royaume-Uni (+44)</option>
-                    <option value="+49">🇩🇪 Allemagne (+49)</option>
-                    <option value="+351">🇵🇹 Portugal (+351)</option>
-                    <option value="+31">🇳🇱 Pays-Bas (+31)</option>
-                    <option value="+43">🇦🇹 Autriche (+43)</option>
-                </optgroup>
-
-                <optgroup label="🌎 AMÉRIQUES">
-                    <option value="+1">🇺🇸 / 🇨🇦 USA / Canada (+1)</option>
-                    <option value="+52">🇲🇽 Mexique (+52)</option>
-                    <option value="+55">🇧🇷 Brésil (+55)</option>
-                    <option value="+54">🇦🇷 Argentine (+54)</option>
-                    <option value="+57">🇨🇴 Colombie (+57)</option>
-                </optgroup>
+                <option value="+229">🇧🇯 Bénin (+229)</option>
             </select>
 
             <input
                 type="tel"
                 id="whatsappNumber"
-                autocomplete="tel-national"
                 required
-                placeholder="0102030405"
+                autocomplete="tel-national"
+                placeholder="Numéro de téléphone"
             >
         </div>
 
-        <label for="maritalStatus">Statut Matrimonial :</label>
+        <label for="maritalStatus">Statut matrimonial :</label>
         <select id="maritalStatus" required>
             <option value="">Sélectionnez votre situation</option>
-            <option value="Je ne suis jamais marié(e)">Je ne suis jamais marié(e)</option>
-            <option value="Je n'ai jamais été marié(e) et je suis célibataire">Je n'ai jamais été marié(e) et je suis célibataire</option>
-            <option value="J'ai été marié(e) une fois et aujourd'hui je suis célibataire">J'ai été marié(e) une fois et aujourd'hui je suis célibataire</option>
+            <option value="Je ne suis jamais marié(e)">
+                Je ne suis jamais marié(e)
+            </option>
+            <option value="Je n'ai jamais été marié(e) et je suis célibataire">
+                Jamais marié(e), actuellement célibataire
+            </option>
+            <option value="J'ai été marié(e) une fois et aujourd'hui je suis célibataire">
+                Déjà marié(e), aujourd'hui célibataire
+            </option>
             <option value="Célibataire sans enfant">Célibataire sans enfant</option>
             <option value="Célibataire avec un enfant">Célibataire avec un enfant</option>
-            <option value="Célibataire avec des enfants">Célibataire avec des enfants</option>
+            <option value="Célibataire avec des enfants">
+                Célibataire avec des enfants
+            </option>
             <option value="Divorcé(e)">Divorcé(e)</option>
             <option value="Veuf / Veuve">Veuf / Veuve</option>
         </select>
 
-        <label for="age">Âge (18 ans minimum requis) :</label>
+        <label for="age">Âge (18 ans minimum) :</label>
         <input
             type="number"
             id="age"
@@ -459,7 +352,7 @@
             max="120"
             step="1"
             required
-            placeholder="Ex: 24"
+            placeholder="Ex : 24"
         >
 
         <label for="regEmail">Email :</label>
@@ -471,7 +364,7 @@
             placeholder="exemple@domaine.com"
         >
 
-        <label for="regPassword">Mot de passe :</label>
+        <label for="regPassword">Mot de passe (6 caractères minimum) :</label>
         <div class="password-container">
             <input
                 type="password"
@@ -479,24 +372,30 @@
                 autocomplete="new-password"
                 minlength="6"
                 required
-                placeholder="Au moins 6 caractères"
+                placeholder="Créer un mot de passe"
             >
             <span
                 class="toggle-password"
-                role="button"
-                tabindex="0"
-                aria-label="Afficher ou masquer le mot de passe"
                 onclick="togglePasswordVisibility('regPassword', this)"
-                onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePasswordVisibility('regPassword',this)}"
+                role="button"
+                aria-label="Afficher ou masquer le mot de passe"
             >👁️</span>
         </div>
 
-        <label for="profileImage">Photo de profil (Galerie) :</label>
+        <label for="profileImage">Photo de profil (facultative) :</label>
         <input
             type="file"
             id="profileImage"
-            accept="image/*"
+            accept="image/jpeg,image/png,image/webp,image/gif"
         >
+
+        <p class="help-text">
+            Choisissez une photo dans la galerie de votre téléphone.
+            Elle sera redimensionnée et enregistrée dans le profil Firebase.
+            Aucune photo n'est envoyée à Cloudinary.
+        </p>
+
+        <img id="photoPreview" class="photo-preview hidden" alt="Aperçu de la photo">
 
         <div class="checkbox-container">
             <input type="checkbox" id="termsCheckbox" required>
@@ -508,24 +407,14 @@
             </label>
         </div>
 
-        <button type="submit" id="registerSubmitBtn">
-            S'inscrire
-        </button>
-
-        <div id="regError" class="error-msg" role="alert"></div>
+        <button type="submit" id="registerButton">Créer mon compte</button>
+        <div id="regError" class="error-msg" role="status"></div>
     </form>
 
-    <!-- LIEN DE BASCULE ENTRE LES DEUX FORMULAIRES -->
-    <div class="switch-link" id="switchArea">
+    <div class="switch-link">
         <span id="toggleTextMsg">Pas encore de compte ?</span>
-        <span
-            id="toggleBtn"
-            role="button"
-            tabindex="0"
-            aria-controls="registerForm"
-        >S'inscrire</span>
+        <span id="toggleBtn">S'inscrire</span>
     </div>
-
 </div>
 
 <script>
@@ -543,22 +432,17 @@
 </script>
 
 <script type="module">
-    import {
-        auth,
-        uploadMediaToCloudinary,
-        rtdb
-    } from "./love-bebe-service.js";
+    import { auth, rtdb } from "./love-bebe-service.js";
 
     import {
         signInWithEmailAndPassword,
-        createUserWithEmailAndPassword,
-        onAuthStateChanged
+        createUserWithEmailAndPassword
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
     import {
         ref,
         get,
-        update
+        set
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
     const loginForm = document.getElementById("loginForm");
@@ -566,201 +450,277 @@
     const formTitle = document.getElementById("form-title");
     const toggleBtn = document.getElementById("toggleBtn");
     const toggleTextMsg = document.getElementById("toggleTextMsg");
-    const switchArea = document.getElementById("switchArea");
-    const pageStatus = document.getElementById("pageStatus");
+
+    const loginButton = document.getElementById("loginButton");
+    const registerButton = document.getElementById("registerButton");
 
     const loginError = document.getElementById("loginError");
     const regError = document.getElementById("regError");
-    const loginSubmitBtn = document.getElementById("loginSubmitBtn");
-    const registerSubmitBtn = document.getElementById("registerSubmitBtn");
 
     let isLoginMode = true;
-    let isRegistering = false;
-    let redirectInProgress = false;
-    let authInitialized = false;
+    let isSubmitting = false;
 
-    // --------------------------------------------------
-    // 1. BASCULE ENTRE CONNEXION ET INSCRIPTION
-    // --------------------------------------------------
+    // =====================================================
+    // CHARGEMENT DES INDICATIFS INTERNATIONAUX
+    // =====================================================
 
-    function showForm(loginMode) {
-        isLoginMode = loginMode;
+    async function loadWorldPhoneCodes() {
+        const phoneSelect = document.getElementById("phoneCode");
 
-        loginForm.classList.toggle("hidden", !loginMode);
-        registerForm.classList.toggle("hidden", loginMode);
+        // Toujours avoir une option utilisable, même hors connexion.
+        phoneSelect.innerHTML = "";
 
-        formTitle.textContent = loginMode
-            ? "Connexion Love Bébé"
-            : "Inscription Love Bébé";
+        const beninOption = document.createElement("option");
+        beninOption.value = "+229";
+        beninOption.textContent = "🇧🇯 Bénin (+229)";
+        phoneSelect.appendChild(beninOption);
 
-        toggleTextMsg.textContent = loginMode
-            ? "Pas encore de compte ?"
-            : "Déjà inscrit ?";
+        try {
+            const response = await fetch(
+                "https://restcountries.com/v3.1/all?fields=name,idd,flag,translations"
+            );
 
-        toggleBtn.textContent = loginMode
-            ? "S'inscrire"
-            : "Se connecter";
+            if (!response.ok) {
+                throw new Error("Impossible de charger les indicatifs.");
+            }
 
-        toggleBtn.setAttribute(
-            "aria-controls",
-            loginMode ? "registerForm" : "loginForm"
-        );
+            const countries = await response.json();
+            const codes = new Map();
+
+            countries.forEach(country => {
+                if (!country.idd || !country.idd.root) return;
+
+                const root = country.idd.root;
+                const suffixes =
+                    country.idd.suffixes && country.idd.suffixes.length
+                        ? country.idd.suffixes
+                        : [""];
+
+                const countryName =
+                    country.translations?.fra?.common ||
+                    country.name?.common ||
+                    "Pays";
+
+                const flag = country.flag || "🌐";
+
+                suffixes.forEach(suffix => {
+                    const code = `${root}${suffix}`.trim();
+
+                    if (!code || code === "+" || code === "+229") return;
+
+                    const key = `${countryName}|${code}`;
+
+                    codes.set(key, {
+                        code,
+                        name: countryName,
+                        flag
+                    });
+                });
+            });
+
+            [...codes.values()]
+                .sort((a, b) => a.name.localeCompare(b.name, "fr"))
+                .forEach(item => {
+                    const option = document.createElement("option");
+                    option.value = item.code;
+                    option.textContent =
+                        `${item.flag} ${item.name} (${item.code})`;
+
+                    phoneSelect.appendChild(option);
+                });
+
+        } catch (error) {
+            console.warn("Indicatifs internationaux :", error);
+            // L'indicatif du Bénin reste disponible.
+        }
+    }
+
+    loadWorldPhoneCodes();
+
+    // =====================================================
+    // BASCULE ENTRE CONNEXION ET INSCRIPTION
+    // =====================================================
+
+    toggleBtn.addEventListener("click", () => {
+        if (isSubmitting) return;
+
+        isLoginMode = !isLoginMode;
 
         loginError.textContent = "";
         regError.textContent = "";
 
-        loginError.style.color = "#D32F2F";
-        regError.style.color = "#D32F2F";
-
-        pageStatus.classList.add("hidden");
-        switchArea.classList.remove("hidden");
-    }
-
-    function toggleForms() {
-        if (redirectInProgress || isRegistering) return;
-        showForm(!isLoginMode);
-    }
-
-    toggleBtn.addEventListener("click", toggleForms);
-
-    toggleBtn.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            toggleForms();
+        if (isLoginMode) {
+            formTitle.textContent = "Connexion Love Bébé";
+            loginForm.classList.remove("hidden");
+            registerForm.classList.add("hidden");
+            toggleTextMsg.textContent = "Pas encore de compte ?";
+            toggleBtn.textContent = "S'inscrire";
+        } else {
+            formTitle.textContent = "Inscription Love Bébé";
+            loginForm.classList.add("hidden");
+            registerForm.classList.remove("hidden");
+            toggleTextMsg.textContent = "Déjà inscrit ?";
+            toggleBtn.textContent = "Se connecter";
         }
     });
 
-    // --------------------------------------------------
-    // 2. VÉRIFICATION DU COMPTE ADMINISTRATEUR
-    // --------------------------------------------------
+    // =====================================================
+    // APERÇU DE LA PHOTO CHOISIE
+    // =====================================================
 
-    async function isAdministrator(user) {
-        const email = (user.email || "").toLowerCase();
+    const profileImageInput = document.getElementById("profileImage");
+    const photoPreview = document.getElementById("photoPreview");
 
-        const [adminSnapshot, userSnapshot] = await Promise.all([
-            get(ref(rtdb, "config/admin")),
-            get(ref(rtdb, `users/${user.uid}`))
-        ]);
+    profileImageInput.addEventListener("change", () => {
+        photoPreview.classList.add("hidden");
+        photoPreview.removeAttribute("src");
 
-        const adminConfig = adminSnapshot.exists()
-            ? adminSnapshot.val()
-            : {};
+        const file = profileImageInput.files?.[0];
+        if (!file) return;
 
-        const profile = userSnapshot.exists()
-            ? userSnapshot.val()
-            : {};
-
-        const configuredEmail =
-            typeof adminConfig.email === "string"
-                ? adminConfig.email.toLowerCase()
-                : "";
-
-        // L'adresse configurée pour l'administration.
-        if (
-            email &&
-            configuredEmail &&
-            email === configuredEmail
-        ) {
-            return true;
-        }
-
-        // Compatibilité avec les profils administrateurs existants.
-        return profile.role === "admin" ||
-               profile.isAdmin === true;
-    }
-
-    // --------------------------------------------------
-    // 3. REDIRECTION APRÈS CONNEXION OU SESSION EXISTANTE
-    // --------------------------------------------------
-
-    async function redirectAuthenticatedUser(user) {
-        if (
-            !user ||
-            redirectInProgress ||
-            isRegistering
-        ) {
+        if (!file.type.startsWith("image/")) {
+            regError.textContent = "Veuillez choisir un fichier image.";
+            profileImageInput.value = "";
             return;
         }
 
-        redirectInProgress = true;
+        if (file.size > 8 * 1024 * 1024) {
+            regError.textContent =
+                "La photo dépasse 8 Mo. Choisissez une image plus légère.";
+            profileImageInput.value = "";
+            return;
+        }
 
-        loginForm.classList.add("hidden");
-        registerForm.classList.add("hidden");
-        switchArea.classList.add("hidden");
+        regError.textContent = "";
 
-        formTitle.textContent = "Bienvenue sur Love Bébé";
-        pageStatus.textContent = "Vérification de votre compte...";
-        pageStatus.classList.remove("hidden");
+        const previewUrl = URL.createObjectURL(file);
+        photoPreview.src = previewUrl;
+        photoPreview.classList.remove("hidden");
+
+        photoPreview.onload = () => URL.revokeObjectURL(previewUrl);
+    });
+
+    // =====================================================
+    // COMPRESSION LOCALE DE LA PHOTO
+    // Aucun envoi vers un service d'hébergement.
+    // =====================================================
+
+    async function compressImageToDataURL(file) {
+        if (!file) return "";
+
+        if (!file.type.startsWith("image/")) {
+            throw new Error("Le fichier sélectionné n'est pas une image.");
+        }
+
+        if (file.size > 8 * 1024 * 1024) {
+            throw new Error("La photo doit peser moins de 8 Mo.");
+        }
+
+        const image = new Image();
+        const objectUrl = URL.createObjectURL(file);
 
         try {
-            const admin = await isAdministrator(user);
+            await new Promise((resolve, reject) => {
+                image.onload = resolve;
+                image.onerror = () => reject(
+                    new Error("Impossible de lire cette image.")
+                );
+                image.src = objectUrl;
+            });
 
-            if (admin) {
-                window.location.replace("admin.html");
-            } else {
-                window.location.replace("index.html");
+            const maxDimension = 350;
+            const scale = Math.min(
+                1,
+                maxDimension / Math.max(image.naturalWidth, image.naturalHeight)
+            );
+
+            const width = Math.max(1, Math.round(image.naturalWidth * scale));
+            const height = Math.max(1, Math.round(image.naturalHeight * scale));
+
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+
+            const context = canvas.getContext("2d");
+
+            if (!context) {
+                throw new Error("Impossible de préparer la photo.");
             }
-        } catch (error) {
-            console.error("Erreur de vérification du compte :", error);
 
-            redirectInProgress = false;
+            context.fillStyle = "#FFFFFF";
+            context.fillRect(0, 0, width, height);
+            context.drawImage(image, 0, 0, width, height);
 
-            pageStatus.classList.add("hidden");
-            switchArea.classList.remove("hidden");
+            // JPEG compressé pour réduire la taille enregistrée dans Firebase.
+            const dataUrl = canvas.toDataURL("image/jpeg", 0.65);
 
-            if (isLoginMode) {
-                loginError.textContent =
-                    "Impossible de vérifier votre compte. Vérifiez votre connexion et les règles de la base de données.";
-            } else {
-                regError.textContent =
-                    "Impossible de vérifier votre compte. Vérifiez votre connexion et les règles de la base de données.";
+            // Vérification indicative pour éviter une très grosse valeur.
+            const approximateBytes = Math.ceil(dataUrl.length * 3 / 4);
+
+            if (approximateBytes > 300 * 1024) {
+                throw new Error(
+                    "La photo reste trop volumineuse après compression. " +
+                    "Choisissez une autre photo."
+                );
             }
 
-            showForm(isLoginMode);
+            return dataUrl;
+
+        } finally {
+            URL.revokeObjectURL(objectUrl);
         }
     }
 
-    // --------------------------------------------------
-    // 4. SESSION FIREBASE AUTOMATIQUE
-    // --------------------------------------------------
+    // =====================================================
+    // REDIRECTION APRÈS CONNEXION OU INSCRIPTION
+    // =====================================================
 
-    onAuthStateChanged(auth, async (user) => {
-        authInitialized = true;
+    async function handlePostAuthRedirection(user) {
+        const userRef = ref(rtdb, `users/${user.uid}`);
+        const adminRef = ref(rtdb, "config/admin");
 
-        // Pendant la création du profil, attendre la fin
-        // de l'enregistrement avant de rediriger.
-        if (isRegistering || redirectInProgress) return;
+        const [userSnap, adminSnap] = await Promise.all([
+            get(userRef),
+            get(adminRef)
+        ]);
 
-        if (user) {
-            await redirectAuthenticatedUser(user);
-        } else {
-            showForm(true);
-        }
-    });
+        const userData = userSnap.exists() ? userSnap.val() : {};
+        const adminData = adminSnap.exists() ? adminSnap.val() : {};
 
-    // --------------------------------------------------
-    // 5. CONNEXION
-    // --------------------------------------------------
+        const accountEmail = String(user.email || "").toLowerCase();
+        const configuredAdminEmail =
+            String(adminData.email || "").toLowerCase();
 
-    loginForm.addEventListener("submit", async (event) => {
+        const isAdmin =
+            (configuredAdminEmail !== "" &&
+             accountEmail === configuredAdminEmail) ||
+            userData.isAdmin === true;
+
+        window.location.replace(isAdmin ? "admin.html" : "index.html");
+    }
+
+    // =====================================================
+    // CONNEXION
+    // =====================================================
+
+    loginForm.addEventListener("submit", async event => {
         event.preventDefault();
 
-        if (redirectInProgress || isRegistering) return;
+        if (isSubmitting) return;
 
         loginError.textContent = "";
-        loginSubmitBtn.disabled = true;
-        loginSubmitBtn.textContent = "Connexion en cours...";
+        isSubmitting = true;
+        loginButton.disabled = true;
+        loginButton.textContent = "Connexion en cours...";
 
         try {
-            const email = document
-                .getElementById("loginEmail")
-                .value.trim();
+            const email =
+                document.getElementById("loginEmail").value.trim();
 
             // Ne pas supprimer les espaces du mot de passe :
-            // ils peuvent faire partie du mot de passe réel.
-            const password = document
-                .getElementById("loginPassword")
-                .value;
+            // ils peuvent en faire partie.
+            const password =
+                document.getElementById("loginPassword").value;
 
             const credential = await signInWithEmailAndPassword(
                 auth,
@@ -768,71 +728,75 @@
                 password
             );
 
-            // Appeler directement la redirection pour ne pas
-            // dépendre du délai de déclenchement de l'observateur.
-            await redirectAuthenticatedUser(credential.user);
+            await handlePostAuthRedirection(credential.user);
 
         } catch (error) {
             console.error("Erreur de connexion :", error);
 
             const messages = {
                 "auth/invalid-credential":
-                    "Adresse e-mail ou mot de passe incorrect.",
+                    "Email ou mot de passe incorrect.",
                 "auth/user-not-found":
-                    "Aucun compte trouvé avec cette adresse.",
+                    "Aucun compte ne correspond à cet email.",
                 "auth/wrong-password":
                     "Mot de passe incorrect.",
                 "auth/invalid-email":
-                    "Veuillez saisir une adresse e-mail valide.",
+                    "Veuillez saisir une adresse email valide.",
                 "auth/too-many-requests":
                     "Trop de tentatives. Réessayez plus tard.",
                 "auth/network-request-failed":
-                    "Problème de connexion Internet.",
-                "auth/user-disabled":
-                    "Ce compte a été désactivé."
+                    "Connexion Internet indisponible. Vérifiez votre réseau."
             };
 
-            loginError.textContent =
-                messages[error.code] ||
-                "Connexion impossible. Vérifiez vos identifiants et réessayez.";
+            if (error.code && messages[error.code]) {
+                loginError.textContent = messages[error.code];
+            } else if (error.code && error.code.startsWith("auth/")) {
+                loginError.textContent =
+                    "Connexion impossible : " + error.message;
+            } else {
+                loginError.textContent =
+                    "Connexion réussie, mais la vérification du profil " +
+                    "ou des droits administrateur a échoué. " +
+                    "Vérifiez les règles Firebase Realtime Database.";
+            }
 
         } finally {
-            loginSubmitBtn.disabled = false;
-            loginSubmitBtn.textContent = "Se connecter";
+            isSubmitting = false;
+            loginButton.disabled = false;
+            loginButton.textContent = "Se connecter";
         }
     });
 
-    // --------------------------------------------------
-    // 6. INSCRIPTION
-    // --------------------------------------------------
+    // =====================================================
+    // INSCRIPTION
+    // =====================================================
 
-    registerForm.addEventListener("submit", async (event) => {
+    registerForm.addEventListener("submit", async event => {
         event.preventDefault();
 
-        if (redirectInProgress || isRegistering) return;
+        if (isSubmitting) return;
 
         regError.textContent = "";
-        regError.style.color = "#D32F2F";
 
-        const ageValue = Number(
-            document.getElementById("age").value
-        );
+        const termsChecked =
+            document.getElementById("termsCheckbox").checked;
 
-        if (!Number.isInteger(ageValue) || ageValue < 18) {
-            regError.textContent =
-                "Inscription réservée aux personnes âgées de 18 ans et plus.";
-            return;
-        }
-
-        if (!document.getElementById("termsCheckbox").checked) {
+        if (!termsChecked) {
             regError.textContent =
                 "Veuillez accepter les conditions d'utilisation.";
             return;
         }
 
-        const password = document
-            .getElementById("regPassword")
-            .value;
+        const age = Number(document.getElementById("age").value);
+
+        if (!Number.isInteger(age) || age < 18 || age > 120) {
+            regError.textContent =
+                "L'inscription est réservée aux personnes âgées de 18 ans ou plus.";
+            return;
+        }
+
+        const password =
+            document.getElementById("regPassword").value;
 
         if (password.length < 6) {
             regError.textContent =
@@ -840,48 +804,28 @@
             return;
         }
 
-        const mediaFile = document
-            .getElementById("profileImage")
-            .files[0];
+        const photoFile = profileImageInput.files?.[0];
 
-        if (mediaFile && !mediaFile.type.startsWith("image/")) {
-            regError.textContent =
-                "Veuillez choisir une photo de profil au format image.";
-            return;
-        }
-
-        isRegistering = true;
-        registerSubmitBtn.disabled = true;
-        registerSubmitBtn.textContent = "Inscription en cours...";
+        isSubmitting = true;
+        registerButton.disabled = true;
 
         let accountCreated = false;
 
         try {
-            let mediaUrl =
-                "https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png";
+            let profilePhoto = "";
 
-            // Téléverser la photo avant de créer le compte.
-            if (mediaFile) {
-                regError.style.color = "#0D47A1";
-                regError.textContent =
-                    "Téléversement de votre photo en cours...";
-
-                mediaUrl = await uploadMediaToCloudinary(mediaFile);
-
-                if (!mediaUrl || typeof mediaUrl !== "string") {
-                    throw new Error(
-                        "Le téléversement n'a pas retourné de lien valide."
-                    );
-                }
+            // Étape 1 : préparer la photo localement, si elle existe.
+            // Aucune dépendance à Cloudinary.
+            if (photoFile) {
+                registerButton.textContent = "Préparation de la photo...";
+                profilePhoto = await compressImageToDataURL(photoFile);
             }
 
-            regError.style.color = "#0D47A1";
-            regError.textContent =
-                "Création de votre compte dans Firebase...";
+            // Étape 2 : créer le compte Firebase Authentication.
+            registerButton.textContent = "Création du compte...";
 
-            const email = document
-                .getElementById("regEmail")
-                .value.trim();
+            const email =
+                document.getElementById("regEmail").value.trim();
 
             const credential = await createUserWithEmailAndPassword(
                 auth,
@@ -892,86 +836,85 @@
             const user = credential.user;
             accountCreated = true;
 
-            const fullPhoneNumber =
-                document.getElementById("phoneCode").value +
+            const phoneCode =
+                document.getElementById("phoneCode").value;
+
+            const phoneNumber =
                 document.getElementById("whatsappNumber").value.trim();
 
-            regError.textContent =
-                "Enregistrement de votre profil...";
+            const fullPhoneNumber =
+                `${phoneCode}${phoneNumber}`;
 
-            // Enregistrer le profil dans Realtime Database.
-            // Le mot de passe n'est jamais enregistré ici.
-            await update(ref(rtdb, `users/${user.uid}`), {
+            // Étape 3 : enregistrer le profil et la photo dans Firebase RTDB.
+            // La photo est une chaîne data:image/jpeg;base64,...
+            // Le champ profileMediaUrl est conservé pour compatibilité.
+            registerButton.textContent = "Enregistrement du profil...";
+
+            const profileData = {
+                uid: user.uid,
                 fullName: document.getElementById("fullName").value.trim(),
                 gender: document.getElementById("gender").value,
                 city: document.getElementById("city").value.trim(),
                 country: document.getElementById("countryInput").value.trim(),
                 whatsappNumber: fullPhoneNumber,
                 maritalStatus: document.getElementById("maritalStatus").value,
-                age: ageValue,
+                age: age,
                 email: user.email,
-                profileMediaUrl: mediaUrl,
+                profileMediaUrl: profilePhoto,
                 acceptedTerms: true,
-                role: "user",
-                isAdmin: false,
                 createdAt: new Date().toISOString()
-            });
+            };
 
-            regError.style.color = "#0D47A1";
-            regError.textContent =
-                "Inscription réussie ! Ouverture de votre espace...";
+            await set(ref(rtdb, `users/${user.uid}`), profileData);
 
-            // Le compte et le profil existent.
-            // L'utilisateur nouvellement inscrit est un utilisateur normal.
-            isRegistering = false;
-            await redirectAuthenticatedUser(user);
+            // Étape 4 : redirection après enregistrement réussi.
+            registerButton.textContent = "Ouverture du profil...";
+
+            await handlePostAuthRedirection(user);
 
         } catch (error) {
             console.error("Erreur d'inscription :", error);
 
             if (accountCreated) {
-                // Le compte Authentication existe déjà.
-                // Ne pas demander de recréer un deuxième compte.
                 regError.textContent =
-                    "Votre compte a été créé, mais l'enregistrement du profil a échoué. Votre compte existe déjà. Vérifiez les règles Realtime Database avant de réessayer.";
+                    "Le compte de connexion a été créé, mais l'enregistrement " +
+                    "du profil ou la vérification des droits a échoué. " +
+                    "Ne recréez pas un autre compte avec le même email. " +
+                    "Vérifiez les règles de Firebase Realtime Database " +
+                    "et la connexion Internet, puis corrigez le profil existant.";
 
-                // On garde la session active, sans boucle de redirection.
-                // L'utilisateur pourra reprendre après correction.
+            } else if (error.code === "auth/email-already-in-use") {
+                regError.textContent =
+                    "Cet email possède déjà un compte. Connectez-vous plutôt.";
+
+            } else if (error.code === "auth/weak-password") {
+                regError.textContent =
+                    "Choisissez un mot de passe plus solide.";
+
+            } else if (error.code === "auth/invalid-email") {
+                regError.textContent =
+                    "Veuillez saisir une adresse email valide.";
+
+            } else if (error.code === "auth/network-request-failed") {
+                regError.textContent =
+                    "Connexion Internet indisponible. Vérifiez votre réseau.";
+
+            } else if (error.code && error.code.startsWith("auth/")) {
+                regError.textContent =
+                    "Erreur de création du compte : " + error.message;
+
             } else {
-                const messages = {
-                    "auth/email-already-in-use":
-                        "Cette adresse e-mail possède déjà un compte. Cliquez sur Se connecter.",
-                    "auth/invalid-email":
-                        "Veuillez saisir une adresse e-mail valide.",
-                    "auth/weak-password":
-                        "Votre mot de passe doit contenir au moins 6 caractères.",
-                    "auth/network-request-failed":
-                        "Problème Internet. Vérifiez votre connexion.",
-                    "auth/operation-not-allowed":
-                        "L'inscription par e-mail n'est pas activée dans Firebase Authentication."
-                };
-
                 regError.textContent =
-                    messages[error.code] ||
                     error.message ||
-                    "Inscription impossible. Vérifiez la configuration Firebase.";
+                    "Une erreur est survenue. Veuillez réessayer.";
             }
 
         } finally {
-            isRegistering = false;
-            registerSubmitBtn.disabled = false;
-            registerSubmitBtn.textContent = "S'inscrire";
+            isSubmitting = false;
+            registerButton.disabled = false;
+            registerButton.textContent = "Créer mon compte";
         }
     });
-
-    // --------------------------------------------------
-    // 7. ÉTAT INITIAL
-    // --------------------------------------------------
-
-    // Attendre que Firebase ait vérifié la session.
-    // Si aucune session n'existe, la connexion est affichée.
-    showForm(true);
 </script>
-
 </body>
 </html>
