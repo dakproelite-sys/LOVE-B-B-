@@ -1,22 +1,32 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-import { getDatabase } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+// firebase-config.js
+import { initializeApp } from "firebase/app";
+import { getAnalytics, isSupported } from "firebase/analytics";
+import { getAuth } from "firebase/auth";
+import { getDatabase } from "firebase/database";
 
-// Configuration unique et propre de votre projet Firebase "Love Bébé"
 const firebaseConfig = {
   apiKey: "AIzaSyC7x2d7kXK8hT0h7GvTBHZDZ30R-vqiSEY",
   authDomain: "love-bebe.firebaseapp.com",
+  databaseURL: "https://love-bebe-default-rtdb.firebaseio.com",
   projectId: "love-bebe",
   storageBucket: "love-bebe.firebasestorage.app",
   messagingSenderId: "403955591576",
   appId: "1:403955591576:web:2d596ca141905e32e4e3ed",
-  measurementId: "G-FGL1HKNVVC",
-  databaseURL: "https://love-bebe-default-rtdb.firebaseio.com" // Ajouté pour connecter Realtime Database sans conflit
+  measurementId: "G-FGL1HKNVVC"
 };
 
-// Initialisation unique de l'application
-export const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const rtdb = getDatabase(app);
+// Initialisation Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const database = getDatabase(app);
+
+let analytics = null;
+if (typeof window !== "undefined") {
+  isSupported().then((supported) => {
+    if (supported) {
+      analytics = getAnalytics(app);
+    }
+  });
+}
+
+export { app, auth, database, analytics };
