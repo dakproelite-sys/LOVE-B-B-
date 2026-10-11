@@ -27,7 +27,7 @@
 
         .container { max-width: 800px; margin: 0 auto; padding: 0 10px; }
 
-        /* Style Couverture & Photo de profil (Type Facebook) */
+        /* Style Couverture & Photo de profil */
         .profile-header-card { background: white; border-radius: 0 0 15px 15px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 15px; position: relative; }
         .cover-photo { height: 180px; background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold)); width: 100%; object-fit: cover; }
         .profile-avatar-container { position: relative; width: 130px; height: 130px; margin: -65px auto 10px auto; }
@@ -42,7 +42,7 @@
         .menu-item-btn:hover { background: #f7f8fa; transform: translateY(-2px); }
         .menu-item-btn span { font-size: 20px; }
 
-        /* Cartes d'informations & Publications */
+        /* Cartes d'informations */
         .card { background: white; border-radius: 12px; padding: 18px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #e4e6eb; }
         .card-title { color: var(--deep-red); font-size: 1.1rem; margin-bottom: 15px; border-bottom: 2px solid var(--primary-gold); padding-bottom: 5px; display: flex; align-items: center; justify-content: space-between; }
         
@@ -55,20 +55,22 @@
         input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-blue); background: #fff; }
 
         .save-btn { background: linear-gradient(135deg, var(--deep-red), var(--dark-red)); color: white; width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; }
+        .edit-btn-action { background: var(--accent-blue); color: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; border: none; cursor: pointer; font-weight: bold; }
         .status-msg { text-align: center; margin-top: 10px; font-weight: bold; font-size: 13px; color: var(--accent-blue); }
 
-        /* Zone de Publication (Style Facebook) */
-        .post-input-box { display: flex; flex-direction: column; gap: 10px; }
-        .post-btn { background: var(--accent-blue); color: white; padding: 10px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        /* Vue Récapitulative des Informations */
+        .info-view-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        @media (max-width: 600px) { .info-view-grid { grid-template-columns: 1fr; } }
+        .info-item { background: #f8f9fa; padding: 10px; border-radius: 8px; border-left: 3px solid var(--accent-blue); font-size: 13px; }
+        .info-item strong { color: var(--deep-red); display: block; font-size: 11px; text-transform: uppercase; }
 
-        /* Affichage des Publications */
-        .post-card { background: white; border-radius: 12px; padding: 15px; margin-top: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #e4e6eb; }
-        .post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-        .post-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
-        .post-user-info h4 { font-size: 14px; color: #111; }
-        .post-user-info span { font-size: 11px; color: #777; }
-        .post-content { font-size: 14px; color: #222; margin-bottom: 10px; }
-        .post-media { width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px; margin-top: 8px; }
+        /* Grilles d'affichage des médias publiés */
+        .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-top: 10px; }
+        .media-card { background: #fff; border-radius: 10px; border: 1px solid #ddd; overflow: hidden; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .media-card img, .media-card video { width: 100%; height: 180px; object-fit: cover; border-radius: 6px; }
+        .media-card p { font-size: 13px; color: #333; margin-top: 6px; }
+
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
@@ -86,11 +88,11 @@
 
 <main class="container">
 
-    <!-- En-tête Profil (Style Facebook) -->
+    <!-- En-tête Profil -->
     <section class="profile-header-card">
         <div class="cover-photo"></div>
         <div class="profile-avatar-container">
-            <img id="profileAvatar" src="https://via.placeholder.com/130?text=Photo" alt="Photo de Profil" class="profile-avatar">
+            <img id="profileAvatar" src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png" alt="Photo de Profil" class="profile-avatar">
             <label for="avatarInput" class="avatar-edit-badge" title="Changer la photo de profil">📷</label>
             <input type="file" id="avatarInput" accept="image/*" style="display: none;">
         </div>
@@ -98,31 +100,21 @@
         <p class="user-bio-text" id="displayBio">Renseignez votre présentation ci-dessous.</p>
     </section>
 
-    <!-- Menu 4 Boutons d'Action -->
+    <!-- Menu Boutons d'Action -->
     <section class="profile-menu-grid">
-        <a href="message.html" class="menu-item-btn">
-            <span>💬</span>
-            Messages
-        </a>
-        <a href="photos.html" class="menu-item-btn">
-            <span>🖼️</span>
-            Photos
-        </a>
-        <a href="camera.html" class="menu-item-btn">
-            <span>📷</span>
-            Caméra
-        </a>
-        <a href="ame-soeur.html" class="menu-item-btn">
-            <span>💖</span>
-            Âme sœur
-        </a>
+        <a href="messagerie.html" class="menu-item-btn"><span>💬</span>Messagerie</a>
+        <a href="photos.html" class="menu-item-btn"><span>🖼️</span>Photos</a>
+        <a href="videos.html" class="menu-item-btn"><span>🎥</span>Vidéos</a>
+        <a href="ame-soeur.html" class="menu-item-btn"><span>💖</span>Âme sœur</a>
     </section>
 
-    <!-- Informations du Profil -->
+    <!-- Carte des Informations du Profil -->
     <section class="card">
         <div class="card-title">
-            <span>📝 Modifier mes informations</span>
+            <span id="cardTitleText">📝 Modifier mes informations</span>
+            <button type="button" id="toggleEditBtn" class="edit-btn-action hidden">✏️ Modifier</button>
         </div>
+
         <form id="profileForm">
             <div class="form-grid">
                 <div class="form-group">
@@ -171,32 +163,46 @@
                 </div>
             </div>
             <button type="submit" class="save-btn" id="saveBtn">💾 Enregistrer le profil</button>
-            <p id="statusMessage" class="status-msg"></p>
         </form>
+
+        <div id="infoDisplayView" class="hidden">
+            <div class="info-view-grid">
+                <div class="info-item"><strong>Nom complet</strong><span id="viewFullName">-</span></div>
+                <div class="info-item"><strong>Genre</strong><span id="viewGender">-</span></div>
+                <div class="info-item"><strong>Âge</strong><span id="viewAge">-</span></div>
+                <div class="info-item"><strong>Profession</strong><span id="viewProfession">-</span></div>
+                <div class="info-item"><strong>Enfants</strong><span id="viewChildrenCount">-</span></div>
+                <div class="info-item"><strong>Situation</strong><span id="viewMaritalStatus">-</span></div>
+                <div class="info-item"><strong>Localisation</strong><span id="viewLocation">-</span></div>
+                <div class="info-item" style="grid-column: 1 / -1;"><strong>Biographie</strong><span id="viewBio">-</span></div>
+            </div>
+        </div>
+
+        <p id="statusMessage" class="status-msg"></p>
     </section>
 
-    <!-- Zone de Publication (Style Facebook) -->
+    <!-- SECTION DES IMAGES PUBLIÉES PAR L'UTILISATEUR -->
     <section class="card">
-        <div class="card-title">
-            <span>📣 Créer une publication</span>
-        </div>
-        <div class="post-input-box">
-            <textarea id="postText" rows="2" placeholder="Exprimez-vous ou partagez un moment..."></textarea>
-            <input type="file" id="postMediaInput" accept="image/*,video/*">
-            <button class="post-btn" id="publishBtn">Publier maintenant</button>
+        <div class="card-title"><span>🖼️ Mes images publiées</span></div>
+        <div id="userImagesGrid" class="media-grid">
+            <p style="color:#777; font-size:13px;">Chargement de vos images...</p>
         </div>
     </section>
 
-    <!-- Fil d'actualités / Flux des Publications -->
-    <h3 style="margin-bottom: 10px; color: var(--accent-blue);">Mes publications</h3>
-    <div id="postsFeed"></div>
+    <!-- SECTION DES VIDÉOS PUBLIÉES PAR L'UTILISATEUR -->
+    <section class="card">
+        <div class="card-title"><span>🎥 Mes vidéos publiées</span></div>
+        <div id="userVideosGrid" class="media-grid">
+            <p style="color:#777; font-size:13px;">Chargement de vos vidéos...</p>
+        </div>
+    </section>
 
 </main>
 
 <script type="module">
     import { auth, database } from "./love-bebe-service.js";
     import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { ref, get, set, remove, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    import { ref, get, set, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
     let currentUser = null;
     let cloudinaryConfig = null;
@@ -204,12 +210,16 @@
     let previousGender = "";
 
     const profileForm = document.getElementById("profileForm");
+    const infoDisplayView = document.getElementById("infoDisplayView");
+    const toggleEditBtn = document.getElementById("toggleEditBtn");
+    const cardTitleText = document.getElementById("cardTitleText");
+    
     const avatarInput = document.getElementById("avatarInput");
     const profileAvatar = document.getElementById("profileAvatar");
     const statusMessage = document.getElementById("statusMessage");
     const saveBtn = document.getElementById("saveBtn");
-    const publishBtn = document.getElementById("publishBtn");
-    const postsFeed = document.getElementById("postsFeed");
+    const userImagesGrid = document.getElementById("userImagesGrid");
+    const userVideosGrid = document.getElementById("userVideosGrid");
 
     onAuthStateChanged(auth, async (user) => {
         if (!user) {
@@ -219,16 +229,15 @@
         currentUser = user;
 
         try {
-            // Configuration Cloudinary
             const configSnap = await get(ref(database, "config/cloudinary"));
             if (configSnap.exists()) {
                 cloudinaryConfig = configSnap.val();
             }
 
-            // Charger les infos du profil depuis le nœud principal utilisateur
             const userSnap = await get(ref(database, `users/${user.uid}`));
             if (userSnap.exists()) {
                 const data = userSnap.val();
+                
                 document.getElementById("fullName").value = data.fullName || "";
                 document.getElementById("displayFullName").textContent = data.fullName || "Utilisateur Love Bébé";
                 document.getElementById("gender").value = data.gender || "Masculin";
@@ -246,25 +255,58 @@
                     currentProfilePic = data.profileMediaUrl;
                     profileAvatar.src = currentProfilePic;
                 }
+
+                if (data.fullName) {
+                    renderInfoView(data);
+                    switchMode(false);
+                } else {
+                    switchMode(true);
+                }
             }
 
-            loadUserPosts();
+            loadUserMediaPosts();
         } catch (error) {
             console.error("Erreur de chargement :", error);
         }
     });
 
-    // Envoi photo de profil Cloudinary
+    function renderInfoView(data) {
+        document.getElementById("viewFullName").textContent = data.fullName || "-";
+        document.getElementById("viewGender").textContent = data.gender || "-";
+        document.getElementById("viewAge").textContent = data.age ? `${data.age} ans` : "-";
+        document.getElementById("viewProfession").textContent = data.profession || "-";
+        document.getElementById("viewChildrenCount").textContent = data.childrenCount ?? "0";
+        document.getElementById("viewMaritalStatus").textContent = data.maritalStatus || "-";
+        document.getElementById("viewLocation").textContent = [data.city, data.country].filter(Boolean).join(", ") || "-";
+        document.getElementById("viewBio").textContent = data.bio || "-";
+    }
+
+    function switchMode(isEditing) {
+        if (isEditing) {
+            profileForm.classList.remove("hidden");
+            infoDisplayView.classList.add("hidden");
+            toggleEditBtn.classList.add("hidden");
+            cardTitleText.textContent = "📝 Modifier mes informations";
+        } else {
+            profileForm.classList.add("hidden");
+            infoDisplayView.classList.remove("hidden");
+            toggleEditBtn.classList.remove("hidden");
+            cardTitleText.textContent = "📋 Mes Informations";
+        }
+    }
+
+    toggleEditBtn.addEventListener("click", () => switchMode(true));
+
     avatarInput.addEventListener("change", async (e) => {
         const file = e.target.files[0];
         if (!file || !cloudinaryConfig) return;
 
-        statusMessage.textContent = "Téléversement de la photo de profil...";
+        statusMessage.textContent = "Téléversement de la photo...";
         const url = await uploadToCloudinary(file, "image");
         if (url) {
             currentProfilePic = url;
             profileAvatar.src = url;
-            statusMessage.textContent = "Photo de profil mise à jour ! Enregistrez votre profil.";
+            statusMessage.textContent = "Photo de profil mise à jour !";
         } else {
             statusMessage.textContent = "Erreur de téléversement d'image.";
         }
@@ -290,7 +332,6 @@
         }
     }
 
-    // Enregistrement et répartition automatique dans profil_hommes ou profil_femmes
     profileForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         if (!currentUser) return;
@@ -323,23 +364,24 @@
                 updatedData.isAdmin = existing.isAdmin || false;
             }
 
-            // Enregistrer dans le nœud général utilisateur
             await set(userRef, updatedData);
 
-            // Si le genre a changé, nettoyer l'ancien nœud de genre
             if (previousGender && previousGender !== gender) {
                 const oldCategoryNode = previousGender === "Masculin" ? `profil_hommes/${currentUser.uid}` : `profil_femmes/${currentUser.uid}`;
                 await remove(ref(database, oldCategoryNode));
             }
 
-            // Enregistrer automatiquement dans le nœud spécifique (profil_hommes ou profil_femmes)
             const targetCategoryNode = gender === "Masculin" ? `profil_hommes/${currentUser.uid}` : `profil_femmes/${currentUser.uid}`;
             await set(ref(database, targetCategoryNode), updatedData);
 
             previousGender = gender;
             document.getElementById("displayFullName").textContent = updatedData.fullName;
             document.getElementById("displayBio").textContent = updatedData.bio;
-            statusMessage.textContent = "Profil enregistré et mis à jour avec succès !";
+            
+            renderInfoView(updatedData);
+            switchMode(false);
+
+            statusMessage.textContent = "Profil enregistré avec succès !";
             saveBtn.disabled = false;
         } catch (error) {
             console.error(error);
@@ -348,86 +390,61 @@
         }
     });
 
-    // Publication
-    publishBtn.addEventListener("click", async () => {
-        const text = document.getElementById("postText").value.trim();
-        const fileInput = document.getElementById("postMediaInput");
-        const file = fileInput.files[0];
+    // Chargement dynamique des images et vidéos publiées par l'utilisateur (depuis le nœud posts)
+    async function loadUserMediaPosts() {
+        userImagesGrid.replaceChildren();
+        userVideosGrid.replaceChildren();
 
-        if (!text && !file) {
-            alert("Veuillez saisir un texte ou sélectionner un fichier à publier.");
-            return;
-        }
-
-        publishBtn.disabled = true;
-        let mediaUrl = "";
-        let isVideo = false;
-
-        if (file) {
-            isVideo = file.type.startsWith("video");
-            mediaUrl = await uploadToCloudinary(file, isVideo ? "video" : "image");
-        }
-
-        const newPost = {
-            userId: currentUser.uid,
-            userName: document.getElementById("fullName").value || "Membre",
-            userAvatar: currentProfilePic || "https://via.placeholder.com/40",
-            text: text,
-            mediaUrl: mediaUrl,
-            isVideo: isVideo,
-            createdAt: Date.now()
-        };
-
-        try {
-            const postsRef = ref(database, "posts");
-            await push(postsRef, newPost);
-            document.getElementById("postText").value = "";
-            fileInput.value = "";
-            publishBtn.disabled = false;
-            loadUserPosts();
-        } catch (err) {
-            console.error(err);
-            publishBtn.disabled = false;
-        }
-    });
-
-    async function loadUserPosts() {
-        postsFeed.replaceChildren();
         try {
             const postsSnap = await get(ref(database, "posts"));
             if (postsSnap.exists()) {
                 const postsObj = postsSnap.val();
-                const postsList = Object.values(postsObj).filter(p => p.userId === currentUser.uid).reverse();
+                // Filtrer par utilisateur et inverser pour afficher du plus récent au plus ancien (style chronologique)
+                const userPosts = Object.values(postsObj)
+                    .filter(p => p.userId === currentUser.uid)
+                    .reverse();
 
-                postsList.forEach(post => {
+                let imageCount = 0;
+                let videoCount = 0;
+
+                userPosts.forEach(post => {
+                    const mediaUrl = post.mediaUrl || post.url || "";
+                    if (!mediaUrl) return;
+
+                    const isVideo = post.isVideo === true || post.isVD === true || mediaUrl.includes(".mp4") || mediaUrl.includes("video");
+
                     const card = document.createElement("div");
-                    card.className = "post-card";
+                    card.className = "media-card";
 
-                    let mediaElement = "";
-                    if (post.mediaUrl) {
-                        if (post.isVideo) {
-                            mediaElement = `<video src="${post.mediaUrl}" controls class="post-media"></video>`;
-                        } else {
-                            mediaElement = `<img src="${post.mediaUrl}" class="post-media">`;
-                        }
+                    if (isVideo) {
+                        videoCount++;
+                        card.innerHTML = `
+                            <video src="${mediaUrl}" controls></video>
+                            <p>${post.text || post.content || ''}</p>
+                        `;
+                        userVideosGrid.appendChild(card);
+                    } else {
+                        imageCount++;
+                        card.innerHTML = `
+                            <img src="${mediaUrl}" alt="Image publiée">
+                            <p>${post.text || post.content || ''}</p>
+                        `;
+                        userImagesGrid.appendChild(card);
                     }
-
-                    card.innerHTML = `
-                        <div class="post-header">
-                            <img src="${post.userAvatar}" class="post-avatar">
-                            <div class="post-user-info">
-                                <h4>${post.userName}</h4>
-                                <span>${new Date(post.createdAt).toLocaleString()}</span>
-                            </div>
-                        </div>
-                        <div class="post-content">${post.text}</div>
-                        ${mediaElement}
-                    `;
-                    postsFeed.appendChild(card);
                 });
+
+                if (imageCount === 0) {
+                    userImagesGrid.innerHTML = `<p style="color:#777; font-size:13px;">Aucune image publiée pour le moment.</p>`;
+                }
+                if (videoCount === 0) {
+                    userVideosGrid.innerHTML = `<p style="color:#777; font-size:13px;">Aucune vidéo publiée pour le moment.</p>`;
+                }
+            } else {
+                userImagesGrid.innerHTML = `<p style="color:#777; font-size:13px;">Aucune image publiée.</p>`;
+                userVideosGrid.innerHTML = `<p style="color:#777; font-size:13px;">Aucune vidéo publiée.</p>`;
             }
         } catch (err) {
-            console.error(err);
+            console.error("Erreur chargement médias :", err);
         }
     }
 

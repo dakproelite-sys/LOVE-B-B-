@@ -29,10 +29,11 @@
             background: linear-gradient(135deg, var(--primary-gold) 0%, var(--dark-gold) 100%);
             min-height: 100vh;
             color: #222;
-            padding-bottom: 40px;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* EN-TÊTE GRAND ET BIEN STRUCTURÉ POUR MOBILE ET DESKTOP */
+        /* EN-TÊTE */
         header {
             background: #ffffff;
             padding: 15px 20px;
@@ -89,7 +90,6 @@
             margin-top: 4px;
         }
 
-        /* BOUTONS DE NAVIGATION EN LIGNE AVEC ICÔNES CLAIRES */
         .nav-actions {
             display: flex;
             align-items: center;
@@ -110,7 +110,6 @@
             font-size: 14px;
             border: none;
             cursor: pointer;
-            transition: all 0.2s ease;
             box-shadow: 0 3px 8px rgba(0,0,0,0.2);
             display: flex;
             align-items: center;
@@ -119,46 +118,28 @@
             white-space: nowrap;
         }
 
-        .nav-btn .btn-icon {
-            font-size: 16px; /* Icône nette et lisible */
-        }
-
-        .nav-btn:hover {
-            opacity: 0.95;
-            transform: translateY(-2px);
-        }
-
         .nav-btn-blue {
             background: linear-gradient(135deg, var(--accent-blue), #1565C0);
         }
 
-        /* REPOSITIONNEMENT ORDINATEUR / TABLETTE */
         @media (min-width: 768px) {
             header {
                 flex-direction: row;
                 justify-content: space-between;
                 padding: 15px 35px;
             }
-            .header-top {
-                width: auto;
-                justify-content: flex-start;
-            }
-            .brand-text {
-                text-align: left;
-            }
-            .nav-actions {
-                width: auto;
-            }
-            .nav-btn {
-                flex: initial;
-                padding: 10px 20px;
-            }
+            .header-top { width: auto; justify-content: flex-start; }
+            .brand-text { text-align: left; }
+            .nav-actions { width: auto; }
+            .nav-btn { flex: initial; padding: 10px 20px; }
         }
 
         .container {
             max-width: 1400px;
             margin: 25px auto;
             padding: 0 15px;
+            flex: 1;
+            width: 100%;
         }
 
         .hero-banner {
@@ -181,45 +162,36 @@
             color: var(--accent-blue);
             font-size: 0.95rem;
             font-weight: 600;
-            line-height: 1.4;
         }
 
-        /* SECTION DES ANNONCES ADMIN */
-        .admin-publications-container {
-            margin-bottom: 25px;
-            display: none;
+        /* ONGLETS DE SÉLECTION */
+        .tabs-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
-        .publication-card {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 20px;
-            border: 2px solid var(--primary-gold);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 15px;
-        }
-
-        .publication-card h3 {
+        .tab-btn {
+            background: #fff;
             color: var(--deep-red);
-            font-size: 1.2rem;
-            margin-bottom: 8px;
-        }
-
-        .publication-card p {
-            color: #333;
+            border: 2px solid var(--deep-red);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
             font-size: 14px;
-            line-height: 1.5;
+            transition: 0.2s;
         }
 
-        .publication-media {
-            width: 100%;
-            max-height: 380px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-top: 10px;
+        .tab-btn.active {
+            background: var(--deep-red);
+            color: white;
+            box-shadow: 0 4px 10px rgba(211, 47, 47, 0.3);
         }
 
-        /* BARRE DE FILTRES */
+        /* FILTRES DE RECHERCHE */
         .filter-section {
             background: #fff;
             padding: 15px;
@@ -229,14 +201,10 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         @media (min-width: 600px) {
-            .filter-section {
-                flex-direction: row;
-                flex-wrap: wrap;
-            }
+            .filter-section { flex-direction: row; flex-wrap: wrap; }
         }
 
         .filter-input, .filter-select {
@@ -249,38 +217,29 @@
         }
 
         @media (min-width: 600px) {
-            .filter-input, .filter-select {
-                flex: 1;
-                min-width: 180px;
-            }
+            .filter-input, .filter-select { flex: 1; min-width: 180px; }
         }
 
-        .filter-input:focus, .filter-select:focus {
-            outline: none;
-            border-color: var(--deep-red);
-            background: #fff;
-        }
-
-        /* GRILLE DES PROFILS RESPONSIVE */
-        .profiles-grid {
+        /* GRILLES */
+        .profiles-grid, .posts-grid {
             display: grid;
             grid-template-columns: repeat(1, 1fr);
             gap: 18px;
         }
 
         @media (min-width: 550px) {
-            .profiles-grid { grid-template-columns: repeat(2, 1fr); }
+            .profiles-grid, .posts-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (min-width: 900px) {
-            .profiles-grid { grid-template-columns: repeat(3, 1fr); }
+            .profiles-grid, .posts-grid { grid-template-columns: repeat(3, 1fr); }
         }
 
         @media (min-width: 1200px) {
-            .profiles-grid { grid-template-columns: repeat(5, 1fr); }
+            .profiles-grid, .posts-grid { grid-template-columns: repeat(5, 1fr); }
         }
 
-        .profile-card {
+        .profile-card, .post-card {
             background: #fff;
             border-radius: 16px;
             overflow: hidden;
@@ -289,25 +248,20 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.2s;
         }
 
-        .profile-card:hover {
-            transform: translateY(-4px);
-        }
-
-        .profile-media {
+        .profile-media, .post-media {
             width: 100%;
             height: 220px;
             object-fit: cover;
             background: #111;
         }
 
-        .profile-content {
+        .profile-content, .post-content {
             padding: 14px;
         }
 
-        .profile-name {
+        .profile-name, .post-author {
             font-size: 1.1rem;
             color: var(--deep-red);
             font-weight: bold;
@@ -317,7 +271,7 @@
             text-overflow: ellipsis;
         }
 
-        .profile-detail {
+        .profile-detail, .post-text {
             font-size: 13px;
             color: #444;
             margin-bottom: 4px;
@@ -327,10 +281,12 @@
             padding: 12px;
             border-top: 1px solid #eee;
             background: #FAFAFA;
+            display: flex;
+            gap: 8px;
         }
 
         .action-btn {
-            width: 100%;
+            flex: 1;
             padding: 10px;
             border-radius: 8px;
             font-weight: bold;
@@ -340,17 +296,37 @@
             color: white;
             background: var(--deep-red);
             display: block;
-            transition: opacity 0.2s;
+            border: none;
+            cursor: pointer;
         }
 
-        .action-btn:hover {
-            opacity: 0.9;
+        .btn-like {
+            background: #e91e63;
+            flex: 0 0 auto;
+            padding: 10px 14px;
         }
+
+        /* FOOTER PROFESSIONNEL */
+        footer {
+            background: #222;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-top: 4px solid var(--primary-gold);
+        }
+
+        footer a {
+            color: var(--primary-gold);
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <!-- EN-TÊTE COMPACT ET AGRANDI EN HAUT -->
     <header>
         <div class="header-top">
             <a href="index.html">
@@ -364,12 +340,10 @@
 
         <div class="nav-actions">
             <a href="profil.html" id="profile-nav-btn" class="nav-btn nav-btn-blue">
-                <span class="btn-icon" id="profile-icon">👤</span> 
-                <span id="profile-nav-text">Mon Profil</span>
+                <span class="btn-icon">👤</span> <span id="profile-nav-text">Mon Profil</span>
             </a>
             <button class="nav-btn" id="auth-btn">
-                <span class="btn-icon" id="auth-icon">🔐</span> 
-                <span id="auth-btn-text">Connexion</span>
+                <span class="btn-icon">🔐</span> <span id="auth-btn-text">Connexion</span>
             </button>
         </div>
     </header>
@@ -378,14 +352,18 @@
         
         <div class="hero-banner">
             <h1>L'Amour Véritable Vous Attend ❤️</h1>
-            <p>Découvrez en toute sécurité les profils de prestige de nos célibataires inscrits.</p>
+            <p>Découvrez en toute sécurité les profils et les publications de nos membres.</p>
         </div>
 
-        <!-- ANNONCES ADMINISTRATEUR -->
-        <div id="adminPublicationsSection" class="admin-publications-container"></div>
+        <!-- ONGLETS DE SÉLECTION -->
+        <div class="tabs-nav">
+            <button class="tab-btn active" id="tabProfiles" onclick="switchTab('profiles')">👥 Célibataires</button>
+            <button class="tab-btn" id="tabImages" onclick="switchTab('images')">🖼️ Images Publiées</button>
+            <button class="tab-btn" id="tabVideos" onclick="switchTab('videos')">🎥 Vidéos Publiées</button>
+        </div>
 
         <!-- FILTRES DE RECHERCHE -->
-        <div class="filter-section">
+        <div id="filterSection" class="filter-section">
             <input type="text" id="searchInput" class="filter-input" placeholder="🔍 Rechercher par nom, ville ou pays...">
             <select id="genderFilter" class="filter-select">
                 <option value="">Tous les genres</option>
@@ -403,27 +381,38 @@
             </select>
         </div>
 
-        <!-- GRILLE DES PROFILS -->
+        <!-- CONTENEURS DES VUES -->
         <div id="profilesContainer" class="profiles-grid">
-            <p style="text-align:center; grid-column: 1/-1; font-weight:bold; color:#0D47A1; padding:30px;">Chargement sécurisé des profils...</p>
+            <p style="text-align:center; grid-column: 1/-1; font-weight:bold; color:#0D47A1; padding:30px;">Chargement des profils...</p>
         </div>
 
+        <div id="imagesContainer" class="posts-grid hidden"></div>
+        <div id="videosContainer" class="posts-grid hidden"></div>
+
     </div>
+
+    <!-- FOOTER AVEC POLITIQUE DE CONFIDENTIALITÉ -->
+    <footer>
+        <p>&copy; 2026 Love Bébé - Tous droits réservés.</p>
+        <p style="margin-top: 8px;">
+            <a href="Politique-de-confidentialite.html">Politique de Confidentialité</a>
+        </p>
+    </footer>
 
     <script type="module">
         import { auth, database } from "./love-bebe-service.js";
         import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { ref, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { ref, get, child, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         let allProfilesList = [];
+        let allImagesList = [];
+        let allVideosList = [];
         let currentUserId = null;
 
         const authBtn = document.getElementById('auth-btn');
         const authBtnText = document.getElementById('auth-btn-text');
-        const authIcon = document.getElementById('auth-icon');
         const profileNavBtn = document.getElementById('profile-nav-btn');
         const profileNavText = document.getElementById('profile-nav-text');
-        const profileIcon = document.getElementById('profile-icon');
 
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
@@ -434,86 +423,67 @@
             currentUserId = user.uid;
 
             authBtnText.textContent = "Déconnexion";
-            authIcon.textContent = "🚪";
-            
+            authBtn.querySelector('.btn-icon').textContent = "🚪";
             authBtn.onclick = async () => {
                 await signOut(auth);
                 window.location.href = "connexion.html";
             };
 
-            // Vérification du rôle admin pour adapter le bouton
             try {
                 const userSnapshot = await get(child(ref(database), `users/${user.uid}`));
                 if (userSnapshot.exists()) {
                     const userData = userSnapshot.val();
                     if (userData.isAdmin || userData.role === "admin" || userData.role === "super admin") {
                         profileNavText.textContent = "Admin";
-                        profileIcon.textContent = "⚙️";
+                        profileNavBtn.querySelector('.btn-icon').textContent = "⚙️";
                         profileNavBtn.href = "admin.html";
                     } else {
                         profileNavText.textContent = "Mon Profil";
-                        profileIcon.textContent = "👤";
+                        profileNavBtn.querySelector('.btn-icon').textContent = "👤";
                         profileNavBtn.href = "profil.html";
                     }
                 }
             } catch (err) {
-                console.error("Erreur de vérification des rôles :", err);
+                console.error("Erreur rôle :", err);
             }
 
-            fetchAdminPublications();
-            fetchAllProfilesData();
+            fetchAllData();
         });
 
-        async function fetchAdminPublications() {
-            const container = document.getElementById('adminPublicationsSection');
-            try {
-                const snapshot = await get(ref(database, 'publications'));
-                if (snapshot.exists()) {
-                    container.innerHTML = "";
-                    container.style.display = "block";
-                    const publications = snapshot.val();
+        window.switchTab = function(tabName) {
+            document.getElementById('tabProfiles').classList.remove('active');
+            document.getElementById('tabImages').classList.remove('active');
+            document.getElementById('tabVideos').classList.remove('active');
 
-                    Object.keys(publications).reverse().forEach(id => {
-                        const pub = publications[id];
-                        const pubCard = document.createElement('div');
-                        pubCard.className = 'publication-card';
-                        
-                        let mediaHTML = "";
-                        if (pub.mediaUrl) {
-                            if (pub.mediaType === "video") {
-                                mediaHTML = `<video src="${pub.mediaUrl}" controls class="publication-media"></video>`;
-                            } else {
-                                mediaHTML = `<img src="${pub.mediaUrl}" alt="Annonce" class="publication-media">`;
-                            }
-                        }
+            document.getElementById('profilesContainer').classList.add('hidden');
+            document.getElementById('imagesContainer').classList.add('hidden');
+            document.getElementById('videosContainer').classList.add('hidden');
+            document.getElementById('filterSection').classList.add('hidden');
 
-                        pubCard.innerHTML = `
-                            <h3>📢 ${pub.title || "Annonce Officielle Love Bébé"}</h3>
-                            <p>${pub.content || ""}</p>
-                            ${mediaHTML}
-                            <div style="font-size:11px; color:#777; margin-top:8px;">Publié le ${new Date(pub.createdAt).toLocaleDateString('fr-FR')}</div>
-                        `;
-                        container.appendChild(pubCard);
-                    });
-                }
-            } catch (err) {
-                console.warn("Pas de publications :", err);
+            if (tabName === 'profiles') {
+                document.getElementById('tabProfiles').classList.add('active');
+                document.getElementById('profilesContainer').classList.remove('hidden');
+                document.getElementById('filterSection').classList.remove('hidden');
+            } else if (tabName === 'images') {
+                document.getElementById('tabImages').classList.add('active');
+                document.getElementById('imagesContainer').classList.remove('hidden');
+            } else if (tabName === 'videos') {
+                document.getElementById('tabVideos').classList.add('active');
+                document.getElementById('videosContainer').classList.remove('hidden');
             }
         }
 
-        async function fetchAllProfilesData() {
-            const container = document.getElementById('profilesContainer');
-            allProfilesList = [];
-
+        async function fetchAllData() {
             try {
-                const [menSnap, womenSnap, generalSnap] = await Promise.all([
+                const [menSnap, womenSnap, generalSnap, postsSnap] = await Promise.all([
                     get(ref(database, 'profil_hommes')),
                     get(ref(database, 'profil_femmes')),
-                    get(ref(database, 'users'))
+                    get(ref(database, 'users')),
+                    get(ref(database, 'posts'))
                 ]);
 
+                // 1. Profils
                 const profilesMap = {};
-
                 [menSnap, womenSnap, generalSnap].forEach(snap => {
                     if (snap.exists()) {
                         const val = snap.val();
@@ -525,13 +495,31 @@
                         });
                     }
                 });
-
                 allProfilesList = Object.values(profilesMap);
                 renderProfiles(allProfilesList);
 
+                // 2. Posts (Images & Vidéos)
+                allImagesList = [];
+                allVideosList = [];
+
+                if (postsSnap.exists()) {
+                    const postsVal = postsSnap.val();
+                    Object.keys(postsVal).forEach(postId => {
+                        const post = postsVal[postId];
+                        post.id = postId;
+                        if (post.isVD === true || post.isVideo === true) {
+                            allVideosList.push(post);
+                        } else {
+                            allImagesList.push(post);
+                        }
+                    });
+                }
+
+                renderPosts(allImagesList, 'imagesContainer', 'image');
+                renderPosts(allVideosList, 'videosContainer', 'video');
+
             } catch (error) {
-                console.error("Erreur de chargement des profils :", error);
-                container.innerHTML = "<p style='text-align:center; grid-column: 1/-1; color:#D32F2F; font-weight:bold;'>Erreur lors du chargement des profils.</p>";
+                console.error("Erreur de chargement :", error);
             }
         }
 
@@ -551,16 +539,12 @@
                 const gender = user.gender || '';
                 const age = user.age ? `${user.age} ans` : 'Âge non spécifié';
 
-                if (searchVal && !name.toLowerCase().includes(searchVal) && !city.toLowerCase().includes(searchVal) && !country.toLowerCase().includes(searchVal)) {
-                    return;
-                }
-
+                if (searchVal && !name.toLowerCase().includes(searchVal) && !city.toLowerCase().includes(searchVal) && !country.toLowerCase().includes(searchVal)) return;
                 if (genderVal && gender !== genderVal) return;
 
                 if (ageVal) {
                     const userAge = parseInt(user.age);
                     if (isNaN(userAge)) return;
-
                     if (ageVal === "18-25" && (userAge < 18 || userAge > 25)) return;
                     if (ageVal === "25-30" && (userAge < 25 || userAge > 30)) return;
                     if (ageVal === "30-35" && (userAge < 30 || userAge > 35)) return;
@@ -570,7 +554,6 @@
                 }
 
                 count++;
-
                 const mediaUrl = user.capturedPhotos?.[0] || user.profileMediaUrl || 'https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png';
                 const targetUid = user.uid || '';
 
@@ -579,7 +562,7 @@
                 card.innerHTML = `
                     <img src="${mediaUrl}" alt="${name}" class="profile-media">
                     <div class="profile-content">
-                        <div class="profile-name" title="${name}">${name}</div>
+                        <div class="profile-name">${name}</div>
                         <div class="profile-detail">📍 ${city ? city + ', ' : ''}${country || 'Pays non précisé'}</div>
                         <div class="profile-detail">🎂 ${age}</div>
                         <div class="profile-detail">💍 ${user.maritalStatus || 'Relation sérieuse'}</div>
@@ -592,7 +575,77 @@
             });
 
             if (count === 0) {
-                container.innerHTML = "<p style='text-align:center; grid-column: 1/-1; font-weight:bold; color:#D32F2F; padding:30px;'>Aucun profil ne correspond à vos critères de recherche.</p>";
+                container.innerHTML = "<p style='text-align:center; grid-column: 1/-1; font-weight:bold; color:#D32F2F; padding:30px;'>Aucun profil trouvé.</p>";
+            }
+        }
+
+        function renderPosts(list, containerId, type) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = "";
+
+            if (!list || list.length === 0) {
+                container.innerHTML = `<p style='text-align:center; grid-column: 1/-1; color:#777; padding:30px;'>Aucune ${type === 'image' ? 'image' : 'vidéo'} publiée pour le moment.</p>`;
+                return;
+            }
+
+            list.forEach(post => {
+                const author = post.userName || 'Membre Love Bébé';
+                const text = post.text || post.content || '';
+                const mediaUrl = post.mediaUrl || post.url || '';
+                const authorUid = post.userId || post.authorUid || '';
+                const postId = post.id;
+
+                const card = document.createElement('div');
+                card.className = 'post-card';
+
+                let mediaHtml = "";
+                if (mediaUrl) {
+                    if (type === 'video') {
+                        mediaHtml = `<video src="${mediaUrl}" controls class="post-media"></video>`;
+                    } else {
+                        mediaHtml = `<img src="${mediaUrl}" alt="Publication" class="post-media">`;
+                    }
+                }
+
+                card.innerHTML = `
+                    ${mediaHtml}
+                    <div class="post-content">
+                        <div class="post-author">👤 ${author}</div>
+                        <div class="post-text">${text}</div>
+                        <div id="likes-count-${postId}" style="font-size: 12px; color: #e91e63; font-weight: bold; margin-top: 6px;">❤️ 0 J'aime</div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="action-btn btn-like" onclick="toggleLike('${postId}')">❤️ Love</button>
+                        ${authorUid && authorUid !== currentUserId ? `<a href="messagerie.html?id=${authorUid}" class="action-btn">💬 Message</a>` : ''}
+                    </div>
+                `;
+                container.appendChild(card);
+
+                // Écouter les likes en temps réel dans Firebase (`j_aime/${postId}`)
+                onValue(ref(database, `j_aime/${postId}`), (snapshot) => {
+                    const likesData = snapshot.val() || {};
+                    const likesCount = Object.keys(likesData).length;
+                    const countEl = document.getElementById(`likes-count-${postId}`);
+                    if (countEl) countEl.textContent = `❤️ ${likesCount} J'aime`;
+                });
+            });
+        }
+
+        // Fonction pour aimer une publication (Enregistré dans Realtime Database sous `j_aime`)
+        window.toggleLike = async function(postId) {
+            if (!currentUserId || !postId) return;
+            const likeRef = ref(database, `j_aime/${postId}/${currentUserId}`);
+            try {
+                const snap = await get(likeRef);
+                if (snap.exists()) {
+                    // Retirer le like si déjà aimé
+                    await set(likeRef, null);
+                } else {
+                    // Ajouter le like
+                    await set(likeRef, { timestamp: Date.now() });
+                }
+            } catch (err) {
+                console.error("Erreur like :", err);
             }
         }
 
