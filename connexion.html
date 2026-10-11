@@ -270,7 +270,8 @@
 
         import {
             ref,
-            get
+            get,
+            set
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const loginForm = document.getElementById("loginForm");
@@ -281,6 +282,8 @@
         const togglePassword = document.getElementById("togglePassword");
 
         let processing = false;
+
+        const ADMIN_EMAIL = "dakjubile@gmail.com";
 
         function showMessage(message, type = "error") {
             loginMessage.textContent = message;
@@ -298,7 +301,6 @@
                 : "Se connecter";
         }
 
-        // Afficher ou masquer le mot de passe.
         function togglePasswordVisibility() {
             const visible = passwordInput.type === "password";
 
@@ -320,68 +322,74 @@
             }
         });
 
-        // Reconnaître uniquement un rôle administrateur déjà enregistré.
-        function isAdministrator(userData) {
+        // Déterminer le rôle administrateur par email OU par les données de la base
+        function isAdministrator(user, userData) {
+            if (user && user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+                return true;
+            }
             if (!userData) return false;
 
-            const role = String(userData.role || "")
-                .trim()
-                .toLowerCase();
-
-            return userData.isAdmin === true ||
-                role === "admin" ||
-                role === "super admin";
+            const role = String(userData.role || "").trim().toLowerCase();
+            return userData.isAdmin === true || role === "admin" || role === "super admin";
         }
 
-        // Lire le profil du compte connecté et choisir sa destination.
         async function redirectAccordingToRole(user) {
             showMessage("Vérification de votre compte...", "success");
             setLoading(true);
 
             try {
-                const snapshot = await get(
-                    ref(database, `users/${user.uid}`)
-                );
+                const userRef = ref(database, `users/${user.uid}`);
+                const snapshot = await get(userRef);
 
-                if (!snapshot.exists()) {
+                let userData = snapshot.exists() ? snapshot.val() : null;
+
+                // Si c'est l'adresse e-mail administrateur principale
+                if (user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+                    // Garantir la structure admin dans Realtime Database
+                    if (!userData || userData.role !== "admin" || !userData.isAdmin) {
+                        await set(userRef, {
+                            fullName: userData?.fullName || "Administrateur",
+                            email: user.email,
+                            role: "admin",
+                            isAdmin: true,
+                            updatedAt: new Date().toISOString()
+                        });
+                    }
+                    window.location.replace("admin.html");
+                    return;
+                }
+
+                if (!userData) {
                     await signOut(auth);
-                    showMessage(
-                        "Votre compte de connexion ne possède pas de profil Love Bébé valide. " +
-                        "Vérifiez votre compte ou contactez l'administrateur."
-                    );
+                    showMessage("Votre compte ne possède pas de profil Love Bébé valide.");
                     setLoading(false);
                     return;
                 }
 
-                const userData = snapshot.val();
-
-                if (isAdministrator(userData)) {
+                if (isAdministrator(user, userData)) {
                     window.location.replace("admin.html");
                 } else {
                     window.location.replace("profil.html");
                 }
 
             } catch (error) {
-                console.error("Vérification du compte impossible :", error);
-
-                // Ne pas laisser poursuivre vers une page protégée
-                // si le rôle ne peut pas être vérifié.
-                try {
-                    await signOut(auth);
-                } catch (signOutError) {
-                    console.error("Erreur de déconnexion :", signOutError);
+                console.error("Erreur de vérification :", error);
+                
+                // Secours spécial pour l'adresse admin principale même en cas d'erreur réseau/base
+                if (user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+                    window.location.replace("admin.html");
+                    return;
                 }
 
-                showMessage(
-                    "Impossible de vérifier votre compte dans Firebase. " +
-                    "Vérifiez les règles Realtime Database et réessayez."
-                );
+                try {
+                    await signOut(auth);
+                } catch (e) {}
 
+                showMessage("Erreur lors de la vérification de vos accès.");
                 setLoading(false);
             }
         }
 
-        // Si une session existe déjà, vérifier son rôle.
         onAuthStateChanged(auth, async (user) => {
             if (user && !processing) {
                 processing = true;
@@ -390,7 +398,6 @@
             }
         });
 
-        // Connexion avec email et mot de passe.
         loginForm.addEventListener("submit", async (event) => {
             event.preventDefault();
 
@@ -415,8 +422,7 @@
             } catch (error) {
                 console.error("Erreur de connexion :", error);
 
-                let message =
-                    "La connexion a échoué. Veuillez réessayer.";
+                let message = "La connexion a échoué. Veuillez réessayer.";
 
                 switch (error.code) {
                     case "auth/invalid-credential":
@@ -425,24 +431,14 @@
                     case "auth/invalid-email":
                         message = "Adresse email ou mot de passe incorrect.";
                         break;
-
                     case "auth/user-disabled":
                         message = "Ce compte a été désactivé.";
                         break;
-
                     case "auth/too-many-requests":
-                        message =
-                            "Trop de tentatives. Patientez un moment avant de réessayer.";
+                        message = "Trop de tentatives. Patientez un moment.";
                         break;
-
                     case "auth/network-request-failed":
-                        message =
-                            "Connexion Internet indisponible. Vérifiez votre réseau.";
-                        break;
-
-                    case "auth/operation-not-allowed":
-                        message =
-                            "La connexion par email et mot de passe n'est pas activée dans Firebase.";
+                        message = "Connexion Internet indisponible.";
                         break;
                 }
 

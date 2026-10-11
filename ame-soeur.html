@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Bébé - Mon Âme Sœur</title>
+    <style>
+        :root {
+            --primary-gold: #FFD700;
+            --dark-gold: #FFA500;
+            --deep-red: #D32F2F;
+            --dark-red: #B71C1C;
+            --accent-blue: #0D47A1;
+            --bg-gray: #f0f2f5;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-gray); min-height: 100vh; padding-bottom: 40px; color: #1c1e21; }
+
+        header { background: #fff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--deep-red); box-shadow: 0 2px 8px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .header-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .header-logo { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); object-fit: cover; }
+        .header-title { font-size: 1.2rem; font-weight: bold; color: var(--deep-red); text-transform: uppercase; }
+        .nav-actions { display: flex; gap: 8px; }
+        .nav-btn { background: linear-gradient(135deg, var(--deep-red), var(--dark-red)); color: white; padding: 8px 12px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 13px; border: none; cursor: pointer; }
+        .nav-btn-blue { background: linear-gradient(135deg, var(--accent-blue), #1565C0); }
+
+        .container { max-width: 800px; margin: 20px auto; padding: 0 12px; }
+
+        .section-header { background: white; padding: 15px 20px; border-radius: 12px; margin-bottom: 20px; border: 2px solid var(--primary-gold); box-shadow: 0 2px 8px rgba(0,0,0,0.05); text-align: center; }
+        .section-title { font-size: 1.3rem; color: var(--deep-red); font-weight: bold; margin-bottom: 5px; }
+        .section-subtitle { font-size: 13px; color: #65676b; }
+
+        /* Grille des profils */
+        .profiles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 15px; }
+        .profile-card { background: white; border-radius: 15px; padding: 18px; border: 1px solid #e4e6eb; box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; }
+        .profile-avatar { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary-gold); box-shadow: 0 2px 8px rgba(0,0,0,0.15); margin-bottom: 10px; }
+        .profile-name { font-size: 1.2rem; font-weight: bold; color: #111; margin-bottom: 4px; }
+        .profile-details { font-size: 13px; color: #555; margin-bottom: 8px; }
+        .profile-badge { display: inline-block; background: #e7f3ff; color: var(--accent-blue); padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; margin-bottom: 10px; }
+        .profile-bio { font-size: 13px; color: #333; font-style: italic; background: #f9f9f9; padding: 8px 12px; border-radius: 8px; width: 100%; margin-bottom: 12px; }
+
+        /* Boutons d'action */
+        .card-actions { display: flex; gap: 8px; width: 100%; }
+        .action-btn-call { flex: 1; background: linear-gradient(135deg, #28a745, #218838); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .action-btn-msg { flex: 1; background: linear-gradient(135deg, var(--accent-blue), #1565C0); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 13px; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .phone-link { font-size: 12px; color: #25D366; font-weight: bold; margin-bottom: 10px; text-decoration: none; }
+
+        /* Modal d'appel vidéo WebRTC */
+        .video-modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 2000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 15px; }
+        .video-container { position: relative; width: 100%; max-width: 500px; height: 70vh; background: #111; border-radius: 16px; overflow: hidden; border: 2px solid var(--primary-gold); }
+        .remote-video { width: 100%; height: 100%; object-fit: cover; }
+        .local-video { position: absolute; bottom: 15px; right: 15px; width: 100px; height: 140px; object-fit: cover; border-radius: 10px; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+        .call-controls { margin-top: 20px; display: flex; gap: 15px; }
+        .end-call-btn { background: var(--deep-red); color: white; border: none; padding: 12px 25px; border-radius: 30px; font-weight: bold; font-size: 15px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="profil.html" class="header-brand">
+        <img src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png" alt="Logo" class="header-logo">
+        <span class="header-title">Love Bébé</span>
+    </a>
+    <nav class="nav-actions">
+        <a href="profil.html" class="nav-btn nav-btn-blue">👤 Mon Profil</a>
+        <a href="message.html" class="nav-btn">💬 Messages</a>
+    </nav>
+</header>
+
+<main class="container">
+    <section class="section-header">
+        <div class="section-title" id="pageTitle">💖 Trouvez votre Âme Sœur</div>
+        <div class="section-subtitle" id="pageSubtitle">Chargement des profils compatibles...</div>
+    </section>
+
+    <div id="profilesContainer" class="profiles-grid">
+        <p style="text-align: center; grid-column: 1 / -1; color: #777;">Recherche des profils dans la base de données...</p>
+    </div>
+</main>
+
+<!-- Fenêtre d'Appel Vidéo en direct -->
+<div id="videoModal" class="video-modal">
+    <h3 style="color: white; margin-bottom: 10px;" id="callStatusTitle">Appel Vidéo en cours...</h3>
+    <div class="video-container">
+        <video id="remoteVideo" class="remote-video" autoplay playsinline></video>
+        <video id="localVideo" class="local-video" autoplay playsinline muted></video>
+    </div>
+    <div class="call-controls">
+        <button id="endCallBtn" class="end-call-btn">📵 Raccrocher</button>
+    </div>
+</div>
+
+<script type="module">
+    import { auth, database } from "./love-bebe-service.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { ref, get, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    let currentUser = null;
+    let currentUserGender = "";
+    let peerConnection = null;
+    let localStream = null;
+    let callRoomRef = null;
+
+    const rtcConfig = {
+        iceServers: [
+            { urls: "stun:stun.l.google.com:19302" },
+            { urls: "stun:stun1.l.google.com:19302" }
+        ]
+    };
+
+    const profilesContainer = document.getElementById("profilesContainer");
+    const pageTitle = document.getElementById("pageTitle");
+    const pageSubtitle = document.getElementById("pageSubtitle");
+    const videoModal = document.getElementById("videoModal");
+    const localVideo = document.getElementById("localVideo");
+    const remoteVideo = document.getElementById("remoteVideo");
+    const endCallBtn = document.getElementById("endCallBtn");
+
+    onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+            window.location.replace("connexion.html");
+            return;
+        }
+        currentUser = user;
+
+        try {
+            // Vérifier le profil de l'utilisateur connecté pour déterminer son genre
+            const userSnap = await get(ref(database, `users/${user.uid}`));
+            if (userSnap.exists()) {
+                const userData = userSnap.val();
+                currentUserGender = userData.gender || "Masculin";
+
+                if (currentUserGender === "Masculin") {
+                    pageTitle.textContent = "💖 Rencontrez les Femmes de Love Bébé";
+                    pageSubtitle.textContent = "Profils féminins enregistrés dans la communauté.";
+                    loadProfiles("profil_femmes");
+                } else {
+                    pageTitle.textContent = "💖 Rencontrez les Hommes de Love Bébé";
+                    pageSubtitle.textContent = "Profils masculins enregistrés dans la communauté.";
+                    loadProfiles("profil_hommes");
+                }
+            }
+
+            // Écouter les appels entrants
+            listenForIncomingCalls();
+        } catch (err) {
+            console.error("Erreur d'initialisation :", err);
+        }
+    });
+
+    // Charger dynamiquement la liste filtrée
+    async function loadProfiles(targetNode) {
+        profilesContainer.replaceChildren();
+        try {
+            const snap = await get(ref(database, targetNode));
+            if (snap.exists()) {
+                const profilesObj = snap.val();
+                const profilesList = Object.values(profilesObj).filter(p => p.uid !== currentUser.uid);
+
+                if (profilesList.length === 0) {
+                    profilesContainer.innerHTML = `<p style="grid-column: 1 / -1; text-align: center; color: #777;">Aucun profil trouvé dans cette catégorie pour le moment.</p>`;
+                    return;
+                }
+
+                profilesList.forEach(p => {
+                    const card = document.createElement("div");
+                    card.className = "profile-card";
+
+                    const avatarUrl = p.profileMediaUrl || "https://via.placeholder.com/110?text=Profil";
+                    const phoneDisplay = p.phone ? `📞 WhatsApp: ${p.phone}` : "Numéro non renseigné";
+
+                    card.innerHTML = `
+                        <img src="${avatarUrl}" class="profile-avatar">
+                        <div class="profile-name">${p.fullName || "Membre Love Bébé"}</div>
+                        <div class="profile-details">${p.age ? p.age + ' ans' : ''} • ${p.city || ''} ${p.country ? '(' + p.country + ')' : ''}</div>
+                        <div class="profile-badge">💼 ${p.profession || 'Profession non précisée'} | 👶 Enfants: ${p.childrenCount || 0}</div>
+                        ${p.bio ? `<div class="profile-bio">"${p.bio}"</div>` : ''}
+                        <div class="phone-link">${phoneDisplay}</div>
+                        <div class="card-actions">
+                            <button class="action-btn-call" data-uid="${p.uid}" data-name="${p.fullName}">📹 Appel Vidéo</button>
+                            <a href="message.html?target=${p.uid}" class="action-btn-msg">💬 Message</a>
+                        </div>
+                    `;
+                    profilesContainer.appendChild(card);
+                });
+
+                // Attacher les événements d'appel vidéo
+                document.querySelectorAll(".action-btn-call").forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        startVideoCall(btn.dataset.uid, btn.dataset.name);
+                    });
+                });
+
+            } else {
+                profilesContainer.innerHTML = `<p style="grid-column: 1 / -1; text-align: center; color: #777;">Aucun profil disponible dans cette rubrique.</p>`;
+            }
+        } catch (err) {
+            console.error("Erreur de chargement des profils :", err);
+        }
+    }
+
+    // Lancer un appel vidéo WebRTC
+    async function startVideoCall(targetUid, targetName) {
+        videoModal.style.display = "flex";
+        document.getElementById("callStatusTitle").textContent = `Appel de ${targetName}...`;
+
+        localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        localVideo.srcObject = localStream;
+
+        peerConnection = new RTCPeerConnection(rtcConfig);
+        localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+
+        peerConnection.ontrack = (event) => {
+            remoteVideo.srcObject = event.streams[0];
+        };
+
+        const roomId = `${currentUser.uid}_${targetUid}`;
+        callRoomRef = ref(database, `calls/${roomId}`);
+
+        peerConnection.onicecandidate = (e) => {
+            if (e.candidate) {
+                set(ref(database, `calls/${roomId}/callerCandidates/${Date.now()}`), e.candidate.toJSON());
+            }
+        };
+
+        const offer = await peerConnection.createOffer();
+        await peerConnection.setLocalDescription(offer);
+
+        await set(callRoomRef, {
+            caller: currentUser.uid,
+            receiver: targetUid,
+            offer: { type: offer.type, sdp: offer.sdp }
+        });
+
+        // Écouter la réponse du destinataire
+        onValue(ref(database, `calls/${roomId}/answer`), async (snap) => {
+            if (snap.exists() && !peerConnection.currentRemoteDescription) {
+                const answer = snap.val();
+                await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+                document.getElementById("callStatusTitle").textContent = `En communication avec ${targetName}`;
+            }
+        });
+
+        // Écouter les candidats ICE du destinataire
+        onValue(ref(database, `calls/${roomId}/receiverCandidates`), (snap) => {
+            if (snap.exists()) {
+                Object.values(snap.val()).forEach(candidate => {
+                    peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+                });
+            }
+        });
+    }
+
+    // Écouteur pour les appels entrants
+    function listenForIncomingCalls() {
+        onValue(ref(database, "calls"), (snap) => {
+            if (snap.exists()) {
+                const callsObj = snap.val();
+                Object.keys(callsObj).forEach(async (roomId) => {
+                    const call = callsObj[roomId];
+                    if (call.receiver === currentUser.uid && call.offer && !peerConnection) {
+                        if (confirm("📹 Appel vidéo entrant ! Acceptez-vous l'appel ?")) {
+                            answerVideoCall(roomId, call);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    // Répondre à un appel
+    async function answerVideoCall(roomId, call) {
+        videoModal.style.display = "flex";
+        document.getElementById("callStatusTitle").textContent = "Appel vidéo connecté";
+
+        localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        localVideo.srcObject = localStream;
+
+        peerConnection = new RTCPeerConnection(rtcConfig);
+        localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+
+        peerConnection.ontrack = (e) => remoteVideo.srcObject = e.streams[0];
+
+        peerConnection.onicecandidate = (e) => {
+            if (e.candidate) {
+                set(ref(database, `calls/${roomId}/receiverCandidates/${Date.now()}`), e.candidate.toJSON());
+            }
+        };
+
+        await peerConnection.setRemoteDescription(new RTCSessionDescription(call.offer));
+        const answer = await peerConnection.createAnswer();
+        await peerConnection.setLocalDescription(answer);
+
+        await set(ref(database, `calls/${roomId}/answer`), {
+            type: answer.type,
+            sdp: answer.sdp
+        });
+
+        onValue(ref(database, `calls/${roomId}/callerCandidates`), (snap) => {
+            if (snap.exists()) {
+                Object.values(snap.val()).forEach(candidate => {
+                    peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+                });
+            }
+        });
+    }
+
+    // Raccrocher
+    endCallBtn.onclick = () => {
+        if (localStream) localStream.getTracks().forEach(track => track.stop());
+        if (peerConnection) peerConnection.close();
+        peerConnection = null;
+        localStream = null;
+        if (callRoomRef) remove(callRoomRef);
+        videoModal.style.display = "none";
+    };
+</script>
+
+</body>
+</html>

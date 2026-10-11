@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Love Bébé - Plateforme de rencontres.">
-    <meta name="theme-color" content="#FFD700">
+    <meta name="description" content="Love Bébé - Plateforme de rencontre internationale de haut prestige.">
     <title>Love Bébé - L'Élite des Rencontres</title>
 
     <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FFD700">
 
     <style>
         :root {
@@ -26,643 +26,579 @@
         }
 
         body {
-            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--dark-gold) 100%);
             min-height: 100vh;
-            padding-bottom: 40px;
             color: #222;
+            padding-bottom: 40px;
         }
 
+        /* EN-TÊTE GRAND ET BIEN STRUCTURÉ POUR MOBILE ET DESKTOP */
         header {
-            background: #fff;
-            padding: 12px 20px;
+            background: #ffffff;
+            padding: 15px 20px;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            border-bottom: 3px solid var(--deep-red);
-            box-shadow: 0 4px 10px #0002;
+            gap: 15px;
+            border-bottom: 4px solid var(--deep-red);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.18);
             position: sticky;
             top: 0;
             z-index: 1000;
         }
 
-        .header-brand {
+        .header-top {
             display: flex;
             align-items: center;
-            gap: 10px;
-            text-decoration: none;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
         }
 
         .header-logo {
-            width: 45px;
-            height: 45px;
+            width: 75px;
+            height: 75px;
             border-radius: 50%;
-            border: 2px solid var(--primary-gold);
+            border: 3px solid var(--primary-gold);
             object-fit: cover;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
         }
 
         .header-title {
-            font-size: 1.3rem;
-            font-weight: bold;
+            font-size: 2rem;
+            font-weight: 900;
             color: var(--deep-red);
             text-transform: uppercase;
+            letter-spacing: 1px;
+            line-height: 1.1;
         }
 
+        .header-subtitle {
+            font-size: 11px;
+            color: var(--accent-blue);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        /* BOUTONS DE NAVIGATION EN LIGNE AVEC ICÔNES CLAIRES */
         .nav-actions {
             display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            max-width: 450px;
         }
 
         .nav-btn {
+            flex: 1;
             background: linear-gradient(135deg, var(--deep-red), var(--dark-red));
             color: white;
-            padding: 9px 14px;
-            border-radius: 8px;
-            font-weight: bold;
+            padding: 10px 14px;
+            border-radius: 25px;
+            font-weight: 700;
             text-decoration: none;
-            font-size: 13px;
+            font-size: 14px;
             border: none;
             cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .nav-btn .btn-icon {
+            font-size: 16px; /* Icône nette et lisible */
+        }
+
+        .nav-btn:hover {
+            opacity: 0.95;
+            transform: translateY(-2px);
         }
 
         .nav-btn-blue {
             background: linear-gradient(135deg, var(--accent-blue), #1565C0);
         }
 
+        /* REPOSITIONNEMENT ORDINATEUR / TABLETTE */
+        @media (min-width: 768px) {
+            header {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 15px 35px;
+            }
+            .header-top {
+                width: auto;
+                justify-content: flex-start;
+            }
+            .brand-text {
+                text-align: left;
+            }
+            .nav-actions {
+                width: auto;
+            }
+            .nav-btn {
+                flex: initial;
+                padding: 10px 20px;
+            }
+        }
+
         .container {
             max-width: 1400px;
-            margin: 20px auto;
+            margin: 25px auto;
             padding: 0 15px;
         }
 
-        .hero-banner, .publication-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
+        .hero-banner {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 25px 15px;
+            text-align: center;
             border: 2px solid var(--primary-gold);
-            box-shadow: 0 4px 15px #0002;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
             margin-bottom: 20px;
         }
 
-        .hero-banner {
-            text-align: center;
-        }
-
-        .hero-banner h1, .publication-card h3 {
+        .hero-banner h1 {
             color: var(--deep-red);
-            margin-bottom: 8px;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
         }
 
         .hero-banner p {
             color: var(--accent-blue);
-            font-weight: 500;
+            font-size: 0.95rem;
+            font-weight: 600;
+            line-height: 1.4;
         }
 
+        /* SECTION DES ANNONCES ADMIN */
         .admin-publications-container {
-            display: none;
             margin-bottom: 25px;
+            display: none;
+        }
+
+        .publication-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 20px;
+            border: 2px solid var(--primary-gold);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+        }
+
+        .publication-card h3 {
+            color: var(--deep-red);
+            font-size: 1.2rem;
+            margin-bottom: 8px;
         }
 
         .publication-card p {
+            color: #333;
             font-size: 14px;
             line-height: 1.5;
-            white-space: pre-wrap;
-            overflow-wrap: anywhere;
         }
 
         .publication-media {
-            display: block;
             width: 100%;
-            max-height: 350px;
-            object-fit: contain;
-            border-radius: 10px;
+            max-height: 380px;
+            object-fit: cover;
+            border-radius: 12px;
             margin-top: 10px;
-            background: #f5f5f5;
         }
 
+        /* BARRE DE FILTRES */
         .filter-section {
-            background: white;
+            background: #fff;
             padding: 15px;
-            border-radius: 12px;
+            border-radius: 14px;
             border: 2px solid var(--primary-gold);
             margin-bottom: 20px;
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             gap: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        @media (min-width: 600px) {
+            .filter-section {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
         }
 
         .filter-input, .filter-select {
-            flex: 1;
-            min-width: 150px;
-            padding: 10px 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #E0E0E0;
+            border-radius: 10px;
             font-size: 14px;
+            background: #fcfcfc;
+        }
+
+        @media (min-width: 600px) {
+            .filter-input, .filter-select {
+                flex: 1;
+                min-width: 180px;
+            }
         }
 
         .filter-input:focus, .filter-select:focus {
             outline: none;
             border-color: var(--deep-red);
+            background: #fff;
         }
 
+        /* GRILLE DES PROFILS RESPONSIVE */
         .profiles-grid {
             display: grid;
-            grid-template-columns: repeat(1, minmax(0, 1fr));
+            grid-template-columns: repeat(1, 1fr);
             gap: 18px;
         }
 
         @media (min-width: 550px) {
-            .profiles-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .profiles-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
-        @media (min-width: 850px) {
-            .profiles-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        @media (min-width: 900px) {
+            .profiles-grid { grid-template-columns: repeat(3, 1fr); }
         }
 
         @media (min-width: 1200px) {
-            .profiles-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+            .profiles-grid { grid-template-columns: repeat(5, 1fr); }
         }
 
         .profile-card {
-            background: white;
-            border-radius: 12px;
+            background: #fff;
+            border-radius: 16px;
             overflow: hidden;
             border: 2px solid var(--primary-gold);
-            box-shadow: 0 4px 12px #0002;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-4px);
         }
 
         .profile-media {
             width: 100%;
-            height: 200px;
+            height: 220px;
             object-fit: cover;
-            background: #eee;
+            background: #111;
         }
 
         .profile-content {
-            padding: 12px;
-            flex: 1;
+            padding: 14px;
         }
 
         .profile-name {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: var(--deep-red);
             font-weight: bold;
-            margin-bottom: 8px;
-            overflow-wrap: anywhere;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .profile-detail {
-            font-size: 12px;
+            font-size: 13px;
             color: #444;
-            margin-bottom: 5px;
-            overflow-wrap: anywhere;
+            margin-bottom: 4px;
         }
 
         .card-actions {
-            padding: 10px;
+            padding: 12px;
             border-top: 1px solid #eee;
-            background: #fafafa;
+            background: #FAFAFA;
         }
 
         .action-btn {
             width: 100%;
-            padding: 9px;
-            border-radius: 6px;
+            padding: 10px;
+            border-radius: 8px;
             font-weight: bold;
-            font-size: 12px;
+            font-size: 13px;
             text-align: center;
             text-decoration: none;
             color: white;
             background: var(--deep-red);
             display: block;
+            transition: opacity 0.2s;
         }
 
-        .status-message {
-            text-align: center;
-            grid-column: 1 / -1;
-            padding: 20px;
-            font-weight: bold;
-            color: var(--accent-blue);
-        }
-
-        @media (max-width: 600px) {
-            header {
-                flex-direction: column;
-            }
+        .action-btn:hover {
+            opacity: 0.9;
         }
     </style>
 </head>
-
 <body>
-<header>
-    <a href="index.html" class="header-brand">
-        <img
-            src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png"
-            alt="Logo Love Bébé"
-            class="header-logo"
-        >
-        <span class="header-title">Love Bébé</span>
-    </a>
 
-    <nav class="nav-actions">
-        <a href="profil.html" id="profile-nav-btn" class="nav-btn nav-btn-blue">
-            👤 Mon Profil
-        </a>
-        <button class="nav-btn" id="auth-btn" type="button">
-            🚪 Déconnexion
-        </button>
-    </nav>
-</header>
+    <!-- EN-TÊTE COMPACT ET AGRANDI EN HAUT -->
+    <header>
+        <div class="header-top">
+            <a href="index.html">
+                <img src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png" alt="Logo Love Bébé" class="header-logo">
+            </a>
+            <div class="brand-text">
+                <span class="header-title">LOVE BÉBÉ</span>
+                <span class="header-subtitle">PLATEFORME ÉLITE DES RENCONTRES</span>
+            </div>
+        </div>
 
-<main class="container">
-    <section class="hero-banner">
-        <h1>L'Amour Véritable Vous Attend ❤️</h1>
-        <p>Découvrez les profils de nos célibataires inscrits.</p>
-    </section>
+        <div class="nav-actions">
+            <a href="profil.html" id="profile-nav-btn" class="nav-btn nav-btn-blue">
+                <span class="btn-icon" id="profile-icon">👤</span> 
+                <span id="profile-nav-text">Mon Profil</span>
+            </a>
+            <button class="nav-btn" id="auth-btn">
+                <span class="btn-icon" id="auth-icon">🔐</span> 
+                <span id="auth-btn-text">Connexion</span>
+            </button>
+        </div>
+    </header>
 
-    <section
-        id="adminPublicationsSection"
-        class="admin-publications-container"
-        aria-label="Annonces officielles"
-    ></section>
+    <div class="container">
+        
+        <div class="hero-banner">
+            <h1>L'Amour Véritable Vous Attend ❤️</h1>
+            <p>Découvrez en toute sécurité les profils de prestige de nos célibataires inscrits.</p>
+        </div>
 
-    <section class="filter-section" aria-label="Filtres de recherche">
-        <input
-            type="search"
-            id="searchInput"
-            class="filter-input"
-            placeholder="🔍 Rechercher par nom, ville ou pays..."
-            aria-label="Rechercher un profil"
-        >
+        <!-- ANNONCES ADMINISTRATEUR -->
+        <div id="adminPublicationsSection" class="admin-publications-container"></div>
 
-        <select id="genderFilter" class="filter-select" aria-label="Filtrer par genre">
-            <option value="">Tous les genres</option>
-            <option value="Masculin">Hommes uniquement</option>
-            <option value="Féminin">Femmes uniquement</option>
-        </select>
+        <!-- FILTRES DE RECHERCHE -->
+        <div class="filter-section">
+            <input type="text" id="searchInput" class="filter-input" placeholder="🔍 Rechercher par nom, ville ou pays...">
+            <select id="genderFilter" class="filter-select">
+                <option value="">Tous les genres</option>
+                <option value="Masculin">Hommes uniquement</option>
+                <option value="Féminin">Femmes uniquement</option>
+            </select>
+            <select id="ageFilter" class="filter-select">
+                <option value="">Toutes les tranches d'âge</option>
+                <option value="18-25">18 - 25 ans</option>
+                <option value="25-30">25 - 30 ans</option>
+                <option value="30-35">30 - 35 ans</option>
+                <option value="35-40">35 - 40 ans</option>
+                <option value="40-45">40 - 45 ans</option>
+                <option value="45+">45 ans et plus</option>
+            </select>
+        </div>
 
-        <select id="ageFilter" class="filter-select" aria-label="Filtrer par âge">
-            <option value="">Toutes les tranches d'âge</option>
-            <option value="18-25">18 - 25 ans</option>
-            <option value="26-30">26 - 30 ans</option>
-            <option value="31-35">31 - 35 ans</option>
-            <option value="36-40">36 - 40 ans</option>
-            <option value="41-45">41 - 45 ans</option>
-            <option value="46+">46 ans et plus</option>
-        </select>
-    </section>
+        <!-- GRILLE DES PROFILS -->
+        <div id="profilesContainer" class="profiles-grid">
+            <p style="text-align:center; grid-column: 1/-1; font-weight:bold; color:#0D47A1; padding:30px;">Chargement sécurisé des profils...</p>
+        </div>
 
-    <section
-        id="profilesContainer"
-        class="profiles-grid"
-        aria-live="polite"
-        aria-label="Profils disponibles"
-    >
-        <p class="status-message">Vérification de la connexion...</p>
-    </section>
-</main>
+    </div>
 
-<script type="module">
-    import { auth, database } from "./love-bebe-service.js";
+    <script type="module">
+        import { auth, database } from "./love-bebe-service.js";
+        import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { ref, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-    import {
-        onAuthStateChanged,
-        signOut
-    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        let allProfilesList = [];
+        let currentUserId = null;
 
-    import {
-        ref,
-        get
-    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        const authBtn = document.getElementById('auth-btn');
+        const authBtnText = document.getElementById('auth-btn-text');
+        const authIcon = document.getElementById('auth-icon');
+        const profileNavBtn = document.getElementById('profile-nav-btn');
+        const profileNavText = document.getElementById('profile-nav-text');
+        const profileIcon = document.getElementById('profile-icon');
 
-    const authBtn = document.getElementById("auth-btn");
-    const profileNavBtn = document.getElementById("profile-nav-btn");
-    const profilesContainer = document.getElementById("profilesContainer");
-    const publicationsContainer = document.getElementById("adminPublicationsSection");
-
-    let allUsersData = {};
-    let currentUserId = null;
-    let isAdmin = false;
-    let accessChecked = false;
-
-    const fallbackImage =
-        "https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png";
-
-    function showMessage(container, message) {
-        container.replaceChildren();
-        const paragraph = document.createElement("p");
-        paragraph.className = "status-message";
-        paragraph.textContent = message;
-        container.appendChild(paragraph);
-    }
-
-    function isAdministrator(userData) {
-        if (!userData) return false;
-        const role = String(userData.role || "").trim().toLowerCase();
-        return userData.isAdmin === true ||
-            role === "admin" ||
-            role === "super admin";
-    }
-
-    function safeMediaUrl(value) {
-        if (typeof value !== "string" || !value.trim()) return "";
-        try {
-            const url = new URL(value, window.location.href);
-            if (url.protocol === "https:" || url.protocol === "http:") {
-                return url.href;
-            }
-        } catch {}
-        return "";
-    }
-
-    function addText(parent, tag, className, text) {
-        const element = document.createElement(tag);
-        element.className = className;
-        element.textContent = String(text ?? "");
-        parent.appendChild(element);
-        return element;
-    }
-
-    onAuthStateChanged(auth, async (user) => {
-        if (!user) {
-            window.location.replace("connexion.html");
-            return;
-        }
-
-        currentUserId = user.uid;
-        accessChecked = false;
-
-        authBtn.disabled = true;
-        authBtn.textContent = "Vérification...";
-        showMessage(profilesContainer, "Vérification de votre compte...");
-
-        try {
-            const userSnapshot = await get(ref(database, `users/${user.uid}`));
-
-            if (!userSnapshot.exists()) {
-                await signOut(auth);
-                window.location.replace("connexion.html");
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = "connexion.html";
                 return;
             }
 
-            const userData = userSnapshot.val();
-            isAdmin = isAdministrator(userData);
-            accessChecked = true;
+            currentUserId = user.uid;
 
-            if (isAdmin) {
-                profileNavBtn.textContent = "⚙️ Administration";
-                profileNavBtn.href = "admin.html";
-            } else {
-                profileNavBtn.textContent = "👤 Mon Profil";
-                profileNavBtn.href = "profil.html";
-            }
-
-            authBtn.disabled = false;
-            authBtn.textContent = "🚪 Déconnexion";
-
+            authBtnText.textContent = "Déconnexion";
+            authIcon.textContent = "🚪";
+            
             authBtn.onclick = async () => {
-                authBtn.disabled = true;
-                try {
-                    await signOut(auth);
-                    window.location.replace("connexion.html");
-                } catch (error) {
-                    console.error("Erreur de déconnexion :", error);
-                    authBtn.disabled = false;
-                    alert("La déconnexion a échoué. Veuillez réessayer.");
-                }
+                await signOut(auth);
+                window.location.href = "connexion.html";
             };
 
-            await Promise.all([
-                fetchAdminPublications(),
-                fetchProfiles()
-            ]);
-
-        } catch (error) {
-            console.error("Erreur de vérification du compte :", error);
-            showMessage(
-                profilesContainer,
-                "Impossible de vérifier votre compte. Vérifiez votre connexion et les règles Firebase."
-            );
-            authBtn.disabled = false;
-            authBtn.textContent = "🚪 Déconnexion";
-        }
-    });
-
-    async function fetchAdminPublications() {
-        publicationsContainer.replaceChildren();
-        publicationsContainer.style.display = "none";
-
-        try {
-            const snapshot = await get(ref(database, "publications"));
-            if (!snapshot.exists()) return;
-
-            const publications = snapshot.val();
-            const entries = Object.entries(publications).reverse();
-
-            for (const [id, publication] of entries) {
-                if (!publication || typeof publication !== "object") continue;
-
-                const card = document.createElement("article");
-                card.className = "publication-card";
-
-                addText(
-                    card,
-                    "h3",
-                    "",
-                    "📢 " + (publication.title || "Annonce officielle Love Bébé")
-                );
-
-                addText(card, "p", "", publication.content || "");
-
-                const mediaUrl = safeMediaUrl(publication.mediaUrl);
-                if (mediaUrl) {
-                    let media;
-                    if (publication.mediaType === "video") {
-                        media = document.createElement("video");
-                        media.controls = true;
+            // Vérification du rôle admin pour adapter le bouton
+            try {
+                const userSnapshot = await get(child(ref(database), `users/${user.uid}`));
+                if (userSnapshot.exists()) {
+                    const userData = userSnapshot.val();
+                    if (userData.isAdmin || userData.role === "admin" || userData.role === "super admin") {
+                        profileNavText.textContent = "Admin";
+                        profileIcon.textContent = "⚙️";
+                        profileNavBtn.href = "admin.html";
                     } else {
-                        media = document.createElement("img");
-                        media.alt = "Illustration de l'annonce";
+                        profileNavText.textContent = "Mon Profil";
+                        profileIcon.textContent = "👤";
+                        profileNavBtn.href = "profil.html";
                     }
+                }
+            } catch (err) {
+                console.error("Erreur de vérification des rôles :", err);
+            }
 
-                    media.className = "publication-media";
-                    media.src = mediaUrl;
-                    media.loading = "lazy";
-                    card.appendChild(media);
+            fetchAdminPublications();
+            fetchAllProfilesData();
+        });
+
+        async function fetchAdminPublications() {
+            const container = document.getElementById('adminPublicationsSection');
+            try {
+                const snapshot = await get(ref(database, 'publications'));
+                if (snapshot.exists()) {
+                    container.innerHTML = "";
+                    container.style.display = "block";
+                    const publications = snapshot.val();
+
+                    Object.keys(publications).reverse().forEach(id => {
+                        const pub = publications[id];
+                        const pubCard = document.createElement('div');
+                        pubCard.className = 'publication-card';
+                        
+                        let mediaHTML = "";
+                        if (pub.mediaUrl) {
+                            if (pub.mediaType === "video") {
+                                mediaHTML = `<video src="${pub.mediaUrl}" controls class="publication-media"></video>`;
+                            } else {
+                                mediaHTML = `<img src="${pub.mediaUrl}" alt="Annonce" class="publication-media">`;
+                            }
+                        }
+
+                        pubCard.innerHTML = `
+                            <h3>📢 ${pub.title || "Annonce Officielle Love Bébé"}</h3>
+                            <p>${pub.content || ""}</p>
+                            ${mediaHTML}
+                            <div style="font-size:11px; color:#777; margin-top:8px;">Publié le ${new Date(pub.createdAt).toLocaleDateString('fr-FR')}</div>
+                        `;
+                        container.appendChild(pubCard);
+                    });
+                }
+            } catch (err) {
+                console.warn("Pas de publications :", err);
+            }
+        }
+
+        async function fetchAllProfilesData() {
+            const container = document.getElementById('profilesContainer');
+            allProfilesList = [];
+
+            try {
+                const [menSnap, womenSnap, generalSnap] = await Promise.all([
+                    get(ref(database, 'profil_hommes')),
+                    get(ref(database, 'profil_femmes')),
+                    get(ref(database, 'users'))
+                ]);
+
+                const profilesMap = {};
+
+                [menSnap, womenSnap, generalSnap].forEach(snap => {
+                    if (snap.exists()) {
+                        const val = snap.val();
+                        Object.keys(val).forEach(uid => {
+                            const user = val[uid];
+                            if (uid !== currentUserId && !user.isAdmin && user.role !== "admin" && user.role !== "super admin") {
+                                profilesMap[uid] = user;
+                            }
+                        });
+                    }
+                });
+
+                allProfilesList = Object.values(profilesMap);
+                renderProfiles(allProfilesList);
+
+            } catch (error) {
+                console.error("Erreur de chargement des profils :", error);
+                container.innerHTML = "<p style='text-align:center; grid-column: 1/-1; color:#D32F2F; font-weight:bold;'>Erreur lors du chargement des profils.</p>";
+            }
+        }
+
+        function renderProfiles(list) {
+            const container = document.getElementById('profilesContainer');
+            container.innerHTML = "";
+
+            const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
+            const genderVal = document.getElementById('genderFilter').value;
+            const ageVal = document.getElementById('ageFilter').value;
+            let count = 0;
+
+            list.forEach(user => {
+                const name = user.fullName || 'Célibataire Love Bébé';
+                const city = user.city || '';
+                const country = user.country || '';
+                const gender = user.gender || '';
+                const age = user.age ? `${user.age} ans` : 'Âge non spécifié';
+
+                if (searchVal && !name.toLowerCase().includes(searchVal) && !city.toLowerCase().includes(searchVal) && !country.toLowerCase().includes(searchVal)) {
+                    return;
                 }
 
-                const timestamp = Number(publication.createdAt);
-                const date = document.createElement("p");
-                date.style.cssText = "font-size:11px;color:#777;margin-top:8px;";
+                if (genderVal && gender !== genderVal) return;
 
-                if (Number.isFinite(timestamp) && timestamp > 0) {
-                    date.textContent = "Publié le " +
-                        new Date(timestamp).toLocaleDateString("fr-FR");
-                } else {
-                    date.textContent = "Annonce officielle";
+                if (ageVal) {
+                    const userAge = parseInt(user.age);
+                    if (isNaN(userAge)) return;
+
+                    if (ageVal === "18-25" && (userAge < 18 || userAge > 25)) return;
+                    if (ageVal === "25-30" && (userAge < 25 || userAge > 30)) return;
+                    if (ageVal === "30-35" && (userAge < 30 || userAge > 35)) return;
+                    if (ageVal === "35-40" && (userAge < 35 || userAge > 40)) return;
+                    if (ageVal === "40-45" && (userAge < 40 || userAge > 45)) return;
+                    if (ageVal === "45+" && userAge < 45) return;
                 }
 
-                card.appendChild(date);
-                publicationsContainer.appendChild(card);
+                count++;
+
+                const mediaUrl = user.capturedPhotos?.[0] || user.profileMediaUrl || 'https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png';
+                const targetUid = user.uid || '';
+
+                const card = document.createElement('div');
+                card.className = 'profile-card';
+                card.innerHTML = `
+                    <img src="${mediaUrl}" alt="${name}" class="profile-media">
+                    <div class="profile-content">
+                        <div class="profile-name" title="${name}">${name}</div>
+                        <div class="profile-detail">📍 ${city ? city + ', ' : ''}${country || 'Pays non précisé'}</div>
+                        <div class="profile-detail">🎂 ${age}</div>
+                        <div class="profile-detail">💍 ${user.maritalStatus || 'Relation sérieuse'}</div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="messagerie.html?id=${targetUid}" class="action-btn">💬 Discuter & Appeler</a>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            if (count === 0) {
+                container.innerHTML = "<p style='text-align:center; grid-column: 1/-1; font-weight:bold; color:#D32F2F; padding:30px;'>Aucun profil ne correspond à vos critères de recherche.</p>";
             }
-
-            if (publicationsContainer.childElementCount > 0) {
-                publicationsContainer.style.display = "block";
-            }
-        } catch (error) {
-            console.error("Erreur de chargement des annonces :", error);
-        }
-    }
-
-    async function fetchProfiles() {
-        if (!accessChecked || !currentUserId) return;
-
-        try {
-            const snapshot = await get(ref(database, "users"));
-
-            if (!snapshot.exists()) {
-                allUsersData = {};
-                renderProfiles();
-                return;
-            }
-
-            allUsersData = snapshot.val() || {};
-            renderProfiles();
-
-        } catch (error) {
-            console.error("Erreur de chargement des profils :", error);
-            showMessage(
-                profilesContainer,
-                "Impossible de charger les profils. Vérifiez les règles de la base de données Firebase."
-            );
-        }
-    }
-
-    function renderProfiles() {
-        if (!accessChecked) return;
-
-        profilesContainer.replaceChildren();
-
-        const searchValue = document
-            .getElementById("searchInput").value.toLowerCase().trim();
-
-        const genderValue = document.getElementById("genderFilter").value;
-        const ageValue = document.getElementById("ageFilter").value;
-
-        let count = 0;
-
-        for (const [uid, user] of Object.entries(allUsersData)) {
-            if (!user || typeof user !== "object") continue;
-
-            // Masque son propre compte et les administrateurs de la liste publique
-            if (uid === currentUserId || isAdministrator(user)) continue;
-
-            const name = String(user.fullName || "Membre Love Bébé");
-            const city = String(user.city || "");
-            const country = String(user.country || "");
-            const gender = String(user.gender || "");
-            const ageNumber = Number.parseInt(user.age, 10);
-
-            const searchText = `${name} ${city} ${country}`.toLowerCase();
-
-            if (searchValue && !searchText.includes(searchValue)) continue;
-            if (genderValue && gender !== genderValue) continue;
-
-            if (ageValue) {
-                if (!Number.isFinite(ageNumber)) continue;
-
-                if (ageValue === "18-25" && (ageNumber < 18 || ageNumber > 25)) continue;
-                if (ageValue === "26-30" && (ageNumber < 26 || ageNumber > 30)) continue;
-                if (ageValue === "31-35" && (ageNumber < 31 || ageNumber > 35)) continue;
-                if (ageValue === "36-40" && (ageNumber < 36 || ageNumber > 40)) continue;
-                if (ageValue === "41-45" && (ageNumber < 41 || ageNumber > 45)) continue;
-                if (ageValue === "46+" && ageNumber < 46) continue;
-            }
-
-            const card = document.createElement("article");
-            card.className = "profile-card";
-
-            const image = document.createElement("img");
-            image.className = "profile-media";
-            image.alt = "Photo de " + name;
-            image.loading = "lazy";
-
-            const photos = Array.isArray(user.capturedPhotos)
-                ? user.capturedPhotos
-                : [];
-
-            image.src =
-                safeMediaUrl(photos[0]) ||
-                safeMediaUrl(user.profileMediaUrl) ||
-                fallbackImage;
-
-            image.onerror = () => {
-                image.onerror = null;
-                image.src = fallbackImage;
-            };
-
-            card.appendChild(image);
-
-            const content = document.createElement("div");
-            content.className, "profile-content";
-
-            addText(content, "div", "profile-name", name);
-
-            addText(
-                content,
-                "div",
-                "profile-detail",
-                "📍 " + [city, country].filter(Boolean).join(", ")
-            );
-
-            addText(
-                content,
-                "div",
-                "profile-detail",
-                "🎂 " + (Number.isFinite(ageNumber) ? ageNumber + " ans" : "Âge non précisé")
-            );
-
-            addText(
-                content,
-                "div",
-                "profile-detail",
-                "💍 " + String(user.maritalStatus || "Statut non précisé")
-            );
-
-            card.appendChild(content);
-
-            const actions = document.createElement("div");
-            actions.className = "card-actions";
-
-            const link = document.createElement("a");
-            link.className = "action-btn";
-            link.href = `messagerie.html?id=${encodeURIComponent(uid)}&type=text`;
-            link.textContent = "💬 Envoyer un message";
-
-            actions.appendChild(link);
-            card.appendChild(actions);
-            profilesContainer.appendChild(card);
-
-            count++;
         }
 
-        if (count === 0) {
-            showMessage(
-                profilesContainer,
-                Object.keys(allUsersData).length
-                    ? "Aucun profil ne correspond à vos critères."
-                    : "Aucun profil disponible pour le moment."
-            );
-        }
-    }
-
-    document.getElementById("searchInput").addEventListener("input", renderProfiles);
-    document.getElementById("genderFilter").addEventListener("change", renderProfiles);
-    document.getElementById("ageFilter").addEventListener("change", renderProfiles);
-</script>
+        document.getElementById('searchInput').addEventListener('input', () => renderProfiles(allProfilesList));
+        document.getElementById('genderFilter').addEventListener('change', () => renderProfiles(allProfilesList));
+        document.getElementById('ageFilter').addEventListener('change', () => renderProfiles(allProfilesList));
+    </script>
 </body>
 </html>

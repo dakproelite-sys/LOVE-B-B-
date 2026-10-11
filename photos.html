@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Bébé - Galerie & Publications</title>
+    <style>
+        :root {
+            --primary-gold: #FFD700;
+            --dark-gold: #FFA500;
+            --deep-red: #D32F2F;
+            --dark-red: #B71C1C;
+            --accent-blue: #0D47A1;
+            --bg-gray: #f0f2f5;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-gray); min-height: 100vh; padding-bottom: 40px; color: #1c1e21; }
+
+        header { background: #fff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--deep-red); box-shadow: 0 2px 8px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .header-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .header-logo { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); object-fit: cover; }
+        .header-title { font-size: 1.2rem; font-weight: bold; color: var(--deep-red); text-transform: uppercase; }
+        .nav-actions { display: flex; gap: 8px; }
+        .nav-btn { background: linear-gradient(135deg, var(--deep-red), var(--dark-red)); color: white; padding: 8px 12px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 13px; border: none; cursor: pointer; }
+        .nav-btn-blue { background: linear-gradient(135deg, var(--accent-blue), #1565C0); }
+
+        .container { max-width: 650px; margin: 20px auto; padding: 0 12px; }
+
+        .card { background: white; border-radius: 12px; padding: 18px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #e4e6eb; }
+        .card-title { color: var(--deep-red); font-size: 1.1rem; margin-bottom: 15px; border-bottom: 2px solid var(--primary-gold); padding-bottom: 5px; font-weight: bold; }
+
+        /* Formulaire de publication */
+        .publish-form { display: flex; flex-direction: column; gap: 12px; }
+        textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; outline: none; resize: vertical; background: #fdfdfd; }
+        textarea:focus { border-color: var(--accent-blue); background: #fff; }
+        
+        .file-select-btn { background: #e4e6eb; color: #333; padding: 10px; border-radius: 8px; text-align: center; cursor: pointer; font-weight: 600; font-size: 13px; }
+        .file-select-btn:hover { background: #d8dadf; }
+        
+        .submit-post-btn { background: linear-gradient(135deg, var(--accent-blue), #1565C0); color: white; padding: 12px; border: none; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; }
+        .submit-post-btn:disabled { background: #ccc; cursor: not-allowed; }
+        
+        .status-msg { text-align: center; font-weight: bold; font-size: 13px; color: var(--accent-blue); }
+
+        /* Style Carte Publication */
+        .post-card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #e4e6eb; }
+        .post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .post-avatar { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 1px solid var(--primary-gold); }
+        .post-user-info h4 { font-size: 14px; color: #111; margin-bottom: 2px; }
+        .post-user-info span { font-size: 11px; color: #777; }
+        .post-text { font-size: 14px; color: #222; margin-bottom: 12px; line-height: 1.4; }
+        .post-media-container { width: 100%; max-height: 450px; overflow: hidden; border-radius: 8px; background: #000; margin-bottom: 12px; }
+        .post-media-container img, .post-media-container video { width: 100%; height: 100%; object-fit: contain; }
+
+        /* Actions / Likes / Love */
+        .post-actions { display: flex; justify-content: space-around; border-top: 1px solid #eee; padding-top: 10px; margin-top: 5px; }
+        .action-btn { background: none; border: none; font-size: 13px; font-weight: 600; color: #65676b; cursor: pointer; display: flex; align-items: center; gap: 5px; padding: 6px 12px; border-radius: 6px; }
+        .action-btn:hover { background: #f2f2f2; }
+        .action-btn.active-like { color: var(--accent-blue); }
+        .action-btn.active-love { color: var(--deep-red); }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="profil.html" class="header-brand">
+        <img src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png" alt="Logo" class="header-logo">
+        <span class="header-title">Love Bébé</span>
+    </a>
+    <nav class="nav-actions">
+        <a href="profil.html" class="nav-btn nav-btn-blue">👤 Mon Profil</a>
+        <a href="message.html" class="nav-btn">💬 Messages</a>
+    </nav>
+</header>
+
+<main class="container">
+
+    <!-- Formulaire de Publication -->
+    <section class="card">
+        <div class="card-title">📸 Publier une photo ou vidéo</div>
+        <div class="publish-form">
+            <textarea id="postDescription" rows="3" placeholder="Écrivez une description (ex: Un moment inoubliable avec Love Bébé...)..."></textarea>
+            
+            <label for="mediaFileInput" class="file-select-btn" id="fileSelectLabel">
+                📁 Choisir une photo ou vidéo
+            </label>
+            <input type="file" id="mediaFileInput" accept="image/*,video/*" style="display: none;">
+            
+            <button class="submit-post-btn" id="publishBtn">🚀 Publier maintenant</button>
+            <p id="statusMessage" class="status-msg"></p>
+        </div>
+    </section>
+
+    <!-- Fil d'actualité des photos et vidéos -->
+    <h3 style="margin-bottom: 12px; color: var(--accent-blue); font-size: 1.1rem;">✨ Publications récentes</h3>
+    <div id="postsContainer">
+        <p style="text-align: center; color: #777;">Chargement des publications...</p>
+    </div>
+
+</main>
+
+<script type="module">
+    import { auth, database } from "./love-bebe-service.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { ref, get, push, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    let currentUser = null;
+    let userProfile = null;
+    let cloudinaryConfig = null;
+
+    const mediaFileInput = document.getElementById("mediaFileInput");
+    const fileSelectLabel = document.getElementById("fileSelectLabel");
+    const postDescription = document.getElementById("postDescription");
+    const publishBtn = document.getElementById("publishBtn");
+    const statusMessage = document.getElementById("statusMessage");
+    const postsContainer = document.getElementById("postsContainer");
+
+    // Afficher le nom du fichier sélectionné
+    mediaFileInput.addEventListener("change", () => {
+        if (mediaFileInput.files.length > 0) {
+            fileSelectLabel.textContent = `✅ Fichier sélectionné : ${mediaFileInput.files[0].name}`;
+        }
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+            window.location.replace("connexion.html");
+            return;
+        }
+        currentUser = user;
+
+        try {
+            // Configuration Cloudinary
+            const configSnap = await get(ref(database, "config/cloudinary"));
+            if (configSnap.exists()) {
+                cloudinaryConfig = configSnap.val();
+            }
+
+            // Récupération du profil utilisateur
+            const userSnap = await get(ref(database, `users/${user.uid}`));
+            if (userSnap.exists()) {
+                userProfile = userSnap.val();
+            }
+
+            loadAllPosts();
+        } catch (err) {
+            console.error("Erreur de chargement :", err);
+        }
+    });
+
+    // Publier un nouveau média avec description
+    publishBtn.addEventListener("click", async () => {
+        const description = postDescription.value.trim();
+        const file = mediaFileInput.files[0];
+
+        if (!description && !file) {
+            alert("Veuillez ajouter une description ou choisir une photo/vidéo à publier.");
+            return;
+        }
+
+        if (!cloudinaryConfig) {
+            alert("Configuration Cloudinary indisponible.");
+            return;
+        }
+
+        publishBtn.disabled = true;
+        statusMessage.textContent = "Téléversement en cours sur Cloudinary...";
+
+        let mediaUrl = "";
+        let isVideo = false;
+
+        if (file) {
+            isVideo = file.type.startsWith("video");
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", cloudinaryConfig.upload_preset);
+
+            try {
+                const resourceType = isVideo ? "video" : "image";
+                const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloud_name}/${resourceType}/upload`, {
+                    method: "POST",
+                    body: formData
+                });
+                const result = await res.json();
+                if (result.secure_url) {
+                    mediaUrl = result.secure_url;
+                }
+            } catch (err) {
+                console.error("Erreur d'envoi Cloudinary :", err);
+                statusMessage.textContent = "Échec de l'envoi du média.";
+                publishBtn.disabled = false;
+                return;
+            }
+        }
+
+        // Création de l'objet publication
+        const newPost = {
+            userId: currentUser.uid,
+            userName: userProfile ? userProfile.fullName : "Membre Love Bébé",
+            userAvatar: userProfile && userProfile.profileMediaUrl ? userProfile.profileMediaUrl : "https://via.placeholder.com/42",
+            description: description,
+            mediaUrl: mediaUrl,
+            isVideo: isVideo,
+            createdAt: Date.now(),
+            likes: {},
+            loves: {}
+        };
+
+        try {
+            await push(ref(database, "gallery_posts"), newPost);
+            statusMessage.textContent = "Publication partagée avec succès !";
+            postDescription.value = "";
+            mediaFileInput.value = "";
+            fileSelectLabel.textContent = "📁 Choisir une photo ou vidéo";
+            publishBtn.disabled = false;
+            loadAllPosts();
+        } catch (err) {
+            console.error(err);
+            statusMessage.textContent = "Erreur de sauvegarde de la publication.";
+            publishBtn.disabled = false;
+        }
+    });
+
+    // Charger le flux des publications
+    async function loadAllPosts() {
+        postsContainer.replaceChildren();
+        try {
+            const postsSnap = await get(ref(database, "gallery_posts"));
+            if (postsSnap.exists()) {
+                const postsData = postsSnap.val();
+                const postsArray = Object.keys(postsData).map(key => ({
+                    id: key,
+                    ...postsData[key]
+                })).reverse();
+
+                postsArray.forEach(post => {
+                    const likesCount = post.likes ? Object.keys(post.likes).length : 0;
+                    const lovesCount = post.loves ? Object.keys(post.loves).length : 0;
+                    
+                    const isLiked = post.likes && post.likes[currentUser.uid];
+                    const isLoved = post.loves && post.loves[currentUser.uid];
+
+                    const card = document.createElement("div");
+                    card.className = "post-card";
+
+                    let mediaHtml = "";
+                    if (post.mediaUrl) {
+                        if (post.isVideo) {
+                            mediaHtml = `<div class="post-media-container"><video src="${post.mediaUrl}" controls></video></div>`;
+                        } else {
+                            mediaHtml = `<div class="post-media-container"><img src="${post.mediaUrl}" alt="Photo"></div>`;
+                        }
+                    }
+
+                    const dateStr = new Date(post.createdAt).toLocaleString("fr-FR", {
+                        day: "numeric", month: "short", hour: "2-digit", minute: "2-digit"
+                    });
+
+                    card.innerHTML = `
+                        <div class="post-header">
+                            <img src="${post.userAvatar}" class="post-avatar">
+                            <div class="post-user-info">
+                                <h4>${post.userName}</h4>
+                                <span>Publié le ${dateStr}</span>
+                            </div>
+                        </div>
+                        ${post.description ? `<p class="post-text">${post.description}</p>` : ""}
+                        ${mediaHtml}
+                        <div class="post-actions">
+                            <button class="action-btn ${isLiked ? 'active-like' : ''}" data-id="${post.id}" data-action="like">
+                                👍 J'aime (${likesCount})
+                            </button>
+                            <button class="action-btn ${isLoved ? 'active-love' : ''}" data-id="${post.id}" data-action="love">
+                                ❤️ Love (${lovesCount})
+                            </button>
+                        </div>
+                    `;
+
+                    postsContainer.appendChild(card);
+                });
+
+                // Écouteurs pour les boutons J'aime et Love
+                document.querySelectorAll(".action-btn").forEach(btn => {
+                    btn.addEventListener("click", async (e) => {
+                        const postId = btn.dataset.id;
+                        const action = btn.dataset.action;
+                        await handleReaction(postId, action);
+                    });
+                });
+
+            } else {
+                postsContainer.innerHTML = `<p style="text-align: center; color: #777;">Aucune publication pour le moment. Soyez le premier à partager !</p>`;
+            }
+        } catch (err) {
+            console.error("Erreur de récupération des publications :", err);
+        }
+    }
+
+    // Gestion des réactions J'aime / Love
+    async function handleReaction(postId, actionType) {
+        if (!currentUser) return;
+        const reactionRef = ref(database, `gallery_posts/${postId}/${actionType}s/${currentUser.uid}`);
+        
+        try {
+            const snap = await get(reactionRef);
+            if (snap.exists()) {
+                // Annuler le Like/Love si déjà cliqué
+                await update(ref(database, `gallery_posts/${postId}/${actionType}s`), {
+                    [currentUser.uid]: null
+                });
+            } else {
+                // Ajouter le Like/Love
+                await update(ref(database, `gallery_posts/${postId}/${actionType}s`), {
+                    [currentUser.uid]: true
+                });
+            }
+            loadAllPosts();
+        } catch (err) {
+            console.error("Erreur de réaction :", err);
+        }
+    }
+</script>
+
+</body>
+</html>

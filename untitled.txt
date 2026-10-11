@@ -1,141 +1,284 @@
-// ==========================================
-// 1. CONFIGURATION CLOUDINARY
-// ==========================================
-const CLOUD_NAME = "jnwkfel1";
-// Identifiants Cloudinary issus de votre compte
-// API Key : 688731538869986
-// API Secret : p43yS4YoggqBIRcClxDiZgfueBE
-
-/**
- * Fonction universelle d'upload vers Cloudinary
- * Envoie automatiquement les images, vidéos, audios et appels vocaux/vidéos.
- * @param {File|Blob} fileOrBlob - Le fichier à envoyer (image, vidéo, audio, blob d'appel)
- * @param {string} resourceType - 'image', 'video', 'raw' ou 'auto'
- * @returns {Promise<string>} - L'URL publique sécurisée hébergée sur Cloudinary
- */
-export async function uploadToCloudinary(fileOrBlob, resourceType = "auto") {
-    const formData = new FormData();
-    formData.append("file", fileOrBlob);
-    // Utilisation d'un preset d'upload anonyme (Unsigned Upload Preset)
-    formData.append("upload_preset", "love_bebe_preset"); 
-
-    const endpoint = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${resourceType}/upload`;
-
-    try {
-        const response = await fetch(endpoint, {
-            method: "POST",
-            body: formData
-        });
-
-        const data = await response.json();
-        if (data.secure_url) {
-            return data.secure_url;
-        } else {
-            throw new Error(data.error ? data.error.message : "Échec de l'upload vers Cloudinary.");
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Bébé - Caméra & Vidéo 15s</title>
+    <style>
+        :root {
+            --primary-gold: #FFD700;
+            --dark-gold: #FFA500;
+            --deep-red: #D32F2F;
+            --dark-red: #B71C1C;
+            --accent-blue: #0D47A1;
+            --bg-gray: #000;
         }
-    } catch (error) {
-        console.error("Erreur Upload Cloudinary :", error);
-        throw error;
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #111; min-height: 100vh; padding-bottom: 40px; color: #fff; }
+
+        header { background: #fff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--deep-red); position: sticky; top: 0; z-index: 1000; }
+        .header-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .header-logo { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); object-fit: cover; }
+        .header-title { font-size: 1.2rem; font-weight: bold; color: var(--deep-red); text-transform: uppercase; }
+        .nav-actions { display: flex; gap: 8px; }
+        .nav-btn { background: linear-gradient(135deg, var(--deep-red), var(--dark-red)); color: white; padding: 8px 12px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 13px; border: none; cursor: pointer; }
+        .nav-btn-blue { background: linear-gradient(135deg, var(--accent-blue), #1565C0); }
+
+        .container { max-width: 600px; margin: 15px auto; padding: 0 12px; }
+
+        /* Viseur Caméra & Aperçu */
+        .camera-card { background: #1e1e1e; border-radius: 16px; padding: 15px; border: 1px solid #333; box-shadow: 0 4px 20px rgba(0,0,0,0.5); position: relative; overflow: hidden; }
+        .video-wrapper { position: relative; width: 100%; height: 380px; background: #000; border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 2px solid var(--primary-gold); }
+        video, img.preview-img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .timer-badge { position: absolute; top: 12px; right: 12px; background: rgba(211, 47, 47, 0.85); color: white; font-weight: bold; font-size: 14px; padding: 5px 12px; border-radius: 20px; display: none; align-items: center; gap: 6px; }
+        .recording-dot { width: 10px; height: 10px; background: white; border-radius: 50%; animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Contrôles Caméra */
+        .controls-bar { display: flex; justify-content: space-around; align-items: center; margin-top: 15px; }
+        .cam-btn { width: 60px; height: 60px; border-radius: 50%; border: none; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: transform 0.2s; }
+        .cam-btn:active { transform: scale(0.9); }
+        .btn-photo { background: white; color: #111; border: 4px solid var(--primary-gold); }
+        .btn-rec { background: var(--deep-red); color: white; border: 4px solid white; }
+        .btn-switch { background: #333; color: white; font-size: 20px; width: 45px; height: 45px; }
+
+        /* Formulaire de publication */
+        .post-form { margin-top: 15px; display: flex; flex-direction: column; gap: 12px; }
+        textarea { width: 100%; padding: 12px; border: 1px solid #444; border-radius: 8px; font-size: 14px; background: #222; color: #fff; outline: none; }
+        textarea:focus { border-color: var(--primary-gold); }
+        select { padding: 10px; border-radius: 8px; background: #222; color: #fff; border: 1px solid #444; font-size: 14px; }
+        
+        .publish-btn { background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold)); color: #111; padding: 12px; border: none; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; }
+        .publish-btn:disabled { background: #555; color: #888; cursor: not-allowed; }
+        .status-msg { text-align: center; font-size: 13px; font-weight: bold; color: var(--primary-gold); margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="profil.html" class="header-brand">
+        <img src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png" alt="Logo" class="header-logo">
+        <span class="header-title">Love Bébé</span>
+    </a>
+    <nav class="nav-actions">
+        <a href="profil.html" class="nav-btn nav-btn-blue">👤 Profil</a>
+        <a href="photos.html" class="nav-btn">🖼️ Galerie</a>
+    </nav>
+</header>
+
+<main class="container">
+
+    <section class="camera-card">
+        <div class="video-wrapper">
+            <video id="cameraVideo" autoplay playsinline muted></video>
+            <img id="capturedImagePreview" class="preview-img" style="display: none;">
+            <video id="capturedVideoPreview" controls style="display: none;"></video>
+            
+            <div id="timerBadge" class="timer-badge">
+                <div class="recording-dot"></div>
+                <span id="timerText">00:15</span>
+            </div>
+        </div>
+
+        <div class="controls-bar" id="controlsBar">
+            <button class="cam-btn btn-switch" id="switchCamBtn" title="Changer de caméra">🔄</button>
+            <button class="cam-btn btn-photo" id="takePhotoBtn" title="Prendre une photo">📷</button>
+            <button class="cam-btn btn-rec" id="recVideoBtn" title="Enregistrer vidéo 15s">🎥</button>
+        </div>
+
+        <div class="post-form">
+            <select id="postTheme">
+                <option value="Amour">❤️ Thème: Amour & Romance</option>
+                <option value="Humeur">😊 Thème: Humeur du jour</option>
+                <option value="Séduction">🔥 Thème: Séduction</option>
+                <option value="Humour">😂 Thème: Humour & Fun</option>
+            </select>
+            
+            <textarea id="postCaption" rows="2" placeholder="Ajoutez un message ou une légende à votre capture..."></textarea>
+            
+            <button class="publish-btn" id="publishBtn" disabled>🚀 Publier sur Love Bébé</button>
+            <p id="statusMsg" class="status-msg"></p>
+        </div>
+    </section>
+
+</main>
+
+<script type="module">
+    import { auth, database } from "./love-bebe-service.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { ref, get, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    let currentUser = null;
+    let userProfile = null;
+    let cloudinaryConfig = null;
+    let currentStream = null;
+    let mediaRecorder = null;
+    let recordedChunks = [];
+    let capturedBlob = null;
+    let isVideoMode = false;
+    let facingMode = "user";
+    let timerInterval = null;
+
+    const cameraVideo = document.getElementById("cameraVideo");
+    const capturedImagePreview = document.getElementById("capturedImagePreview");
+    const capturedVideoPreview = document.getElementById("capturedVideoPreview");
+    const timerBadge = document.getElementById("timerBadge");
+    const timerText = document.getElementById("timerText");
+    const takePhotoBtn = document.getElementById("takePhotoBtn");
+    const recVideoBtn = document.getElementById("recVideoBtn");
+    const switchCamBtn = document.getElementById("switchCamBtn");
+    const publishBtn = document.getElementById("publishBtn");
+    const statusMsg = document.getElementById("statusMsg");
+
+    onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+            window.location.replace("connexion.html");
+            return;
+        }
+        currentUser = user;
+
+        try {
+            const configSnap = await get(ref(database, "config/cloudinary"));
+            if (configSnap.exists()) cloudinaryConfig = configSnap.val();
+
+            const userSnap = await get(ref(database, `users/${user.uid}`));
+            if (userSnap.exists()) userProfile = userSnap.val();
+
+            initCamera();
+        } catch (e) {
+            console.error(e);
+        }
+    });
+
+    async function initCamera() {
+        if (currentStream) {
+            currentStream.getTracks().forEach(track => track.stop());
+        }
+        try {
+            currentStream = await navigator.mediaDevices.getUserMedia({
+                video: { facingMode: facingMode },
+                audio: true
+            });
+            cameraVideo.srcObject = currentStream;
+        } catch (err) {
+            statusMsg.textContent = "Impossible d'accéder à la caméra.";
+        }
     }
-}
 
-
-// ==========================================
-// 2. CONFIGURATION & ÉCRITURE DANS FIREBASE REALTIME DATABASE & FIRESTORE
-// ==========================================
-import { auth, db } from "./firebase-config.js";
-import { getDatabase, ref, set, update, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-import { doc, setDoc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-// Liste des adresses emails déclarées Administrateur
-const ADMIN_EMAILS = [
-    "davidaglignamou2@gmail.com"
-];
-
-const realtimeDb = getDatabase();
-
-/**
- * Enregistre ou met à jour un utilisateur dans Realtime Database et Firestore.
- * Attribue automatiquement le rôle Administrateur pour davidaglignamou2@gmail.com.
- * @param {Object} user - L'objet utilisateur issu de Firebase Auth
- * @param {Object} additionalProfileData - Données complémentaires (médias Cloudinary, pays, téléphone, etc.)
- */
-export async function saveUserToDatabase(user, additionalProfileData = {}) {
-    const isAdmin = ADMIN_EMAILS.includes(user.email.toLowerCase());
-    const uid = user.uid;
-
-    const userData = {
-        uid: uid,
-        email: user.email,
-        isAdmin: isAdmin,
-        role: isAdmin ? "admin" : "user",
-        updatedAt: new Date().toISOString(),
-        ...additionalProfileData
+    switchCamBtn.onclick = () => {
+        facingMode = facingMode === "user" ? "environment" : "user";
+        initCamera();
     };
 
-    try {
-        // 1. Écriture directe dans Firebase Realtime Database
-        const dbRef = ref(realtimeDb, 'users/' + uid);
-        const snapshot = await get(dbRef);
+    // Prise de photo instantanée
+    takePhotoBtn.onclick = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = cameraVideo.videoWidth || 640;
+        canvas.height = cameraVideo.videoHeight || 480;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(cameraVideo, 0, 0, canvas.width, canvas.height);
 
-        if (snapshot.exists()) {
-            await update(dbRef, userData);
-        } else {
-            await set(dbRef, userData);
+        canvas.toBlob((blob) => {
+            capturedBlob = blob;
+            isVideoMode = false;
+            capturedImagePreview.src = URL.createObjectURL(blob);
+            capturedImagePreview.style.display = "block";
+            cameraVideo.style.display = "none";
+            capturedVideoPreview.style.display = "none";
+            publishBtn.disabled = false;
+            statusMsg.textContent = "Photo capturée !";
+        }, "image/jpeg", 0.9);
+    };
+
+    // Enregistrement vidéo 15 secondes
+    recVideoBtn.onclick = () => {
+        recordedChunks = [];
+        try {
+            mediaRecorder = new MediaRecorder(currentStream, { mimeType: "video/webm" });
+        } catch (e) {
+            mediaRecorder = new MediaRecorder(currentStream);
         }
 
-        // 2. Écriture directe dans Firestore
-        const firestoreRef = doc(db, "users", uid);
-        const docSnap = await getDoc(firestoreRef);
-
-        if (docSnap.exists()) {
-            await updateDoc(firestoreRef, userData);
-        } else {
-            await setDoc(firestoreRef, userData);
-        }
-
-        console.log(`Données enregistrées avec succès pour : ${user.email} (Rôle Admin : ${isAdmin})`);
-        return { isAdmin, userData };
-
-    } catch (error) {
-        console.error("Erreur d'écriture dans Realtime Database / Firestore :", error);
-        throw error;
-    }
-}
-
-
-// ==========================================
-// 3. ENREGISTREMENT DES MÉDIAS DE CHAT OU D'APPELS DANS REALTIME DATABASE
-// ==========================================
-/**
- * Enregistre un média (image, vidéo, enregistrement audio d'un appel) directement dans Realtime DB
- * @param {string} senderUid - ID de l'expéditeur
- * @param {string} receiverUid - ID du destinataire
- * @param {File|Blob} mediaBlob - Le fichier ou enregistrement audio/vidéo
- * @param {string} mediaType - 'image', 'video', ou 'audio'
- */
-export async function sendMediaMessage(senderUid, receiverUid, mediaBlob, mediaType) {
-    try {
-        // 1. Upload automatique du média vers Cloudinary
-        const mediaUrl = await uploadToCloudinary(mediaBlob, mediaType === "image" ? "image" : "video");
-
-        // 2. Création de l'objet message
-        const messageData = {
-            senderUid: senderUid,
-            receiverUid: receiverUid,
-            mediaUrl: mediaUrl,
-            mediaType: mediaType, // 'image', 'video', ou 'audio'
-            timestamp: Date.now()
+        mediaRecorder.ondataavailable = (e) => {
+            if (e.data.size > 0) recordedChunks.push(e.data);
         };
 
-        // 3. Écriture directe dans Realtime Database sous l'historique des conversations
-        const chatRoomId = [senderUid, receiverUid].sort().join("_");
-        const newMessageRef = ref(realtimeDb, `chats/${chatRoomId}/${Date.now()}`);
-        await set(newMessageRef, messageData);
+        mediaRecorder.onstop = () => {
+            capturedBlob = new Blob(recordedChunks, { type: "video/webm" });
+            isVideoMode = true;
+            capturedVideoPreview.src = URL.createObjectURL(capturedBlob);
+            capturedVideoPreview.style.display = "block";
+            cameraVideo.style.display = "none";
+            capturedImagePreview.style.display = "none";
+            timerBadge.style.display = "none";
+            publishBtn.disabled = false;
+            statusMsg.textContent = "Vidéo de 15s enregistrée !";
+        };
 
-        return mediaUrl;
-    } catch (error) {
-        console.error("Erreur lors de l'envoi du média :", error);
-        throw error;
-    }
-}
+        mediaRecorder.start();
+        timerBadge.style.display = "flex";
+        let timeLeft = 15;
+        timerText.textContent = `00:${timeLeft < 10 ? '0' : ''}${timeLeft}`;
+
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            timerText.textContent = `00:${timeLeft < 10 ? '0' : ''}${timeLeft}`;
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                if (mediaRecorder.state === "recording") mediaRecorder.stop();
+            }
+        }, 1000);
+    };
+
+    // Publication vers Cloudinary et Firebase
+    publishBtn.onclick = async () => {
+        if (!capturedBlob || !cloudinaryConfig) return;
+
+        publishBtn.disabled = true;
+        statusMsg.textContent = "Envoi du média vers Cloudinary...";
+
+        const formData = new FormData();
+        formData.append("file", capturedBlob, isVideoMode ? "video.webm" : "photo.jpg");
+        formData.append("upload_preset", cloudinaryConfig.upload_preset);
+
+        const resourceType = isVideoMode ? "video" : "image";
+
+        try {
+            const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloud_name}/${resourceType}/upload`, {
+                method: "POST",
+                body: formData
+            });
+            const data = await res.json();
+
+            if (data.secure_url) {
+                const newPost = {
+                    userId: currentUser.uid,
+                    userName: userProfile ? userProfile.fullName : "Membre",
+                    userAvatar: userProfile && userProfile.profileMediaUrl ? userProfile.profileMediaUrl : "https://via.placeholder.com/42",
+                    description: document.getElementById("postCaption").value.trim(),
+                    theme: document.getElementById("postTheme").value,
+                    mediaUrl: data.secure_url,
+                    isVideo: isVideoMode,
+                    createdAt: Date.now()
+                };
+
+                await push(ref(database, "gallery_posts"), newPost);
+                statusMsg.textContent = "Publication réussie ! Redirection vers la galerie...";
+                setTimeout(() => {
+                    window.location.href = "photos.html";
+                }, 1500);
+            } else {
+                statusMsg.textContent = "Échec du téléversement Cloudinary.";
+                publishBtn.disabled = false;
+            }
+        } catch (err) {
+            console.error(err);
+            statusMsg.textContent = "Erreur de réseau lors de la publication.";
+            publishBtn.disabled = false;
+        }
+    };
+</script>
+
+</body>
+</html>
