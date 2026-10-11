@@ -7,7 +7,13 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#FFD700">
     <style>
-        :root { --primary-gold: #FFD700; --dark-gold: #FFA500; --deep-red: #D32F2F; --dark-red: #B71C1C; --accent-blue: #0D47A1; }
+        :root { 
+            --primary-gold: #FFD700; 
+            --dark-gold: #FFA500; 
+            --deep-red: #D32F2F; 
+            --dark-red: #B71C1C; 
+            --accent-blue: #0D47A1; 
+        }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background: linear-gradient(135deg, var(--primary-gold) 0%, var(--dark-gold) 100%); min-height: 100vh; color: #222; padding-bottom: 40px; }
         header { background: #ffffff; padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--deep-red); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
@@ -25,6 +31,7 @@
         .profile-name { font-size: 1.2rem; color: var(--deep-red); font-weight: bold; margin-bottom: 5px; }
         .profile-detail { font-size: 13px; color: #444; margin-bottom: 4px; }
         .btn-delete { background: var(--deep-red); color: white; border: none; padding: 8px; width: 100%; font-weight: bold; cursor: pointer; border-radius: 6px; margin-top: 10px; }
+        .btn-delete:hover { background: var(--dark-red); }
     </style>
 </head>
 <body>
@@ -47,41 +54,69 @@
     </div>
 
     <script type="module">
-        import { auth, rtdb } from "./love-bebe-service.js";
+        import { auth, database } from "./love-bebe-service.js";
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { ref, get, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Utilisation de la référence de base de données disponible
+        const db = database;
 
         onAuthStateChanged(auth, async (user) => {
             if (!user) return window.location.href = "connexion.html";
             
             const grid = document.getElementById('womenGrid');
             try {
-                const snapshot = await get(ref(rtdb, 'users'));
-                if (!snapshot.exists()) {
-                    grid.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Aucun profil trouvé.</p>";
+                // Interrogation simultanée des profils féminins et des utilisateurs généraux
+                const [femmesSnap, usersSnap] = await Promise.all([
+                    get(ref(db, 'profil_femmes')),
+                    get(ref(db, 'users'))
+                ]);
+
+                const profilesMap = {};
+
+                // Récupération depuis profil_femmes
+                if (femmesSnap.exists()) {
+                    Object.assign(profilesMap, femmesSnap.val());
+                }
+
+                // Récupération complémentaire depuis users si le genre contient 'fémin' ou 'femme'
+                if (usersSnap.exists()) {
+                    const allUsers = usersSnap.val();
+                    Object.keys(allUsers).forEach(uid => {
+                        const u = allUsers[uid];
+                        const gender = u.gender ? u.gender.toLowerCase() : '';
+                        if (gender.includes('fémin') || gender.includes('femme')) {
+                            profilesMap[uid] = { ...profilesMap[uid], ...u };
+                        }
+                    });
+                }
+
+                const uids = Object.keys(profilesMap);
+                if (uids.length === 0) {
+                    grid.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Aucun profil féminin enregistré.</p>";
                     return;
                 }
+
                 grid.innerHTML = "";
-                const users = snapshot.val();
                 let count = 0;
 
-                Object.keys(users).forEach(uid => {
-                    const u = users[uid];
-                    const gender = u.gender ? u.gender.toLowerCase() : '';
-                    if (!gender.includes('fémin') && !gender.includes('femme')) return;
-
+                uids.forEach(uid => {
+                    const u = profilesMap[uid];
                     count++;
+
                     const media = u.profileMediaUrl || u.capturedPhotos?.[0] || 'https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png';
                     const card = document.createElement('div');
                     card.className = 'profile-card';
                     card.innerHTML = `
                         <div>
-                            <img src="${media}" class="profile-media" alt="Profil">
+                            <img src="${media}" class="profile-media" alt="Profil Féminin">
                             <div class="profile-content">
                                 <div class="profile-name">${u.fullName || 'Nom inconnu'}</div>
-                                <div class="profile-detail">📍 ${u.city || 'N/A'}, ${u.country || 'N/A'}</div>
+                                <div class="profile-detail">🎂 Âge : ${u.age ? u.age + ' ans' : 'N/A'}</div>
+                                <div class="profile-detail">📍 Ville : ${u.city || 'N/A'}, ${u.country || 'N/A'}</div>
+                                <div class="profile-detail">💼 Profession : ${u.profession || 'N/A'}</div>
                                 <div class="profile-detail">💍 Statut : ${u.maritalStatus || 'N/A'}</div>
-                                <div class="profile-detail">📧 Email : ${u.email || 'N/A'}</div>
+                                <div class="profile-detail">👶 Enfants : ${u.childrenCount ?? 'N/A'}</div>
                             </div>
                         </div>
                         <div style="padding: 15px;">
@@ -91,17 +126,26 @@
                     grid.appendChild(card);
                 });
 
-                if (count === 0) grid.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Aucun profil féminin enregistré.</p>";
             } catch (err) {
-                console.error(err);
+                console.error("Erreur de chargement des profils femmes :", err);
+                grid.innerHTML = "<p style='text-align:center; grid-column:1/-1; color:red;'>Erreur lors du chargement des profils.</p>";
             }
         });
 
+        // Fonction globale de suppression propre (supprime dans profil_femmes et users)
         window.deleteUser = async (uid) => {
-            if (confirm("Voulez-vous vraiment supprimer ce profil ?")) {
-                await remove(ref(rtdb, `users/${uid}`));
-                alert("Profil supprimé avec succès !");
-                window.location.reload();
+            if (confirm("Voulez-vous vraiment supprimer définitivement ce profil féminin ?")) {
+                try {
+                    await Promise.all([
+                        remove(ref(db, `profil_femmes/${uid}`)),
+                        remove(ref(db, `users/${uid}`))
+                    ]);
+                    alert("Profil féminin supprimé avec succès !");
+                    window.location.reload();
+                } catch (err) {
+                    console.error("Erreur lors de la suppression :", err);
+                    alert("Erreur lors de la suppression du profil.");
+                }
             }
         };
     </script>

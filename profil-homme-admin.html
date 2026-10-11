@@ -7,24 +7,54 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#FFD700">
     <style>
-        :root { --primary-gold: #FFD700; --dark-gold: #FFA500; --deep-red: #D32F2F; --dark-red: #B71C1C; --accent-blue: #0D47A1; }
+        :root { 
+            --primary-gold: #FFD700; 
+            --dark-gold: #FFA500; 
+            --deep-red: #D32F2F; 
+            --dark-red: #B71C1C; 
+            --accent-blue: #0D47A1; 
+        }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background: linear-gradient(135deg, var(--primary-gold) 0%, var(--dark-gold) 100%); min-height: 100vh; color: #222; padding-bottom: 40px; }
+        
         header { background: #ffffff; padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--deep-red); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
         .header-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
         .header-logo { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--primary-gold); object-fit: cover; }
         .header-title { font-size: 1.3rem; font-weight: bold; color: var(--deep-red); text-transform: uppercase; }
         .nav-btn { background: linear-gradient(135deg, var(--deep-red), var(--dark-red)); color: white; padding: 8px 16px; border-radius: 20px; font-weight: bold; text-decoration: none; font-size: 13px; border: none; cursor: pointer; }
+        
         .container { max-width: 1200px; margin: 25px auto; padding: 0 20px; }
         .hero-banner { background: #ffffff; border-radius: 15px; padding: 25px; text-align: center; border: 3px solid var(--primary-gold); box-shadow: 0 8px 25px rgba(0,0,0,0.15); margin-bottom: 30px; }
         .hero-banner h1 { color: var(--deep-red); font-size: 1.6rem; margin-bottom: 8px; }
-        .profiles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        
+        .profiles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
         .profile-card { background: #fff; border-radius: 15px; overflow: hidden; border: 3px solid var(--primary-gold); box-shadow: 0 4px 15px rgba(0,0,0,0.15); display: flex; flex-direction: column; justify-content: space-between; }
         .profile-media { width: 100%; height: 220px; object-fit: cover; background: #000; }
         .profile-content { padding: 15px; }
-        .profile-name { font-size: 1.2rem; color: var(--deep-red); font-weight: bold; margin-bottom: 5px; }
-        .profile-detail { font-size: 13px; color: #444; margin-bottom: 4px; }
-        .btn-delete { background: var(--deep-red); color: white; border: none; padding: 8px; width: 100%; font-weight: bold; cursor: pointer; border-radius: 6px; margin-top: 10px; }
+        .profile-name { font-size: 1.2rem; color: var(--deep-red); font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 4px; }
+        .profile-detail { font-size: 13px; color: #444; margin-bottom: 5px; line-height: 1.4; }
+        .profile-detail strong { color: var(--accent-blue); }
+
+        .card-actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px 15px; background: #fafafa; border-top: 1px solid #eee; }
+        .btn-action { border: none; padding: 8px; font-weight: bold; cursor: pointer; border-radius: 6px; font-size: 12px; text-align: center; }
+        .btn-copy { background: #E0E0E0; color: #333; }
+        .btn-edit { background: var(--accent-blue); color: white; }
+        .btn-delete { background: var(--deep-red); color: white; grid-column: 1 / -1; }
+        .btn-action:hover { opacity: 0.9; }
+
+        /* MODALE ÉDITION */
+        #editModal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); z-index: 3000; display: flex; align-items: center; justify-content: center; }
+        .modal-content { background: white; width: 90%; max-width: 450px; border-radius: 12px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary-gold); padding-bottom: 8px; margin-bottom: 12px; }
+        .modal-header h3 { color: var(--deep-red); }
+        .modal-close { background: none; border: none; font-size: 20px; font-weight: bold; cursor: pointer; color: var(--deep-red); }
+        
+        .form-group { margin-bottom: 10px; }
+        .form-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 3px; color: #444; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; }
+        .btn-save { background: var(--deep-red); color: white; width: 100%; padding: 10px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
@@ -39,69 +69,241 @@
     <div class="container">
         <div class="hero-banner">
             <h1>👨 Gestion des Profils Masculins</h1>
-            <p>Liste de tous les hommes inscrits sur la plateforme</p>
+            <p>Liste et gestion complète des hommes inscrits sur la plateforme</p>
         </div>
         <div id="menGrid" class="profiles-grid">
             <p style="text-align:center; grid-column:1/-1; font-weight:bold; color:#0D47A1;">Chargement des profils...</p>
         </div>
     </div>
 
+    <!-- MODALE ÉDITION PROFIL -->
+    <div id="editModal" class="hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>✏️ Modifier le profil</h3>
+                <button class="modal-close" id="closeModalBtn">×</button>
+            </div>
+            <form id="editForm">
+                <input type="hidden" id="editUid">
+                <div class="form-group">
+                    <label>Nom complet</label>
+                    <input type="text" id="editFullName" required>
+                </div>
+                <div class="form-group">
+                    <label>Âge</label>
+                    <input type="number" id="editAge">
+                </div>
+                <div class="form-group">
+                    <label>Profession</label>
+                    <input type="text" id="editProfession">
+                </div>
+                <div class="form-group">
+                    <label>Ville</label>
+                    <input type="text" id="editCity">
+                </div>
+                <div class="form-group">
+                    <label>Pays</label>
+                    <input type="text" id="editCountry">
+                </div>
+                <div class="form-group">
+                    <label>Situation matrimoniale</label>
+                    <select id="editMaritalStatus">
+                        <option value="Célibataire">Célibataire</option>
+                        <option value="Célibataire avec enfant(s)">Célibataire avec enfant(s)</option>
+                        <option value="Divorcé(e)">Divorcé(e)</option>
+                        <option value="Veuf(ve)">Veuf(ve)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Nombre d'enfants</label>
+                    <input type="number" id="editChildrenCount">
+                </div>
+                <div class="form-group">
+                    <label>Bio / Description</label>
+                    <textarea id="editBio" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn-save">💾 Enregistrer les modifications</button>
+            </form>
+        </div>
+    </div>
+
     <script type="module">
-        import { auth, rtdb } from "./love-bebe-service.js";
+        import { auth, database } from "./love-bebe-service.js";
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { ref, get, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { ref, get, update, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const db = database;
+        let profilesDataMap = {};
+
+        const editModal = document.getElementById("editModal");
+        const closeModalBtn = document.getElementById("closeModalBtn");
+        const editForm = document.getElementById("editForm");
 
         onAuthStateChanged(auth, async (user) => {
             if (!user) return window.location.href = "connexion.html";
             
+            loadMenProfiles();
+        });
+
+        async function loadMenProfiles() {
             const grid = document.getElementById('menGrid');
             try {
-                const snapshot = await get(ref(rtdb, 'users'));
-                if (!snapshot.exists()) {
-                    grid.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Aucun profil trouvé.</p>";
+                const [hommesSnap, usersSnap] = await Promise.all([
+                    get(ref(db, 'profil_hommes')),
+                    get(ref(db, 'users'))
+                ]);
+
+                profilesDataMap = {};
+
+                if (hommesSnap.exists()) {
+                    Object.assign(profilesDataMap, hommesSnap.val());
+                }
+
+                if (usersSnap.exists()) {
+                    const allUsers = usersSnap.val();
+                    Object.keys(allUsers).forEach(uid => {
+                        const u = allUsers[uid];
+                        const gender = u.gender ? u.gender.toLowerCase() : '';
+                        if (gender.includes('mascul') || gender.includes('homme')) {
+                            profilesDataMap[uid] = { ...profilesDataMap[uid], ...u };
+                        }
+                    });
+                }
+
+                const uids = Object.keys(profilesDataMap);
+                if (uids.length === 0) {
+                    grid.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Aucun profil masculin enregistré.</p>";
                     return;
                 }
+
                 grid.innerHTML = "";
-                const users = snapshot.val();
-                let count = 0;
 
-                Object.keys(users).forEach(uid => {
-                    const u = users[uid];
-                    const gender = u.gender ? u.gender.toLowerCase() : '';
-                    if (!gender.includes('mascul') && !gender.includes('homme')) return;
-
-                    count++;
+                uids.forEach(uid => {
+                    const u = profilesDataMap[uid];
                     const media = u.profileMediaUrl || u.capturedPhotos?.[0] || 'https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png';
+                    
                     const card = document.createElement('div');
                     card.className = 'profile-card';
                     card.innerHTML = `
                         <div>
-                            <img src="${media}" class="profile-media" alt="Profil">
+                            <img src="${media}" class="profile-media" alt="Profil Masculin">
                             <div class="profile-content">
                                 <div class="profile-name">${u.fullName || 'Nom inconnu'}</div>
-                                <div class="profile-detail">📍 ${u.city || 'N/A'}, ${u.country || 'N/A'}</div>
-                                <div class="profile-detail">💍 Statut : ${u.maritalStatus || 'N/A'}</div>
-                                <div class="profile-detail">📧 Email : ${u.email || 'N/A'}</div>
+                                <div class="profile-detail"><strong>🎂 Âge :</strong> ${u.age ? u.age + ' ans' : 'N/A'}</div>
+                                <div class="profile-detail"><strong>📍 Localisation :</strong> ${[u.city, u.country].filter(Boolean).join(', ') || 'N/A'}</div>
+                                <div class="profile-detail"><strong>💼 Profession :</strong> ${u.profession || 'Non précisée'}</div>
+                                <div class="profile-detail"><strong>💍 Situation :</strong> ${u.maritalStatus || 'N/A'}</div>
+                                <div class="profile-detail"><strong>👶 Enfants :</strong> ${u.childrenCount ?? '0'}</div>
+                                <div class="profile-detail"><strong>📝 Bio :</strong> ${u.bio || 'Aucune description'}</div>
+                                <div class="profile-detail" style="font-size:11px; color:#888; margin-top:5px;"><strong>ID :</strong> ${uid}</div>
                             </div>
                         </div>
-                        <div style="padding: 15px;">
-                            <button class="btn-delete" onclick="deleteUser('${uid}')">🗑️ Supprimer le profil</button>
+                        <div class="card-actions-grid">
+                            <button class="btn-action btn-copy" onclick="copyProfileInfo('${uid}')">📋 Copier Infos</button>
+                            <button class="btn-action btn-edit" onclick="openEditModal('${uid}')">✏️ Modifier</button>
+                            <button class="btn-action btn-delete" onclick="deleteUser('${uid}')">🗑️ Supprimer le profil</button>
                         </div>
                     `;
                     grid.appendChild(card);
                 });
 
-                if (count === 0) grid.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Aucun profil masculin enregistré.</p>";
             } catch (err) {
-                console.error(err);
+                console.error("Erreur de chargement des profils hommes :", err);
+                grid.innerHTML = "<p style='text-align:center; grid-column:1/-1; color:red;'>Erreur lors du chargement des profils.</p>";
             }
-        });
+        }
 
+        // Copier les coordonnées complètes du profil dans le presse-papier
+        window.copyProfileInfo = (uid) => {
+            const u = profilesDataMap[uid];
+            if (!u) return;
+
+            const text = `--- PROFIL HOMME ---
+Nom: ${u.fullName || 'N/A'}
+Genre: ${u.gender || 'Masculin'}
+Âge: ${u.age || 'N/A'}
+Profession: ${u.profession || 'N/A'}
+Ville: ${u.city || 'N/A'}
+Pays: ${u.country || 'N/A'}
+Statut: ${u.maritalStatus || 'N/A'}
+Enfants: ${u.childrenCount ?? '0'}
+Bio: ${u.bio || 'N/A'}
+UID: ${uid}`;
+
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Coordonnées du profil copiées dans le presse-papier !");
+            }).catch(err => {
+                console.error("Erreur copie :", err);
+            });
+        };
+
+        // Ouvrir la modale d'édition
+        window.openEditModal = (uid) => {
+            const u = profilesDataMap[uid];
+            if (!u) return;
+
+            document.getElementById("editUid").value = uid;
+            document.getElementById("editFullName").value = u.fullName || "";
+            document.getElementById("editAge").value = u.age || "";
+            document.getElementById("editProfession").value = u.profession || "";
+            document.getElementById("editCity").value = u.city || "";
+            document.getElementById("editCountry").value = u.country || "";
+            document.getElementById("editMaritalStatus").value = u.maritalStatus || "Célibataire";
+            document.getElementById("editChildrenCount").value = u.childrenCount ?? 0;
+            document.getElementById("editBio").value = u.bio || "";
+
+            editModal.classList.remove("hidden");
+        };
+
+        closeModalBtn.onclick = () => editModal.classList.add("hidden");
+
+        // Enregistrer les modifications
+        editForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const uid = document.getElementById("editUid").value;
+            if (!uid) return;
+
+            const updatedData = {
+                fullName: document.getElementById("editFullName").value.trim(),
+                age: document.getElementById("editAge").value,
+                profession: document.getElementById("editProfession").value.trim(),
+                city: document.getElementById("editCity").value.trim(),
+                country: document.getElementById("editCountry").value.trim(),
+                maritalStatus: document.getElementById("editMaritalStatus").value,
+                childrenCount: document.getElementById("editChildrenCount").value,
+                bio: document.getElementById("editBio").value.trim(),
+                updatedAt: Date.now()
+            };
+
+            try {
+                await Promise.all([
+                    update(ref(db, `profil_hommes/${uid}`), updatedData),
+                    update(ref(db, `users/${uid}`), updatedData)
+                ]);
+
+                alert("Profil mis à jour avec succès !");
+                editModal.classList.add("hidden");
+                loadMenProfiles();
+            } catch (err) {
+                console.error("Erreur mise à jour :", err);
+                alert("Erreur lors de la mise à jour du profil.");
+            }
+        };
+
+        // Supprimer définitivement le profil masculin
         window.deleteUser = async (uid) => {
-            if (confirm("Voulez-vous vraiment supprimer ce profil ?")) {
-                await remove(ref(rtdb, `users/${uid}`));
-                alert("Profil supprimé avec succès !");
-                window.location.reload();
+            if (confirm("Voulez-vous vraiment supprimer définitivement ce profil masculin ?")) {
+                try {
+                    await Promise.all([
+                        remove(ref(db, `profil_hommes/${uid}`)),
+                        remove(ref(db, `users/${uid}`))
+                    ]);
+                    alert("Profil masculin supprimé avec succès !");
+                    loadMenProfiles();
+                } catch (err) {
+                    console.error("Erreur lors de la suppression :", err);
+                    alert("Erreur lors de la suppression du profil.");
+                }
             }
         };
     </script>

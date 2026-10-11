@@ -27,17 +27,39 @@
 
         .container { max-width: 800px; margin: 0 auto; padding: 0 10px; }
 
-        /* Style Couverture & Photo de profil */
-        .profile-header-card { background: white; border-radius: 0 0 15px 15px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 15px; position: relative; }
+        /* Style Couverture & Photo de profil (Type Facebook amélioré) */
+        .profile-header-card { background: white; border-radius: 0 0 15px 15px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 15px; position: relative; padding-bottom: 15px; }
         .cover-photo { height: 180px; background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold)); width: 100%; object-fit: cover; }
         .profile-avatar-container { position: relative; width: 130px; height: 130px; margin: -65px auto 10px auto; }
         .profile-avatar { width: 130px; height: 130px; border-radius: 50%; border: 4px solid white; object-fit: cover; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .avatar-edit-badge { position: absolute; bottom: 5px; right: 5px; background: var(--accent-blue); color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; border: 2px solid white; }
-        .user-name-title { text-align: center; font-size: 1.5rem; font-weight: bold; color: #111; margin-bottom: 5px; }
-        .user-bio-text { text-align: center; color: #65676b; font-size: 14px; padding: 0 20px 15px 20px; }
+        
+        .user-name-title { text-align: center; font-size: 1.5rem; font-weight: bold; color: #111; margin-bottom: 4px; }
+        .user-bio-text { text-align: center; color: #65676b; font-size: 14px; padding: 0 20px; margin-bottom: 10px; }
 
-        /* Menu 4 Boutons */
-        .profile-menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 15px; }
+        /* Badge J'aime & Love placé sous l'avatar et le nom */
+        .profile-likes-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: #fff0f3;
+            border: 1px solid #ffccd5;
+            padding: 6px 14px;
+            border-radius: 20px;
+            width: fit-content;
+            margin: 0 auto;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            color: #d81b60;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: 0.2s;
+        }
+        .profile-likes-badge:hover { background: #ffe3e8; transform: scale(1.02); }
+
+        /* Menu 3 Boutons */
+        .profile-menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
         .menu-item-btn { background: white; border: 1px solid #ddd; border-radius: 10px; padding: 12px 5px; text-align: center; text-decoration: none; color: var(--accent-blue); font-weight: bold; font-size: 12px; display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: 0.2s; }
         .menu-item-btn:hover { background: #f7f8fa; transform: translateY(-2px); }
         .menu-item-btn span { font-size: 20px; }
@@ -58,7 +80,6 @@
         .edit-btn-action { background: var(--accent-blue); color: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; border: none; cursor: pointer; font-weight: bold; }
         .status-msg { text-align: center; margin-top: 10px; font-weight: bold; font-size: 13px; color: var(--accent-blue); }
 
-        /* Vue Récapitulative des Informations */
         .info-view-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         @media (max-width: 600px) { .info-view-grid { grid-template-columns: 1fr; } }
         .info-item { background: #f8f9fa; padding: 10px; border-radius: 8px; border-left: 3px solid var(--accent-blue); font-size: 13px; }
@@ -66,9 +87,21 @@
 
         /* Grilles d'affichage des médias publiés */
         .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-top: 10px; }
-        .media-card { background: #fff; border-radius: 10px; border: 1px solid #ddd; overflow: hidden; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .media-card { background: #fff; border-radius: 10px; border: 1px solid #ddd; overflow: hidden; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: relative; }
         .media-card img, .media-card video { width: 100%; height: 180px; object-fit: cover; border-radius: 6px; }
         .media-card p { font-size: 13px; color: #333; margin-top: 6px; }
+        
+        .media-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+        .likes-counter { font-size: 12px; color: #e91e63; font-weight: bold; cursor: pointer; }
+        .likes-counter:hover { text-decoration: underline; }
+        .delete-post-btn { background: #ffebee; color: #c62828; border: none; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; cursor: pointer; }
+        .delete-post-btn:hover { background: #ffcdd2; }
+
+        /* MODALE LISTE DES LIKES */
+        #likesModal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); z-index: 3000; display: flex; align-items: center; justify-content: center; }
+        .modal-content { background: white; width: 90%; max-width: 400px; border-radius: 12px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary-gold); padding-bottom: 8px; margin-bottom: 12px; }
+        .modal-close { background: none; border: none; font-size: 18px; font-weight: bold; cursor: pointer; color: var(--deep-red); }
 
         .hidden { display: none !important; }
     </style>
@@ -88,7 +121,7 @@
 
 <main class="container">
 
-    <!-- En-tête Profil -->
+    <!-- En-tête Profil (Avatar, Nom, Bio & Badge J'aime/Love global sous l'avatar) -->
     <section class="profile-header-card">
         <div class="cover-photo"></div>
         <div class="profile-avatar-container">
@@ -98,13 +131,17 @@
         </div>
         <h1 class="user-name-title" id="displayFullName">Chargement...</h1>
         <p class="user-bio-text" id="displayBio">Renseignez votre présentation ci-dessous.</p>
+        
+        <!-- Badge J'aime / Love global sous l'avatar -->
+        <div id="profileGlobalLikesBtn" class="profile-likes-badge">
+            <span>❤️</span> <span id="globalLikesCount">0 J'aime / Love</span>
+        </div>
     </section>
 
     <!-- Menu Boutons d'Action -->
     <section class="profile-menu-grid">
         <a href="messagerie.html" class="menu-item-btn"><span>💬</span>Messagerie</a>
         <a href="photos.html" class="menu-item-btn"><span>🖼️</span>Photos</a>
-        <a href="videos.html" class="menu-item-btn"><span>🎥</span>Vidéos</a>
         <a href="ame-soeur.html" class="menu-item-btn"><span>💖</span>Âme sœur</a>
     </section>
 
@@ -181,7 +218,7 @@
         <p id="statusMessage" class="status-msg"></p>
     </section>
 
-    <!-- SECTION DES IMAGES PUBLIÉES PAR L'UTILISATEUR -->
+    <!-- SECTION DES IMAGES PUBLIÉES -->
     <section class="card">
         <div class="card-title"><span>🖼️ Mes images publiées</span></div>
         <div id="userImagesGrid" class="media-grid">
@@ -189,7 +226,7 @@
         </div>
     </section>
 
-    <!-- SECTION DES VIDÉOS PUBLIÉES PAR L'UTILISATEUR -->
+    <!-- SECTION DES VIDÉOS PUBLIÉES -->
     <section class="card">
         <div class="card-title"><span>🎥 Mes vidéos publiées</span></div>
         <div id="userVideosGrid" class="media-grid">
@@ -198,6 +235,19 @@
     </section>
 
 </main>
+
+<!-- MODALE LISTE DES LIKES -->
+<div id="likesModal" class="hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Personnes qui ont aimé ❤️</h3>
+            <button class="modal-close" id="closeModalBtn">×</button>
+        </div>
+        <div id="likesListContainer" style="max-height: 250px; overflow-y: auto;">
+            <p style="color:#666; font-size:13px;">Chargement...</p>
+        </div>
+    </div>
+</div>
 
 <script type="module">
     import { auth, database } from "./love-bebe-service.js";
@@ -208,6 +258,7 @@
     let cloudinaryConfig = null;
     let currentProfilePic = "";
     let previousGender = "";
+    let allUserLikesObj = {}; // Stocke tous les likes cumulés des posts de l'utilisateur
 
     const profileForm = document.getElementById("profileForm");
     const infoDisplayView = document.getElementById("infoDisplayView");
@@ -220,6 +271,12 @@
     const saveBtn = document.getElementById("saveBtn");
     const userImagesGrid = document.getElementById("userImagesGrid");
     const userVideosGrid = document.getElementById("userVideosGrid");
+    
+    const likesModal = document.getElementById("likesModal");
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    const likesListContainer = document.getElementById("likesListContainer");
+    const profileGlobalLikesBtn = document.getElementById("profileGlobalLikesBtn");
+    const globalLikesCount = document.getElementById("globalLikesCount");
 
     onAuthStateChanged(auth, async (user) => {
         if (!user) {
@@ -285,17 +342,20 @@
         if (isEditing) {
             profileForm.classList.remove("hidden");
             infoDisplayView.classList.add("hidden");
-            toggleEditBtn.classList.add("hidden");
+            toggleEditBtn.textContent = "📋 Voir mes informations";
             cardTitleText.textContent = "📝 Modifier mes informations";
         } else {
             profileForm.classList.add("hidden");
             infoDisplayView.classList.remove("hidden");
-            toggleEditBtn.classList.remove("hidden");
+            toggleEditBtn.textContent = "✏️ Modifier";
             cardTitleText.textContent = "📋 Mes Informations";
         }
     }
 
-    toggleEditBtn.addEventListener("click", () => switchMode(true));
+    toggleEditBtn.addEventListener("click", () => {
+        const isCurrentlyEditing = !profileForm.classList.contains("hidden");
+        switchMode(!isCurrentlyEditing);
+    });
 
     avatarInput.addEventListener("change", async (e) => {
         const file = e.target.files[0];
@@ -390,63 +450,145 @@
         }
     });
 
-    // Chargement dynamique des images et vidéos publiées par l'utilisateur (depuis le nœud posts)
+    // Chargement dynamique des images et vidéos publiées de l'utilisateur avec bouton de suppression
     async function loadUserMediaPosts() {
         userImagesGrid.replaceChildren();
         userVideosGrid.replaceChildren();
+        allUserLikesObj = {};
 
         try {
-            const postsSnap = await get(ref(database, "posts"));
-            if (postsSnap.exists()) {
-                const postsObj = postsSnap.val();
-                // Filtrer par utilisateur et inverser pour afficher du plus récent au plus ancien (style chronologique)
-                const userPosts = Object.values(postsObj)
-                    .filter(p => p.userId === currentUser.uid)
-                    .reverse();
+            const [gallerySnap, postsSnap, jAimeSnap] = await Promise.all([
+                get(ref(database, "gallery_posts")),
+                get(ref(database, "posts")),
+                get(ref(database, "j_aime"))
+            ]);
 
-                let imageCount = 0;
-                let videoCount = 0;
+            const allPostsMap = {};
+            if (gallerySnap.exists()) Object.assign(allPostsMap, gallerySnap.val());
+            if (postsSnap.exists()) Object.assign(allPostsMap, postsSnap.val());
 
-                userPosts.forEach(post => {
-                    const mediaUrl = post.mediaUrl || post.url || "";
-                    if (!mediaUrl) return;
+            const jAimeData = jAimeSnap.exists() ? jAimeSnap.val() : {};
 
-                    const isVideo = post.isVideo === true || post.isVD === true || mediaUrl.includes(".mp4") || mediaUrl.includes("video");
+            const userPosts = Object.keys(allPostsMap)
+                .map(id => ({ id, ...allPostsMap[id] }))
+                .filter(p => p.userId === currentUser.uid || p.authorUid === currentUser.uid)
+                .reverse();
 
-                    const card = document.createElement("div");
-                    card.className = "media-card";
+            let imageCount = 0;
+            let videoCount = 0;
 
-                    if (isVideo) {
-                        videoCount++;
-                        card.innerHTML = `
-                            <video src="${mediaUrl}" controls></video>
-                            <p>${post.text || post.content || ''}</p>
-                        `;
-                        userVideosGrid.appendChild(card);
-                    } else {
-                        imageCount++;
-                        card.innerHTML = `
-                            <img src="${mediaUrl}" alt="Image publiée">
-                            <p>${post.text || post.content || ''}</p>
-                        `;
-                        userImagesGrid.appendChild(card);
+            userPosts.forEach(post => {
+                const mediaUrl = post.mediaUrl || post.url || "";
+                if (!mediaUrl) return;
+
+                const postId = post.id;
+                const isVideo = post.isVideo === true || post.isVD === true || mediaUrl.includes(".mp4") || mediaUrl.includes("video");
+
+                const likesObj = jAimeData[postId] || {};
+                const likesCount = Object.keys(likesObj).length;
+
+                Object.assign(allUserLikesObj, likesObj);
+
+                const card = document.createElement("div");
+                card.className = "media-card";
+
+                const counterId = `likes-count-${postId}`;
+                const deleteBtnId = `delete-post-${postId}`;
+
+                if (isVideo) {
+                    videoCount++;
+                    card.innerHTML = `
+                        <video src="${mediaUrl}" controls></video>
+                        <p>${post.text || post.description || post.content || ''}</p>
+                        <div class="media-footer">
+                            <span id="${counterId}" class="likes-counter">❤️ ${likesCount} J'aime</span>
+                            <button id="${deleteBtnId}" class="delete-post-btn">🗑️ Supprimer</button>
+                        </div>
+                    `;
+                    userVideosGrid.appendChild(card);
+                } else {
+                    imageCount++;
+                    card.innerHTML = `
+                        <img src="${mediaUrl}" alt="Image publiée">
+                        <p>${post.text || post.description || post.content || ''}</p>
+                        <div class="media-footer">
+                            <span id="${counterId}" class="likes-counter">❤️ ${likesCount} J'aime</span>
+                            <button id="${deleteBtnId}" class="delete-post-btn">🗑️ Supprimer</button>
+                        </div>
+                    `;
+                    userImagesGrid.appendChild(card);
+                }
+
+                document.getElementById(counterId).onclick = () => showLikesList(likesObj);
+
+                // Action de suppression de sa propre publication
+                document.getElementById(deleteBtnId).onclick = async () => {
+                    if (confirm("Voulez-vous vraiment supprimer cette publication ?")) {
+                        try {
+                            // Supprimer des nœuds gallery_posts, posts et j_aime
+                            await Promise.all([
+                                remove(ref(database, `gallery_posts/${postId}`)),
+                                remove(ref(database, `posts/${postId}`)),
+                                remove(ref(database, `j_aime/${postId}`))
+                            ]);
+                            card.remove();
+                            loadUserMediaPosts(); // Recharger les compteurs globaux
+                        } catch (err) {
+                            console.error("Erreur lors de la suppression :", err);
+                            alert("Erreur lors de la suppression.");
+                        }
                     }
-                });
+                };
+            });
 
-                if (imageCount === 0) {
-                    userImagesGrid.innerHTML = `<p style="color:#777; font-size:13px;">Aucune image publiée pour le moment.</p>`;
-                }
-                if (videoCount === 0) {
-                    userVideosGrid.innerHTML = `<p style="color:#777; font-size:13px;">Aucune vidéo publiée pour le moment.</p>`;
-                }
-            } else {
-                userImagesGrid.innerHTML = `<p style="color:#777; font-size:13px;">Aucune image publiée.</p>`;
-                userVideosGrid.innerHTML = `<p style="color:#777; font-size:13px;">Aucune vidéo publiée.</p>`;
+            const uniqueGlobalLikesCount = Object.keys(allUserLikesObj).length;
+            globalLikesCount.textContent = `${uniqueGlobalLikesCount} J'aime / Love`;
+
+            if (imageCount === 0) {
+                userImagesGrid.innerHTML = `<p style="color:#777; font-size:13px;">Aucune image publiée pour le moment.</p>`;
+            }
+            if (videoCount === 0) {
+                userVideosGrid.innerHTML = `<p style="color:#777; font-size:13px;">Aucune vidéo publiée pour le moment.</p>`;
             }
         } catch (err) {
             console.error("Erreur chargement médias :", err);
         }
     }
+
+    profileGlobalLikesBtn.onclick = () => showLikesList(allUserLikesObj);
+
+    async function showLikesList(likesObj) {
+        likesModal.classList.remove("hidden");
+        likesListContainer.replaceChildren();
+
+        const uids = Object.keys(likesObj);
+        if (uids.length === 0) {
+            likesListContainer.innerHTML = `<p style="color:#666; font-size:13px; text-align:center; padding:10px;">Aucun j'aime pour l'instant.</p>`;
+            return;
+        }
+
+        for (const uid of uids) {
+            try {
+                const userSnap = await get(ref(database, `users/${uid}`));
+                const userData = userSnap.exists() ? userSnap.val() : {};
+                const name = userData.fullName || "Utilisateur Love Bébé";
+                const avatar = userData.profileMediaUrl || 'https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png';
+
+                const item = document.createElement("div");
+                item.style.cssText = "display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid #eee;";
+                item.innerHTML = `
+                    <img src="${avatar}" style="width:35px; height:35px; border-radius:50%; object-fit:cover;">
+                    <span style="font-size:14px; font-weight:bold; color:#111;">${name}</span>
+                `;
+                likesListContainer.appendChild(item);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    }
+
+    closeModalBtn.onclick = () => likesModal.classList.add("hidden");
+    window.onclick = (e) => { if (e.target === likesModal) likesModal.classList.add("hidden"); };
 
     document.getElementById("logout-btn").onclick = async () => {
         await signOut(auth);
