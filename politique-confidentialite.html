@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Love Bébé - Politique de Confidentialité, Conditions d'Utilisation et Charte Éthique des Rencontres.">
+    <title>Love Bébé - Politique de Confidentialité & Charte</title>
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FFD700">
+
+    <style>
+        :root {
+            --primary-gold: #FFD700;
+            --dark-gold: #FFA500;
+            --deep-red: #D32F2F;
+            --dark-red: #B71C1C;
+            --accent-blue: #0D47A1;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        body {
+            background: #f4f6f9;
+            min-height: 100vh;
+            color: #222;
+            padding-bottom: 50px;
+        }
+
+        header {
+            background: #ffffff;
+            padding: 12px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--deep-red);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .header-logo {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-gold);
+            object-fit: cover;
+        }
+
+        .header-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--deep-red);
+            text-transform: uppercase;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, var(--deep-red), var(--dark-red));
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 25px auto;
+            padding: 0 15px;
+        }
+
+        .hero-banner {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 3px solid var(--primary-gold);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+
+        .hero-banner h1 {
+            color: var(--deep-red);
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        /* NAVIGATION PAR ONGLETS PRO */
+        .policy-tabs {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tab-btn {
+            background: #ffffff;
+            border: 2px solid var(--primary-gold);
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 13px;
+            color: var(--accent-blue);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: 0.3s;
+            flex-shrink: 0;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background: var(--accent-blue);
+            color: #ffffff;
+            border-color: var(--accent-blue);
+        }
+
+        .policy-content {
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 15px;
+            border: 2px solid var(--primary-gold);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            line-height: 1.7;
+        }
+
+        .section-pane {
+            display: none;
+        }
+
+        .section-pane.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--deep-red);
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--primary-gold);
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            color: var(--accent-blue);
+            font-size: 1.1rem;
+            margin: 18px 0 10px 0;
+        }
+
+        p, li {
+            font-size: 14.5px;
+            color: #333;
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .highlight-box {
+            background: #FFFDE7;
+            border-left: 4px solid var(--primary-gold);
+            padding: 12px 18px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .support-box {
+            background: #E3F2FD;
+            border: 2px solid var(--accent-blue);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .complaint-form label {
+            display: block;
+            margin-top: 12px;
+            font-weight: bold;
+            color: var(--accent-blue);
+            font-size: 13px;
+        }
+
+        .complaint-form input, .complaint-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 2px solid #BDBDBD;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .complaint-form button {
+            background: linear-gradient(135deg, var(--deep-red), var(--dark-red));
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 18px;
+        }
+
+        .faq-item {
+            margin-bottom: 18px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 12px;
+        }
+
+        .faq-question {
+            font-weight: bold;
+            color: var(--accent-blue);
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="connexion.html" class="header-brand">
+            <img src="https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png" alt="Logo Love Bébé" class="header-logo">
+            <span class="header-title">Love Bébé</span>
+        </a>
+        <a href="connexion.html" class="nav-btn">⬅️ Connexion</a>
+    </header>
+
+    <div class="container">
+        <div class="hero-banner">
+            <h1>📜 Politique de Confidentialité & Charte d'Éthique</h1>
+            <p>Guide officiel d'utilisation, protection des données personnelles et règles de conduite pour tous les membres.</p>
+        </div>
+
+        <!-- MENU DES SESSIONS / ONGLETS INTERACTIFS -->
+        <div class="policy-tabs">
+            <button class="tab-btn active" onclick="switchTab('sec1', this)">1. Engagement & Vision</button>
+            <button class="tab-btn" onclick="switchTab('sec2', this)">2. Célibataires Hommes & Femmes</button>
+            <button class="tab-btn" onclick="switchTab('sec3', this)">3. Protection des Données</button>
+            <button class="tab-btn" onclick="switchTab('sec4', this)">4. Médias & Quotas</button>
+            <button class="tab-btn" onclick="switchTab('sec5', this)">5. Restriction d'Âge (18+)</button>
+            <button class="tab-btn" onclick="switchTab('sec6', this)">6. Courtoisie & Respect</button>
+            <button class="tab-btn" onclick="switchTab('sec7', this)">7. Interdictions & Sanctions</button>
+            <button class="tab-btn" onclick="switchTab('sec8', this)">8. Sécurité des Appels</button>
+            <button class="tab-btn" onclick="switchTab('sec9', this)">9. Dépôt de Plainte</button>
+            <button class="tab-btn" onclick="switchTab('sec10', this)">10. FAQ & Assistance</button>
+        </div>
+
+        <!-- CONTENU DES SESSIONS -->
+        <div class="policy-content">
+
+            <!-- SECTION 1 -->
+            <div id="sec1" class="section-pane active">
+                <h2>1. Engagement Général et Vision de la Plateforme</h2>
+                <p>🌹 <strong>Bienvenue sur Love Bébé !</strong> Notre plateforme a été pensée et conçue avec soin pour offrir un cadre sain, sécurisé et noble aux célibataires sincères désireux de bâtir une union durable et épanouie.</p>
+                <p>En créant un compte sur Love Bébé, vous adhérez pleinement à notre charte éthique reposant sur trois piliers fondamentaux :</p>
+                <ul>
+                    <li><strong>L'Honnêteté :</strong> Présenter sa véritable identité et ses vraies intentions dès le départ.</li>
+                    <li><strong>Le Respect :</strong> Traiter chaque membre avec considération, bienveillance et dignité.</li>
+                    <li><strong>La Transparence :</strong> Bannir les comportements trompeurs, les faux profils et l'usurpation d'identité.</li>
+                </ul>
+            </div>
+
+            <!-- SECTION 2 -->
+            <div id="sec2" class="section-pane">
+                <h2>2. Recommandations Spécifiques aux Célibataires</h2>
+                <h3>Pour les Femmes Célibataires :</h3>
+                <p>Love Bébé garantit un environnement respectueux et sécurisé. Nous vous encourageons à faire preuve de discernement et à privilégier les hommes qui font preuve d'un langage mesuré, poli et respectueux envers vous dès les premiers messages.</p>
+                
+                <h3>Pour les Hommes Célibataires :</h3>
+                <p>La galanterie, la patience et le respect de l'espace personnel sont indispensables. Tout comportement insistant, agressif ou inapproprié entraînera l'interdiction d'accès immédiate à la plateforme.</p>
+
+                <div class="highlight-box">
+                    💡 <strong>Conseil clé :</strong> Prenez le temps de faire connaissance dans la messagerie avant de planifier un appel vocal ou vidéo direct.
+                </div>
+            </div>
+
+            <!-- SECTION 3 -->
+            <div id="sec3" class="section-pane">
+                <h2>3. Protection et Sécurité des Données Personnelles</h2>
+                <p>La confidentialité de vos informations est notre priorité absolue. Les données collectées (Nom complet, Téléphone/WhatsApp, Email, Métier, Ville et Photos) sont stockées de façon chiffrée et hautement sécurisée.</p>
+                <ul>
+                    <li>Vos coordonnées directes ne sont jamais revendues ni partagées avec des tiers commercialement.</li>
+                    <li>Vous pouvez demander à tout moment la modification ou la suppression définitive de vos données personnelles depuis votre espace membre.</li>
+                </ul>
+            </div>
+
+            <!-- SECTION 4 -->
+            <div id="sec4" class="section-pane">
+                <h2>4. Quotas de Médias et Politique de Conservation</h2>
+                <p>Afin de préserver la qualité de la plateforme et de garantir un stockage fluide pour tous :</p>
+                <ul>
+                    <li><strong>Photos de Profil :</strong> Chaque profil dispose d'un quota maximum de 4 photos officielles de haute qualité.</li>
+                    <li><strong>Séquences Vidéo :</strong> Limite de 2 vidéos d'une durée maximale de 15 secondes chacune.</li>
+                    <li><strong>Nettoyage Automatique :</strong> Pour garantir votre confidentialité, l'historique des médias et vocaux de messagerie est nettoyé automatiquement selon un protocole de rétention de 20 jours.</li>
+                </ul>
+            </div>
+
+            <!-- SECTION 5 -->
+            <div id="sec5" class="section-pane">
+                <h2>5. Restriction d'Âge Obligatoire (18 Ans Révolus)</h2>
+                <p>L'accès à Love Bébé est strictement réservé aux personnes majeures selon la législation en vigueur, soit âgées de <strong>18 ans et plus</strong>.</p>
+                <p>Tout compte suspecté ou avéré appartenir à un mineur sera immédiatement clôturé et banni de la base de données sans préavis.</p>
+            </div>
+
+            <!-- SECTION 6 -->
+            <div id="sec6" class="section-pane">
+                <h2>6. Règles de Conduite et Organisation des Échanges</h2>
+                <p>Les membres s'engagent à respecter les moments de tranquillité de leurs correspondants. Lors de vos échanges :</p>
+                <ul>
+                    <li>Convenez d'un commun accord des moments propices pour passer un appel audio ou vidéo.</li>
+                    <li>Évitez de multiplier les appels intempestifs si votre correspondant ne répond pas immédiatement.</li>
+                    <li>Faites preuve de retenue et de politesse en toute circonstance.</li>
+                </ul>
+            </div>
+
+            <!-- SECTION 7 -->
+            <div id="sec7" class="section-pane">
+                <h2>7. Interdictions Strictes et Sanctions (Tolérance Zéro)</h2>
+                <p>Love Bébé applique une politique de tolérance zéro pour garantir un cadre harmonieux. Sont formellement interdits :</p>
+                <ul>
+                    <li>Les propos vulgaires, injurieux, racistes ou haineux.</li>
+                    <li>Les demandes d'argent, escroqueries financières ou incitations commerciales.</li>
+                    <li>L'envoi de contenus multimédias explicites non sollicités.</li>
+                </ul>
+                <p>Tout manquement entraînera le <strong>bannissement définitif et irrévocable</strong> du compte incriminé.</p>
+            </div>
+
+            <!-- SECTION 8 -->
+            <div id="sec8" class="section-pane">
+                <h2>8. Sécurité des Appels Vocaux et Vidéo HD</h2>
+                <p>Nos fonctionnalités d'appel reposent sur une technologie WebRTC sécurisée avec sonnerie d'avertissement et gestion du mode main-libre.</p>
+                <p>Pour des raisons de confidentialité, nous vous rappelons qu'il est strictement interdit de capturer ou d'enregistrer les sessions vidéo de vos correspondants sans leur consentement préalable explicite.</p>
+            </div>
+
+            <!-- SECTION 9 -->
+            <div id="sec9" class="section-pane">
+                <h2>9. Formulaire de Signalement et Dépôt de Plainte</h2>
+                <p>En cas de comportement douteux, de harcèlement ou de non-respect de cette charte par un partenaire, vous pouvez soumettre une alerte directement à notre équipe de modération.</p>
+                <p>📞 <strong>Numéro du Support Officiel :</strong> <span style="color:var(--deep-red); font-weight:bold;">+229 01 95 59 39 44</span></p>
+
+                <div class="support-box">
+                    <h3 style="color:var(--accent-blue); margin-bottom:10px;">📝 Transmettre un Signalement / Plainte</h3>
+                    <form class="complaint-form" id="complaintForm">
+                        <label>Votre Nom Complet :</label>
+                        <input type="text" id="complainantName" required placeholder="Ex: Jean Dupont">
+
+                        <label>Votre Contact (WhatsApp / Téléphone) :</label>
+                        <input type="text" id="complainantContact" required placeholder="Ex: +229 90000000">
+
+                        <label>Nom ou Email du partenaire concerné :</label>
+                        <input type="text" id="targetPartnerName" required placeholder="Nom du profil incriminé">
+
+                        <label>Motif et explication détaillée :</label>
+                        <textarea id="complaintDetails" rows="4" required placeholder="Décrivez les faits constatés..."></textarea>
+
+                        <button type="submit">🚨 Transmettre l'Alerte à la Modération</button>
+                        <div id="complaintStatus" style="text-align:center; font-weight:bold; margin-top:10px;"></div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- SECTION 10 -->
+            <div id="sec10" class="section-pane">
+                <h2>10. Foire Aux Questions (FAQ) & Assistance</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Q : Comment mettre à jour ma photo de profil ?</div>
+                    <p>R : Accédez à la section "Mon Profil" dans le menu pour télécharger jusqu'à 4 photos dans le respect du quota autorisé.</p>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Q : Un profil semble utiliser de fausses photos, que faire ?</div>
+                    <p>R : Soumettez immédiatement une alerte via l'onglet "Dépôt de Plainte" ou contactez l'administration au <strong>+229 01 95 59 39 44</strong>.</p>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Q : Comment savoir si mon correspondant est en ligne ?</div>
+                    <p>R : Un point vert apparaît sur la photo de votre correspondant dans la messagerie lorsqu'il est actif sur l'application.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SCRIPT DU MODULE FIREBASE ET DE NAVIGATION -->
+    <script type="module">
+        import { database } from "./love-bebe-service.js";
+        import { ref, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Navigation dynamique entre les onglets
+        window.switchTab = (sectionId, btnElement) => {
+            document.querySelectorAll('.section-pane').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+            document.getElementById(sectionId).classList.add('active');
+            btnElement.classList.add('active');
+        };
+
+        // Envoi sécurisé du formulaire de plainte
+        document.getElementById('complaintForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const statusDiv = document.getElementById('complaintStatus');
+            statusDiv.style.color = "#0D47A1";
+            statusDiv.textContent = "Transmission du signalement en cours...";
+
+            try {
+                await push(ref(database, 'complaints'), {
+                    complainantName: document.getElementById('complainantName').value.trim(),
+                    complainantContact: document.getElementById('complainantContact').value.trim(),
+                    targetPartnerName: document.getElementById('targetPartnerName').value.trim(),
+                    details: document.getElementById('complaintDetails').value.trim(),
+                    timestamp: new Date().toISOString(),
+                    status: 'En attente'
+                });
+
+                statusDiv.style.color = "green";
+                statusDiv.textContent = "✅ Votre signalement a été transmis à la modération.";
+                document.getElementById('complaintForm').reset();
+            } catch (err) {
+                statusDiv.style.color = "red";
+                statusDiv.textContent = "Erreur lors de l'envoi : " + err.message;
+            }
+        });
+    </script>
+</body>
+</html>

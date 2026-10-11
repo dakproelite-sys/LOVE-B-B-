@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Bébé - Galerie & Publications</title>
+    <title>Love Bébé - Galerie & Publications de Luxe</title>
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FFD700">
+
     <style>
         :root {
             --primary-gold: #FFD700;
@@ -11,53 +15,92 @@
             --deep-red: #D32F2F;
             --dark-red: #B71C1C;
             --accent-blue: #0D47A1;
-            --bg-gray: #f0f2f5;
+            --bg-gray: #f4f6f9;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-gray); min-height: 100vh; padding-bottom: 40px; color: #1c1e21; }
 
-        header { background: #fff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--deep-red); box-shadow: 0 2px 8px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-        .header-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-        .header-logo { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); object-fit: cover; }
-        .header-title { font-size: 1.2rem; font-weight: bold; color: var(--deep-red); text-transform: uppercase; }
-        .nav-actions { display: flex; gap: 8px; }
-        .nav-btn { background: linear-gradient(135deg, var(--deep-red), var(--dark-red)); color: white; padding: 8px 12px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 13px; border: none; cursor: pointer; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        body { background-color: var(--bg-gray); min-height: 100vh; padding-bottom: 50px; color: #1c1e21; }
+
+        header {
+            background: #ffffff; padding: 12px 25px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 3px solid var(--deep-red); box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000;
+        }
+        .header-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .header-logo { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--primary-gold); object-fit: cover; }
+        .header-title { font-size: 1.3rem; font-weight: bold; color: var(--deep-red); text-transform: uppercase; }
+        .nav-actions { display: flex; gap: 10px; }
+        .nav-btn {
+            background: linear-gradient(135deg, var(--deep-red), var(--dark-red)); color: white; padding: 8px 16px;
+            border-radius: 20px; font-weight: bold; text-decoration: none; font-size: 13px; border: none; cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15); transition: 0.2s;
+        }
+        .nav-btn:hover { opacity: 0.9; transform: translateY(-1px); }
         .nav-btn-blue { background: linear-gradient(135deg, var(--accent-blue), #1565C0); }
 
-        .container { max-width: 650px; margin: 20px auto; padding: 0 12px; }
+        .container { max-width: 680px; margin: 25px auto; padding: 0 15px; }
 
-        .card { background: white; border-radius: 12px; padding: 18px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #e4e6eb; }
-        .card-title { color: var(--deep-red); font-size: 1.1rem; margin-bottom: 15px; border-bottom: 2px solid var(--primary-gold); padding-bottom: 5px; font-weight: bold; }
+        /* CARTE DE PUBLICATION DE LUXE */
+        .card {
+            background: #ffffff; border-radius: 16px; padding: 22px; margin-bottom: 25px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06); border: 2px solid var(--primary-gold);
+        }
+        .card-title {
+            color: var(--deep-red); font-size: 1.2rem; margin-bottom: 15px; border-bottom: 2px solid var(--primary-gold);
+            padding-bottom: 8px; font-weight: bold; display: flex; align-items: center; gap: 8px;
+        }
 
-        /* Formulaire de publication */
-        .publish-form { display: flex; flex-direction: column; gap: 12px; }
-        textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; outline: none; resize: vertical; background: #fdfdfd; }
-        textarea:focus { border-color: var(--accent-blue); background: #fff; }
+        .publish-form { display: flex; flex-direction: column; gap: 14px; }
+        textarea {
+            width: 100%; padding: 14px; border: 2px solid #e0e0e0; border-radius: 12px; font-size: 14px;
+            outline: none; resize: vertical; background: #fafafa; transition: 0.3s;
+        }
+        textarea:focus { border-color: var(--accent-blue); background: #fff; box-shadow: 0 0 8px rgba(13,71,161,0.15); }
         
-        .file-select-btn { background: #e4e6eb; color: #333; padding: 10px; border-radius: 8px; text-align: center; cursor: pointer; font-weight: 600; font-size: 13px; }
-        .file-select-btn:hover { background: #d8dadf; }
+        .file-select-btn {
+            background: #f0f2f5; color: #444; padding: 12px; border-radius: 12px; text-align: center;
+            cursor: pointer; font-weight: 600; font-size: 13px; border: 2px dashed #b0bec5; transition: 0.2s;
+        }
+        .file-select-btn:hover { background: #e2e8f0; border-color: var(--accent-blue); color: var(--accent-blue); }
         
-        .submit-post-btn { background: linear-gradient(135deg, var(--accent-blue), #1565C0); color: white; padding: 12px; border: none; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; }
-        .submit-post-btn:disabled { background: #ccc; cursor: not-allowed; }
+        .submit-post-btn {
+            background: linear-gradient(135deg, var(--accent-blue), #1565C0); color: white; padding: 14px; border: none;
+            border-radius: 12px; font-weight: bold; font-size: 15px; cursor: pointer; box-shadow: 0 4px 12px rgba(13,71,161,0.25);
+            transition: 0.2s;
+        }
+        .submit-post-btn:hover { opacity: 0.95; transform: translateY(-1px); }
+        .submit-post-btn:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; transform: none; }
         
-        .status-msg { text-align: center; font-weight: bold; font-size: 13px; color: var(--accent-blue); }
+        .status-msg { text-align: center; font-weight: bold; font-size: 13px; color: var(--accent-blue); margin-top: 5px; }
 
-        /* Style Carte Publication */
-        .post-card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #e4e6eb; }
-        .post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-        .post-avatar { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 1px solid var(--primary-gold); }
-        .post-user-info h4 { font-size: 14px; color: #111; margin-bottom: 2px; }
-        .post-user-info span { font-size: 11px; color: #777; }
-        .post-text { font-size: 14px; color: #222; margin-bottom: 12px; line-height: 1.4; }
-        .post-media-container { width: 100%; max-height: 450px; overflow: hidden; border-radius: 8px; background: #000; margin-bottom: 12px; }
-        .post-media-container img, .post-media-container video { width: 100%; height: 100%; object-fit: contain; }
+        /* FIL D'ACTUALITÉ / POSTS */
+        .feed-heading { margin-bottom: 15px; color: var(--accent-blue); font-size: 1.2rem; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        
+        .post-card {
+            background: #ffffff; border-radius: 16px; padding: 20px; margin-bottom: 22px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06); border: 1px solid #e4e6eb; transition: 0.2s;
+        }
+        .post-card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.09); }
 
-        /* Actions / Likes / Love */
-        .post-actions { display: flex; justify-content: space-around; border-top: 1px solid #eee; padding-top: 10px; margin-top: 5px; }
-        .action-btn { background: none; border: none; font-size: 13px; font-weight: 600; color: #65676b; cursor: pointer; display: flex; align-items: center; gap: 5px; padding: 6px 12px; border-radius: 6px; }
-        .action-btn:hover { background: #f2f2f2; }
-        .action-btn.active-like { color: var(--accent-blue); }
-        .action-btn.active-love { color: var(--deep-red); }
+        .post-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+        .post-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-gold); box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+        .post-user-info h4 { font-size: 15px; color: #111; margin-bottom: 2px; font-weight: bold; }
+        .post-user-info span { font-size: 12px; color: #777; }
+        
+        .post-text { font-size: 14.5px; color: #222; margin-bottom: 14px; line-height: 1.5; word-break: break-word; }
+        .post-media-container { width: 100%; max-height: 500px; overflow: hidden; border-radius: 12px; background: #000; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .post-media-container img, .post-media-container video { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+        /* BOUTONS DE RÉACTIONS J'AIME & LOVE */
+        .post-actions { display: flex; gap: 12px; border-top: 1px solid #eee; padding-top: 12px; margin-top: 5px; }
+        .action-btn {
+            flex: 1; background: #f8f9fa; border: 1px solid #ddd; font-size: 14px; font-weight: 600; color: #555;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; border-radius: 10px;
+            transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .action-btn:hover { background: #f0f2f5; border-color: #ccc; }
+        .action-btn.active-like { background: #e3f2fd; color: var(--accent-blue); border-color: var(--accent-blue); font-weight: bold; }
+        .action-btn.active-love { background: #ffebee; color: var(--deep-red); border-color: var(--deep-red); font-weight: bold; }
     </style>
 </head>
 <body>
@@ -69,32 +112,32 @@
     </a>
     <nav class="nav-actions">
         <a href="profil.html" class="nav-btn nav-btn-blue">👤 Mon Profil</a>
-        <a href="message.html" class="nav-btn">💬 Messages</a>
+        <a href="messagerie.html" class="nav-btn">💬 Messages</a>
     </nav>
 </header>
 
 <main class="container">
 
-    <!-- Formulaire de Publication -->
+    <!-- Formulaire de Publication de Luxe -->
     <section class="card">
-        <div class="card-title">📸 Publier une photo ou vidéo</div>
+        <div class="card-title">📸 Partager un moment magique</div>
         <div class="publish-form">
-            <textarea id="postDescription" rows="3" placeholder="Écrivez une description (ex: Un moment inoubliable avec Love Bébé...)..."></textarea>
+            <textarea id="postDescription" rows="3" placeholder="Exprimez vos émotions ou décrivez votre partage..."></textarea>
             
             <label for="mediaFileInput" class="file-select-btn" id="fileSelectLabel">
-                📁 Choisir une photo ou vidéo
+                📁 Choisir une photo ou une vidéo de l'album
             </label>
             <input type="file" id="mediaFileInput" accept="image/*,video/*" style="display: none;">
             
-            <button class="submit-post-btn" id="publishBtn">🚀 Publier maintenant</button>
+            <button class="submit-post-btn" id="publishBtn">🚀 Publier sur la Galerie</button>
             <p id="statusMessage" class="status-msg"></p>
         </div>
     </section>
 
-    <!-- Fil d'actualité des photos et vidéos -->
-    <h3 style="margin-bottom: 12px; color: var(--accent-blue); font-size: 1.1rem;">✨ Publications récentes</h3>
+    <!-- Fil d'actualité -->
+    <h3 class="feed-heading">✨ Publications de la Communauté</h3>
     <div id="postsContainer">
-        <p style="text-align: center; color: #777;">Chargement des publications...</p>
+        <p style="text-align: center; color: #777; padding: 20px;">Chargement des publications en cours...</p>
     </div>
 
 </main>
@@ -102,7 +145,7 @@
 <script type="module">
     import { auth, database } from "./love-bebe-service.js";
     import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { ref, get, push, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    import { ref, get, push, update, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
     let currentUser = null;
     let userProfile = null;
@@ -118,7 +161,7 @@
     // Afficher le nom du fichier sélectionné
     mediaFileInput.addEventListener("change", () => {
         if (mediaFileInput.files.length > 0) {
-            fileSelectLabel.textContent = `✅ Fichier sélectionné : ${mediaFileInput.files[0].name}`;
+            fileSelectLabel.textContent = `✅ Fichier prêt : ${mediaFileInput.files[0].name}`;
         }
     });
 
@@ -130,41 +173,35 @@
         currentUser = user;
 
         try {
-            // Configuration Cloudinary
             const configSnap = await get(ref(database, "config/cloudinary"));
-            if (configSnap.exists()) {
-                cloudinaryConfig = configSnap.val();
-            }
+            if (configSnap.exists()) cloudinaryConfig = configSnap.val();
 
-            // Récupération du profil utilisateur
             const userSnap = await get(ref(database, `users/${user.uid}`));
-            if (userSnap.exists()) {
-                userProfile = userSnap.val();
-            }
+            if (userSnap.exists()) userProfile = userSnap.val();
 
-            loadAllPosts();
+            listenToAllPosts();
         } catch (err) {
-            console.error("Erreur de chargement :", err);
+            console.error("Erreur d'initialisation :", err);
         }
     });
 
-    // Publier un nouveau média avec description
+    // Publier un nouveau média
     publishBtn.addEventListener("click", async () => {
         const description = postDescription.value.trim();
         const file = mediaFileInput.files[0];
 
         if (!description && !file) {
-            alert("Veuillez ajouter une description ou choisir une photo/vidéo à publier.");
+            alert("Veuillez écrire une description ou sélectionner un média.");
             return;
         }
 
         if (!cloudinaryConfig) {
-            alert("Configuration Cloudinary indisponible.");
+            alert("Configuration Cloudinary introuvable.");
             return;
         }
 
         publishBtn.disabled = true;
-        statusMessage.textContent = "Téléversement en cours sur Cloudinary...";
+        statusMessage.textContent = "Téléversement sécurisé en cours...";
 
         let mediaUrl = "";
         let isVideo = false;
@@ -178,145 +215,139 @@
             try {
                 const resourceType = isVideo ? "video" : "image";
                 const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloud_name}/${resourceType}/upload`, {
-                    method: "POST",
-                    body: formData
+                    method: "POST", body: formData
                 });
                 const result = await res.json();
-                if (result.secure_url) {
-                    mediaUrl = result.secure_url;
-                }
+                if (result.secure_url) mediaUrl = result.secure_url;
             } catch (err) {
-                console.error("Erreur d'envoi Cloudinary :", err);
-                statusMessage.textContent = "Échec de l'envoi du média.";
+                console.error("Erreur Cloudinary :", err);
+                statusMessage.textContent = "Échec du téléversement du média.";
                 publishBtn.disabled = false;
                 return;
             }
         }
 
-        // Création de l'objet publication
         const newPost = {
             userId: currentUser.uid,
-            userName: userProfile ? userProfile.fullName : "Membre Love Bébé",
-            userAvatar: userProfile && userProfile.profileMediaUrl ? userProfile.profileMediaUrl : "https://via.placeholder.com/42",
+            userName: userProfile ? (userProfile.fullName || "Membre Love Bébé") : "Membre Love Bébé",
+            userAvatar: userProfile && userProfile.profileMediaUrl ? userProfile.profileMediaUrl : "https://i.postimg.cc/760BWBjs/file-00000000740082109d651397d9fd65b6.png",
             description: description,
             mediaUrl: mediaUrl,
             isVideo: isVideo,
-            createdAt: Date.now(),
-            likes: {},
-            loves: {}
+            createdAt: Date.now()
         };
 
         try {
             await push(ref(database, "gallery_posts"), newPost);
-            statusMessage.textContent = "Publication partagée avec succès !";
+            statusMessage.textContent = "✨ Publication partagée avec succès !";
             postDescription.value = "";
             mediaFileInput.value = "";
-            fileSelectLabel.textContent = "📁 Choisir une photo ou vidéo";
+            fileSelectLabel.textContent = "📁 Choisir une photo ou une vidéo de l'album";
             publishBtn.disabled = false;
-            loadAllPosts();
+            setTimeout(() => { statusMessage.textContent = ""; }, 4000);
         } catch (err) {
             console.error(err);
-            statusMessage.textContent = "Erreur de sauvegarde de la publication.";
+            statusMessage.textContent = "Erreur lors de la publication.";
             publishBtn.disabled = false;
         }
     });
 
-    // Charger le flux des publications
-    async function loadAllPosts() {
-        postsContainer.replaceChildren();
-        try {
-            const postsSnap = await get(ref(database, "gallery_posts"));
-            if (postsSnap.exists()) {
-                const postsData = postsSnap.val();
-                const postsArray = Object.keys(postsData).map(key => ({
-                    id: key,
-                    ...postsData[key]
-                })).reverse();
-
-                postsArray.forEach(post => {
-                    const likesCount = post.likes ? Object.keys(post.likes).length : 0;
-                    const lovesCount = post.loves ? Object.keys(post.loves).length : 0;
-                    
-                    const isLiked = post.likes && post.likes[currentUser.uid];
-                    const isLoved = post.loves && post.loves[currentUser.uid];
-
-                    const card = document.createElement("div");
-                    card.className = "post-card";
-
-                    let mediaHtml = "";
-                    if (post.mediaUrl) {
-                        if (post.isVideo) {
-                            mediaHtml = `<div class="post-media-container"><video src="${post.mediaUrl}" controls></video></div>`;
-                        } else {
-                            mediaHtml = `<div class="post-media-container"><img src="${post.mediaUrl}" alt="Photo"></div>`;
-                        }
-                    }
-
-                    const dateStr = new Date(post.createdAt).toLocaleString("fr-FR", {
-                        day: "numeric", month: "short", hour: "2-digit", minute: "2-digit"
-                    });
-
-                    card.innerHTML = `
-                        <div class="post-header">
-                            <img src="${post.userAvatar}" class="post-avatar">
-                            <div class="post-user-info">
-                                <h4>${post.userName}</h4>
-                                <span>Publié le ${dateStr}</span>
-                            </div>
-                        </div>
-                        ${post.description ? `<p class="post-text">${post.description}</p>` : ""}
-                        ${mediaHtml}
-                        <div class="post-actions">
-                            <button class="action-btn ${isLiked ? 'active-like' : ''}" data-id="${post.id}" data-action="like">
-                                👍 J'aime (${likesCount})
-                            </button>
-                            <button class="action-btn ${isLoved ? 'active-love' : ''}" data-id="${post.id}" data-action="love">
-                                ❤️ Love (${lovesCount})
-                            </button>
-                        </div>
-                    `;
-
-                    postsContainer.appendChild(card);
-                });
-
-                // Écouteurs pour les boutons J'aime et Love
-                document.querySelectorAll(".action-btn").forEach(btn => {
-                    btn.addEventListener("click", async (e) => {
-                        const postId = btn.dataset.id;
-                        const action = btn.dataset.action;
-                        await handleReaction(postId, action);
-                    });
-                });
-
-            } else {
-                postsContainer.innerHTML = `<p style="text-align: center; color: #777;">Aucune publication pour le moment. Soyez le premier à partager !</p>`;
+    // Écouter les publications en temps réel (mise à jour instantanée des J'aime et Loves)
+    function listenToAllPosts() {
+        const postsRef = ref(database, "gallery_posts");
+        onValue(postsRef, (snapshot) => {
+            postsContainer.replaceChildren();
+            if (!snapshot.exists()) {
+                postsContainer.innerHTML = `<p style="text-align: center; color: #777; padding: 20px;">Aucune publication pour le moment. Soyez le premier à partager !</p>`;
+                return;
             }
-        } catch (err) {
-            console.error("Erreur de récupération des publications :", err);
-        }
+
+            const postsData = snapshot.val();
+            const postsArray = Object.keys(postsData).map(key => ({
+                id: key,
+                ...postsData[key]
+            })).sort((a, b) => b.createdAt - a.createdAt);
+
+            postsArray.forEach(post => {
+                const likes = post.likes || {};
+                const loves = post.loves || {};
+
+                const likesCount = Object.keys(likes).length;
+                const lovesCount = Object.keys(loves).length;
+
+                const isLiked = likes[currentUser.uid] === true;
+                const isLoved = loves[currentUser.uid] === true;
+
+                const card = document.createElement("div");
+                card.className = "post-card";
+
+                let mediaHtml = "";
+                if (post.mediaUrl) {
+                    if (post.isVideo) {
+                        mediaHtml = `<div class="post-media-container"><video src="${post.mediaUrl}" controls></video></div>`;
+                    } else {
+                        mediaHtml = `<div class="post-media-container"><img src="${post.mediaUrl}" alt="Média"></div>`;
+                    }
+                }
+
+                const dateStr = new Date(post.createdAt).toLocaleString("fr-FR", {
+                    day: "numeric", month: "short", hour: "2-digit", minute: "2-digit"
+                });
+
+                card.innerHTML = `
+                    <div class="post-header">
+                        <img src="${post.userAvatar}" class="post-avatar" alt="Avatar">
+                        <div class="post-user-info">
+                            <h4>${post.userName}</h4>
+                            <span>Publié le ${dateStr}</span>
+                        </div>
+                    </div>
+                    ${post.description ? `<p class="post-text">${post.description}</p>` : ""}
+                    ${mediaHtml}
+                    <div class="post-actions">
+                        <button class="action-btn ${isLiked ? 'active-like' : ''}" data-id="${post.id}" data-action="likes">
+                            👍 J'aime (${likesCount})
+                        </button>
+                        <button class="action-btn ${isLoved ? 'active-love' : ''}" data-id="${post.id}" data-action="loves">
+                            ❤️ Love (${lovesCount})
+                        </button>
+                    </div>
+                `;
+
+                postsContainer.appendChild(card);
+            });
+
+            // Attacher les écouteurs de clics pour les réactions
+            document.querySelectorAll(".action-btn").forEach(btn => {
+                btn.addEventListener("click", async () => {
+                    const postId = btn.dataset.id;
+                    const actionType = btn.dataset.action; // "likes" ou "loves"
+                    await toggleReaction(postId, actionType);
+                });
+            });
+        });
     }
 
-    // Gestion des réactions J'aime / Love
-    async function handleReaction(postId, actionType) {
+    // Basculer ou enregistrer une réaction (J'aime ou Love) directement dans Realtime Database
+    async function toggleReaction(postId, actionType) {
         if (!currentUser) return;
-        const reactionRef = ref(database, `gallery_posts/${postId}/${actionType}s/${currentUser.uid}`);
+        const reactionRef = ref(database, `gallery_posts/${postId}/${actionType}/${currentUser.uid}`);
         
         try {
             const snap = await get(reactionRef);
             if (snap.exists()) {
-                // Annuler le Like/Love si déjà cliqué
-                await update(ref(database, `gallery_posts/${postId}/${actionType}s`), {
+                // Retirer la réaction si déjà présente
+                await update(ref(database, `gallery_posts/${postId}/${actionType}`), {
                     [currentUser.uid]: null
                 });
             } else {
-                // Ajouter le Like/Love
-                await update(ref(database, `gallery_posts/${postId}/${actionType}s`), {
+                // Ajouter la réaction
+                await update(ref(database, `gallery_posts/${postId}/${actionType}`), {
                     [currentUser.uid]: true
                 });
             }
-            loadAllPosts();
         } catch (err) {
-            console.error("Erreur de réaction :", err);
+            console.error("Erreur lors de la mise à jour de la réaction :", err);
         }
     }
 </script>

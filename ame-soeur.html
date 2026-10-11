@@ -63,7 +63,7 @@
     </a>
     <nav class="nav-actions">
         <a href="profil.html" class="nav-btn nav-btn-blue">👤 Mon Profil</a>
-        <a href="message.html" class="nav-btn">💬 Messages</a>
+        <a href="messagerie.html" class="nav-btn">💬 Messages</a>
     </nav>
 </header>
 
@@ -124,7 +124,6 @@
         currentUser = user;
 
         try {
-            // Vérifier le profil de l'utilisateur connecté pour déterminer son genre
             const userSnap = await get(ref(database, `users/${user.uid}`));
             if (userSnap.exists()) {
                 const userData = userSnap.val();
@@ -141,14 +140,12 @@
                 }
             }
 
-            // Écouter les appels entrants
             listenForIncomingCalls();
         } catch (err) {
             console.error("Erreur d'initialisation :", err);
         }
     });
 
-    // Charger dynamiquement la liste filtrée
     async function loadProfiles(targetNode) {
         profilesContainer.replaceChildren();
         try {
@@ -178,13 +175,12 @@
                         <div class="phone-link">${phoneDisplay}</div>
                         <div class="card-actions">
                             <button class="action-btn-call" data-uid="${p.uid}" data-name="${p.fullName}">📹 Appel Vidéo</button>
-                            <a href="message.html?target=${p.uid}" class="action-btn-msg">💬 Message</a>
+                            <a href="messagerie.html?id=${p.uid}" class="action-btn-msg">💬 Message</a>
                         </div>
                     `;
                     profilesContainer.appendChild(card);
                 });
 
-                // Attacher les événements d'appel vidéo
                 document.querySelectorAll(".action-btn-call").forEach(btn => {
                     btn.addEventListener("click", () => {
                         startVideoCall(btn.dataset.uid, btn.dataset.name);
@@ -199,7 +195,6 @@
         }
     }
 
-    // Lancer un appel vidéo WebRTC
     async function startVideoCall(targetUid, targetName) {
         videoModal.style.display = "flex";
         document.getElementById("callStatusTitle").textContent = `Appel de ${targetName}...`;
@@ -232,7 +227,6 @@
             offer: { type: offer.type, sdp: offer.sdp }
         });
 
-        // Écouter la réponse du destinataire
         onValue(ref(database, `calls/${roomId}/answer`), async (snap) => {
             if (snap.exists() && !peerConnection.currentRemoteDescription) {
                 const answer = snap.val();
@@ -241,7 +235,6 @@
             }
         });
 
-        // Écouter les candidats ICE du destinataire
         onValue(ref(database, `calls/${roomId}/receiverCandidates`), (snap) => {
             if (snap.exists()) {
                 Object.values(snap.val()).forEach(candidate => {
@@ -251,7 +244,6 @@
         });
     }
 
-    // Écouteur pour les appels entrants
     function listenForIncomingCalls() {
         onValue(ref(database, "calls"), (snap) => {
             if (snap.exists()) {
@@ -268,7 +260,6 @@
         });
     }
 
-    // Répondre à un appel
     async function answerVideoCall(roomId, call) {
         videoModal.style.display = "flex";
         document.getElementById("callStatusTitle").textContent = "Appel vidéo connecté";
@@ -305,7 +296,6 @@
         });
     }
 
-    // Raccrocher
     endCallBtn.onclick = () => {
         if (localStream) localStream.getTracks().forEach(track => track.stop());
         if (peerConnection) peerConnection.close();
