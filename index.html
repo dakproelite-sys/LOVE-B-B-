@@ -34,7 +34,7 @@
 
         header {
             background: #fff;
-            padding: 10px 20px;
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -55,8 +55,8 @@
         }
 
         .header-logo {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             border: 2px solid var(--primary-gold);
             object-fit: cover;
@@ -79,7 +79,7 @@
             background: linear-gradient(135deg, var(--deep-red), var(--dark-red));
             color: white;
             padding: 9px 14px;
-            border-radius: 20px;
+            border-radius: 8px;
             font-weight: bold;
             text-decoration: none;
             font-size: 13px;
@@ -187,7 +187,7 @@
 
         .profile-card {
             background: white;
-            border-radius: 15px;
+            border-radius: 12px;
             overflow: hidden;
             border: 2px solid var(--primary-gold);
             box-shadow: 0 4px 12px #0002;
@@ -354,37 +354,28 @@
 
     function showMessage(container, message) {
         container.replaceChildren();
-
         const paragraph = document.createElement("p");
         paragraph.className = "status-message";
         paragraph.textContent = message;
-
         container.appendChild(paragraph);
     }
 
     function isAdministrator(userData) {
         if (!userData) return false;
-
+        const role = String(userData.role || "").trim().toLowerCase();
         return userData.isAdmin === true ||
-            userData.role === "admin" ||
-            userData.role === "Super Admin";
+            role === "admin" ||
+            role === "super admin";
     }
 
     function safeMediaUrl(value) {
-        if (typeof value !== "string" || !value.trim()) {
-            return "";
-        }
-
+        if (typeof value !== "string" || !value.trim()) return "";
         try {
             const url = new URL(value, window.location.href);
-
             if (url.protocol === "https:" || url.protocol === "http:") {
                 return url.href;
             }
-        } catch (error) {
-            console.warn("Adresse média invalide.");
-        }
-
+        } catch {}
         return "";
     }
 
@@ -396,7 +387,6 @@
         return element;
     }
 
-    // Vérification obligatoire de la connexion Firebase.
     onAuthStateChanged(auth, async (user) => {
         if (!user) {
             window.location.replace("connexion.html");
@@ -436,7 +426,6 @@
 
             authBtn.onclick = async () => {
                 authBtn.disabled = true;
-
                 try {
                     await signOut(auth);
                     window.location.replace("connexion.html");
@@ -454,29 +443,24 @@
 
         } catch (error) {
             console.error("Erreur de vérification du compte :", error);
-
             showMessage(
                 profilesContainer,
                 "Impossible de vérifier votre compte. Vérifiez votre connexion et les règles Firebase."
             );
-
             authBtn.disabled = false;
             authBtn.textContent = "🚪 Déconnexion";
         }
     });
 
-    // Affichage des annonces.
     async function fetchAdminPublications() {
         publicationsContainer.replaceChildren();
         publicationsContainer.style.display = "none";
 
         try {
             const snapshot = await get(ref(database, "publications"));
-
             if (!snapshot.exists()) return;
 
             const publications = snapshot.val();
-
             const entries = Object.entries(publications).reverse();
 
             for (const [id, publication] of entries) {
@@ -495,10 +479,8 @@
                 addText(card, "p", "", publication.content || "");
 
                 const mediaUrl = safeMediaUrl(publication.mediaUrl);
-
                 if (mediaUrl) {
                     let media;
-
                     if (publication.mediaType === "video") {
                         media = document.createElement("video");
                         media.controls = true;
@@ -536,7 +518,6 @@
         }
     }
 
-    // Chargement des profils. Ne jamais afficher ses propres coordonnées.
     async function fetchProfiles() {
         if (!accessChecked || !currentUserId) return;
 
@@ -554,7 +535,6 @@
 
         } catch (error) {
             console.error("Erreur de chargement des profils :", error);
-
             showMessage(
                 profilesContainer,
                 "Impossible de charger les profils. Vérifiez les règles de la base de données Firebase."
@@ -578,7 +558,7 @@
         for (const [uid, user] of Object.entries(allUsersData)) {
             if (!user || typeof user !== "object") continue;
 
-            // Ne pas afficher son propre compte ni les administrateurs.
+            // Masque son propre compte et les administrateurs de la liste publique
             if (uid === currentUserId || isAdministrator(user)) continue;
 
             const name = String(user.fullName || "Membre Love Bébé");
@@ -628,7 +608,7 @@
             card.appendChild(image);
 
             const content = document.createElement("div");
-            content.className = "profile-content";
+            content.className, "profile-content";
 
             addText(content, "div", "profile-name", name);
 
@@ -660,8 +640,8 @@
 
             const link = document.createElement("a");
             link.className = "action-btn";
-            link.href = "profil.html?id=" + encodeURIComponent(uid);
-            link.textContent = "👀 Voir le profil";
+            link.href = `messagerie.html?id=${encodeURIComponent(uid)}&type=text`;
+            link.textContent = "💬 Envoyer un message";
 
             actions.appendChild(link);
             card.appendChild(actions);

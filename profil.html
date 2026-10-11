@@ -185,6 +185,7 @@
     </a>
     <nav class="nav-actions">
         <a href="index.html" class="nav-btn nav-btn-blue">🏠 Accueil</a>
+        <a href="messagerie.html" class="nav-btn nav-btn-blue">💬 Messagerie</a>
         <a href="admin.html" id="adminLink" class="nav-btn nav-btn-blue" hidden>⚙️ Administration</a>
         <button type="button" id="logoutBtn" class="nav-btn">🚪 Déconnexion</button>
     </nav>
@@ -328,8 +329,9 @@
     const webcam = $("webcam");
 
     function showStatus(message, success = false) {
-        $("statusMsg").textContent = message;
-        $("statusMsg").style.color = success ? "green" : "#B71C1C";
+        const msgEl = $("statusMsg");
+        msgEl.textContent = message;
+        msgEl.style.color = success ? "#2e7d32" : "#B71C1C";
     }
 
     function showMessage(container, message) {
@@ -673,18 +675,16 @@
     }
 
     async function uploadToCloudinary(file) {
-        // Le preset doit être un preset de téléversement non signé.
-        // Ne placez jamais la clé secrète Cloudinary dans ce fichier.
         const snapshot = await get(ref(database, "config/cloudinary"));
 
         if (!snapshot.exists()) {
-            throw new Error("Configuration Cloudinary introuvable.");
+            throw new Error("Configuration Cloudinary introuvable dans Firebase.");
         }
 
         const config = snapshot.val();
 
         if (!config.cloud_name || !config.upload_preset) {
-            throw new Error("Cloudinary : cloud_name ou upload_preset manquant.");
+            throw new Error("Configuration Cloudinary incomplète (cloud_name ou upload_preset manquant).");
         }
 
         const resourceType = file.type.startsWith("video/") ? "video" : "image";
@@ -703,7 +703,7 @@
         const result = await response.json();
 
         if (!response.ok || !result.secure_url) {
-            throw new Error(result.error?.message || "Échec du téléversement.");
+            throw new Error(result.error?.message || "Échec du téléversement sur Cloudinary.");
         }
 
         return result.secure_url;
@@ -830,7 +830,6 @@
         }
     }
 
-    // Barrière d'accès : vérifier l'authentification et le profil avant affichage.
     onAuthStateChanged(auth, async user => {
         if (!user) {
             location.replace("connexion.html");
@@ -881,7 +880,7 @@
 
         const saveBtn = $("saveBtn");
         saveBtn.disabled = true;
-        showStatus("Enregistrement du profil et des médias...");
+        showStatus("Enregistrement du profil et des médias en cours...");
 
         try {
             if (totalPhotos() > 4 || totalVideos() > 4) {
@@ -922,8 +921,6 @@
                 throw new Error("Veuillez saisir votre nom complet.");
             }
 
-            // Seul le profil du compte actuellement connecté est modifié.
-            // Aucun champ role/isAdmin n'est modifié par ce formulaire.
             await update(ref(database, `users/${currentUser.uid}`), updateData);
 
             existingPhotos = finalPhotos;
@@ -932,12 +929,16 @@
             newVideos = [];
 
             fillForm({ ...updateData, phone: $("phone").value });
-            showStatus("✅ Votre profil a été enregistré avec succès.", true);
+            showStatus("✅ Profil publié et enregistré avec succès !", true);
             await loadRecommendations(updateData.gender);
 
         } catch (error) {
             console.error("Enregistrement du profil :", error);
-            showStatus("Erreur : " + (error.message || "Enregistrement impossible."));
+            let message = error?.message || "Erreur inconnue.";
+            if (error?.code === "PERMISSION_DENIED") {
+                message = "Firebase refuse l'enregistrement. Vérifiez vos permissions.";
+            }
+            showStatus("Échec de l'enregistrement : " + message);
         } finally {
             saveBtn.disabled = false;
         }
